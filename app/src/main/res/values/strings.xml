@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Mirko</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Hasło</string>
+    <string name="sign_up_text">Zarejetruj</string>
+    <string name="login_text">Zaloguj</string>
 </resources>
