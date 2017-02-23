@@ -4,4 +4,6 @@
     <string name="password_hint">Hasło</string>
     <string name="sign_up_text">Zarejetruj</string>
     <string name="login_text">Zaloguj</string>
+    <string name="retype_password_hint">Powtórz hasło</string>
+    <string name="create_account_text">Stwórz konto</string>
 </resources>
