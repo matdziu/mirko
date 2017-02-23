@@ -5,7 +5,7 @@ import pl.mirko.signup.SignUpListener;
 
 public interface AuthenticationInteractor {
 
-    void createNewAccount(String email, String password, SignUpListener signUpListener);
+    void createNewAccount(String email, String password, String nickname, SignUpListener signUpListener);
 
     void login(String email, String password, LoginListener loginListener);
 

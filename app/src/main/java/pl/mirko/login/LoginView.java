@@ -11,4 +11,6 @@ interface LoginView {
     void hideEmailError();
 
     void hidePasswordError();
+
+    void navigateToHome();
 }

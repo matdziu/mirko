@@ -19,4 +19,6 @@ interface SignUpView {
     void hidePasswordError();
 
     void hideNicknameError();
+
+    void navigateToHome();
 }

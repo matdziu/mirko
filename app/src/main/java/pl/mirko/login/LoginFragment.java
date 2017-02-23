@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.mirko.R;
-import pl.mirko.signup.SignUpActivity;
+import pl.mirko.home.HomeActivity;
+import pl.mirko.interactors.FirebaseAuthInteractor;
+import pl.mirko.signup.SignUpFragment;
 
 public class LoginFragment extends Fragment implements LoginView {
 
@@ -24,6 +29,21 @@ public class LoginFragment extends Fragment implements LoginView {
     @BindView(R.id.password_input_layout)
     TextInputLayout passwordInputLayout;
 
+    @BindView(R.id.email_edit_text)
+    TextInputEditText emailEditText;
+
+    @BindView(R.id.password_edit_text)
+    TextInputEditText passwordEditText;
+
+    private LoginPresenter loginPresenter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loginPresenter = new LoginPresenter(this, new FirebaseAuthInteractor());
+        loginPresenter.initAuthStateListener();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,9 +52,31 @@ public class LoginFragment extends Fragment implements LoginView {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        loginPresenter.addAuthStateListener();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        loginPresenter.removeAuthStateListener();
+    }
+
     @OnClick(R.id.sign_up_button)
     public void onSignUpButtonClicked() {
-        startActivity(new Intent(getContext(), SignUpActivity.class));
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.login_fragment_container, new SignUpFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.login_button)
+    public void onLoginButtonClicked() {
+        loginPresenter.login(emailEditText.getText().toString(),
+                passwordEditText.getText().toString());
     }
 
     @Override
@@ -62,5 +104,11 @@ public class LoginFragment extends Fragment implements LoginView {
     @Override
     public void hidePasswordError() {
         passwordInputLayout.setError(null);
+    }
+
+    @Override
+    public void navigateToHome() {
+        getActivity().finish();
+        startActivity(new Intent(getContext(), HomeActivity.class));
     }
 }

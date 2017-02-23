@@ -8,4 +8,9 @@ public class User {
     public User() {
         // default constructor for Firebase
     }
+
+    public User(String uid, String nickname) {
+        this.uid = uid;
+        this.nickname = nickname;
+    }
 }

@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.login.LoginListener;
+import pl.mirko.models.User;
 import pl.mirko.signup.SignUpListener;
 
 public class FirebaseAuthInteractor implements AuthenticationInteractor {
@@ -18,13 +19,14 @@ public class FirebaseAuthInteractor implements AuthenticationInteractor {
     private FirebaseAuth.AuthStateListener authStateListener;
 
     @Override
-    public void createNewAccount(String email, String password, final SignUpListener signUpListener) {
+    public void createNewAccount(String email, String password, final String nickname, final SignUpListener signUpListener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @SuppressWarnings("ConstantConditions")
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            signUpListener.onSignUpSuccessful();
+                            signUpListener.onSignUpSuccessful(new User(firebaseAuth.getCurrentUser().getUid(), nickname));
                         } else {
                             signUpListener.onSignUpFailure();
                         }
@@ -60,8 +62,6 @@ public class FirebaseAuthInteractor implements AuthenticationInteractor {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     loginListener.onLoginSuccessful();
-                } else {
-                    loginListener.onLoginFailure();
                 }
             }
         };
