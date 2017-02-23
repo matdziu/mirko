@@ -4,11 +4,11 @@ interface LoginView {
 
     void showLoginError();
 
-    void showEmptyLoginError();
+    void showEmptyEmailError();
 
     void showEmptyPasswordError();
 
-    void hideLoginError();
+    void hideEmailError();
 
     void hidePasswordError();
 }

@@ -4,17 +4,19 @@ interface SignUpView {
 
     void showSignUpError();
 
-    void showLoginEmptyError();
+    void showEmptyEmailError();
 
     void showPasswordTooShortError();
 
     void showWrongPasswordError();
 
-    void showRetypePasswordNotMatchingError();
+    void showEmptyNicknameError();
 
-    void hideLoginError();
+    void showWrongNicknameError();
+
+    void hideEmailError();
 
     void hidePasswordError();
 
-    void hideRetypePasswordError();
+    void hideNicknameError();
 }

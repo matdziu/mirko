@@ -15,14 +15,14 @@ import pl.mirko.R;
 
 public class SignUpFragment extends Fragment implements SignUpView {
 
-    @BindView(R.id.login_input_layout)
-    TextInputLayout loginInputLayout;
+    @BindView(R.id.email_input_layout)
+    TextInputLayout emailInputLayout;
+
+    @BindView(R.id.nickname_password_input_layout)
+    TextInputLayout nicknameInputLayout;
 
     @BindView(R.id.password_input_layout)
     TextInputLayout passwordInputLayout;
-
-    @BindView(R.id.retype_password_input_layout)
-    TextInputLayout retypePasswordInputLayout;
 
     @Nullable
     @Override
@@ -35,18 +35,18 @@ public class SignUpFragment extends Fragment implements SignUpView {
     @Override
     public void showSignUpError() {
         if (getView() != null) {
-            Snackbar.make(getView(), R.string.sign_up_error_text, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), R.string.sign_up_error, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void showLoginEmptyError() {
-        loginInputLayout.setError(getString(R.string.empty_login_error_text));
+    public void showEmptyEmailError() {
+        emailInputLayout.setError(getString(R.string.empty_email_error));
     }
 
     @Override
     public void showPasswordTooShortError() {
-        passwordInputLayout.setError(getString(R.string.password_too_short_error_text));
+        passwordInputLayout.setError(getString(R.string.password_too_short_error));
     }
 
     @Override
@@ -55,13 +55,18 @@ public class SignUpFragment extends Fragment implements SignUpView {
     }
 
     @Override
-    public void showRetypePasswordNotMatchingError() {
-        retypePasswordInputLayout.setError(getString(R.string.retype_password_not_matching_error_text));
+    public void showEmptyNicknameError() {
+        nicknameInputLayout.setError(getString(R.string.empty_nickname_error));
     }
 
     @Override
-    public void hideLoginError() {
-        loginInputLayout.setError(null);
+    public void showWrongNicknameError() {
+        nicknameInputLayout.setError(getString(R.string.wrong_nickname_error));
+    }
+
+    @Override
+    public void hideEmailError() {
+        emailInputLayout.setError(null);
     }
 
     @Override
@@ -70,7 +75,7 @@ public class SignUpFragment extends Fragment implements SignUpView {
     }
 
     @Override
-    public void hideRetypePasswordError() {
-        retypePasswordInputLayout.setError(null);
+    public void hideNicknameError() {
+        nicknameInputLayout.setError(null);
     }
 }

@@ -18,8 +18,8 @@ import pl.mirko.signup.SignUpActivity;
 
 public class LoginFragment extends Fragment implements LoginView {
 
-    @BindView(R.id.login_input_layout)
-    TextInputLayout loginInputLayout;
+    @BindView(R.id.email_input_layout)
+    TextInputLayout emailInputLayout;
 
     @BindView(R.id.password_input_layout)
     TextInputLayout passwordInputLayout;
@@ -40,23 +40,23 @@ public class LoginFragment extends Fragment implements LoginView {
     @Override
     public void showLoginError() {
         if (getView() != null) {
-            Snackbar.make(getView(), R.string.login_error_text, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), R.string.login_error, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void showEmptyLoginError() {
-        loginInputLayout.setError(getString(R.string.empty_login_error_text));
+    public void showEmptyEmailError() {
+        emailInputLayout.setError(getString(R.string.empty_email_error));
     }
 
     @Override
     public void showEmptyPasswordError() {
-        passwordInputLayout.setError(getString(R.string.empty_password_error_text));
+        passwordInputLayout.setError(getString(R.string.empty_password_error));
     }
 
     @Override
-    public void hideLoginError() {
-        loginInputLayout.setError(null);
+    public void hideEmailError() {
+        emailInputLayout.setError(null);
     }
 
     @Override
