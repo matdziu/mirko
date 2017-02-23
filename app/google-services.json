@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "123742441412",
+    "firebase_url": "https://mirko-b6f2f.firebaseio.com",
+    "project_id": "mirko-b6f2f",
+    "storage_bucket": "mirko-b6f2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123742441412:android:4c16fb01e9c0b0f3",
+        "android_client_info": {
+          "package_name": "pl.mirko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "123742441412-t9qi2tgp5taikgnatj24e69vtld60f1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.mirko",
+            "certificate_hash": "b80d13a4636cbbe80a83758957f767daab17c9a6"
+          }
+        },
+        {
+          "client_id": "123742441412-q8abbpvvbc5t23m47qmi4htmak8ubh1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApfFbfd8eoVmlhZEYOgsS8OdSunRv7mr8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "123742441412-q8abbpvvbc5t23m47qmi4htmak8ubh1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
