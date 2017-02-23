@@ -1,16 +1,12 @@
 package pl.mirko.home;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-
 import pl.mirko.R;
+import pl.mirko.base.BaseActivity;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+    protected int getLayoutResource() {
+        return R.layout.activity_home;
     }
 }
