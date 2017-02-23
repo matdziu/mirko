@@ -6,4 +6,7 @@
     <string name="login_text">Zaloguj</string>
     <string name="retype_password_hint">Powtórz hasło</string>
     <string name="create_account_text">Stwórz konto</string>
+    <string name="login_error_text">Wystąpił problem z logowaniem :(</string>
+    <string name="empty_login_error_text">Wpisz swój login</string>
+    <string name="empty_password_error_text">Wpisz swoje hasło</string>
 </resources>
