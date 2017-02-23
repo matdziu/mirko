@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,12 @@ public class SignUpFragment extends Fragment implements SignUpView {
 
     @BindView(R.id.password_edit_text)
     TextInputEditText passwordEditText;
+
+    @BindView(R.id.sign_up_content_view)
+    ViewGroup signUpContentView;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private SignUpPresenter signUpPresenter;
 
@@ -112,5 +119,18 @@ public class SignUpFragment extends Fragment implements SignUpView {
     public void navigateToHome() {
         getActivity().finish();
         startActivity(new Intent(getContext(), HomeActivity.class));
+    }
+
+    @Override
+    public void showProgressBar() {
+        signUpContentView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        signUpContentView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+
     }
 }

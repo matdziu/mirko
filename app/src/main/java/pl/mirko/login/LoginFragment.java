@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,6 +35,12 @@ public class LoginFragment extends Fragment implements LoginView {
 
     @BindView(R.id.password_edit_text)
     TextInputEditText passwordEditText;
+
+    @BindView(R.id.login_content_view)
+    ViewGroup loginContentView;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private LoginPresenter loginPresenter;
 
@@ -110,5 +117,17 @@ public class LoginFragment extends Fragment implements LoginView {
     public void navigateToHome() {
         getActivity().finish();
         startActivity(new Intent(getContext(), HomeActivity.class));
+    }
+
+    @Override
+    public void showProgressBar() {
+        loginContentView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        loginContentView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

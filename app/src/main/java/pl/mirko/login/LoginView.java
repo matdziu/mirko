@@ -13,4 +13,8 @@ interface LoginView {
     void hidePasswordError();
 
     void navigateToHome();
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }

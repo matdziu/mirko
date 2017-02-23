@@ -21,4 +21,8 @@ interface SignUpView {
     void hideNicknameError();
 
     void navigateToHome();
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }

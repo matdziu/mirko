@@ -20,6 +20,7 @@ public class FirebaseAuthInteractor implements AuthenticationInteractor {
 
     @Override
     public void createNewAccount(String email, String password, final String nickname, final SignUpListener signUpListener) {
+        signUpListener.onSignUpStarted();
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @SuppressWarnings("ConstantConditions")
@@ -36,6 +37,7 @@ public class FirebaseAuthInteractor implements AuthenticationInteractor {
 
     @Override
     public void login(String email, String password, final LoginListener loginListener) {
+        loginListener.onLoginStarted();
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
