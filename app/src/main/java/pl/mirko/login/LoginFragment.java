@@ -55,12 +55,12 @@ public class LoginFragment extends Fragment implements LoginView {
     }
 
     @Override
-    public void hideEmptyLoginError() {
+    public void hideLoginError() {
         loginInputLayout.setError(null);
     }
 
     @Override
-    public void hideEmptyPasswordError() {
+    public void hidePasswordError() {
         passwordInputLayout.setError(null);
     }
 }

@@ -9,4 +9,8 @@
     <string name="login_error_text">Wystąpił problem z logowaniem :(</string>
     <string name="empty_login_error_text">Wpisz swój login</string>
     <string name="empty_password_error_text">Wpisz swoje hasło</string>
+    <string name="sign_up_error_text">Wystąpił problem z rejestracją :(</string>
+    <string name="password_too_short_error_text">Hasło powinno zawierać conajmniej 6 znaków</string>
+    <string name="retype_password_not_matching_error_text">Błędnie powtórzone hasło</string>
+    <string name="wrong_password_error">Hasło nie może zawierać spacji</string>
 </resources>

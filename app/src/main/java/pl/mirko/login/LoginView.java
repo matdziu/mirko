@@ -8,7 +8,7 @@ interface LoginView {
 
     void showEmptyPasswordError();
 
-    void hideEmptyLoginError();
+    void hideLoginError();
 
-    void hideEmptyPasswordError();
+    void hidePasswordError();
 }
