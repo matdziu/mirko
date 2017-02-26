@@ -43,8 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.logout:
                 basePresenter.logout();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
