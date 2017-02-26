@@ -5,6 +5,7 @@ public class User {
     public String uid;
     public String nickname;
 
+    @SuppressWarnings("unused")
     public User() {
         // default constructor for Firebase
     }
