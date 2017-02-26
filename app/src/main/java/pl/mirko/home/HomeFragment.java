@@ -25,15 +25,20 @@ public class HomeFragment extends Fragment {
 
     private PostsAdapter postsAdapter;
 
+    private HomePresenter homePresenter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<Post> postList = new ArrayList<>();
-        postList.add(new Post("michal_b", "Siema witam na mirko!\nUsuncie konto iks de de de de"));
-        postList.add(new Post("michal_b", "Siema witam na mirko!\nUsuncie konto iks de de de de"));
+        homePresenter = new HomePresenter();
 
-        postsAdapter = new PostsAdapter(postList);
+        List<Post> postList = new ArrayList<>();
+        postList.add(new Post("michal_b", "Siema witam na mirko!\nUsuncie konto iks de de de de", 5));
+        postList.add(new Post("michal_b", "Siema witam na mirko!\nUsuncie konto iks de de de de", -2));
+        postList.add(new Post("michal_b", "Siema witam na mirko!\nUsuncie konto iks de de de de", 0));
+
+        postsAdapter = new PostsAdapter(homePresenter.setScoreColor(postList), getContext());
     }
 
     @Nullable

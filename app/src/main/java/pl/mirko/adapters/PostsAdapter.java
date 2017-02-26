@@ -1,5 +1,7 @@
 package pl.mirko.adapters;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +18,11 @@ import pl.mirko.models.Post;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> {
 
     private List<Post> postList;
+    private Context context;
 
-    public PostsAdapter(List<Post> postList) {
+    public PostsAdapter(List<Post> postList, Context context) {
         this.postList = postList;
+        this.context = context;
     }
 
     @Override
@@ -32,6 +36,8 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.authorTextView.setText(postList.get(position).author);
         holder.postTextView.setText(postList.get(position).post);
+        holder.scoreTextView.setText(String.valueOf(postList.get(position).score));
+        holder.scoreTextView.setTextColor(ContextCompat.getColor(context, postList.get(position).getScoreColor()));
     }
 
     @Override
@@ -46,6 +52,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
         @BindView(R.id.post_text_view)
         TextView postTextView;
+
+        @BindView(R.id.score_text_view)
+        TextView scoreTextView;
 
         ViewHolder(View itemView) {
             super(itemView);

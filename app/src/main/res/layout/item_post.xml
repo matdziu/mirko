@@ -16,19 +16,38 @@
             android:layout_height="match_parent"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/author_text_view"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/post_info_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="michal_b" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/author_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="michal_b" />
+
+                <TextView
+                    android:id="@+id/score_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:textAlignment="textEnd"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="0" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/post_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/author_text_view"
+                android:layout_below="@+id/post_info_layout"
                 android:layout_marginTop="16sp"
                 android:textSize="16sp"
                 tools:text="Witam na wewnetrznym mirkoblogu naszej rozmowy! \nUsuncie konta" />
