@@ -1,4 +1,4 @@
-package pl.mirko.home;
+package pl.mirko.postdetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,22 +19,30 @@ import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
-import pl.mirko.models.Post;
 
-public class HomeFragment extends Fragment {
+public class PostDetailFragment extends Fragment {
 
-    @BindView(R.id.home_recycler_view)
-    RecyclerView homeRecyclerView;
+    @BindView(R.id.author_text_view)
+    TextView authorTextView;
+
+    @BindView(R.id.base_post_text_view)
+    TextView postTextView;
+
+    @BindView(R.id.score_text_view)
+    TextView scoreTextView;
+
+    @BindView(R.id.comments_recycler_view)
+    RecyclerView commentsRecyclerView;
 
     private BasePostsAdapter basePostsAdapter;
 
-    private HomePresenter homePresenter;
+    private PostDetailPresenter postDetailPresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        homePresenter = new HomePresenter();
+        postDetailPresenter = new PostDetailPresenter();
 
         List<BasePost> commentList = new ArrayList<>();
         Comment comment1 = new Comment("mateusz_d", "siema", 5);
@@ -41,22 +50,17 @@ public class HomeFragment extends Fragment {
         commentList.add(comment1);
         commentList.add(comment2);
 
-        List<BasePost> postList = new ArrayList<>();
-        postList.add(new Post("michal_b", "siema\nusuncie konta", 5, commentList));
-        postList.add(new Post("michal_b", "siema\nusuncie konta", -4, commentList));
-        postList.add(new Post("michal_b", "siema\nusuncie konta", 0, commentList));
-
-        basePostsAdapter = new BasePostsAdapter(homePresenter.setScoreColor(postList), getContext());
+        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(commentList), getContext());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
 
-        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeRecyclerView.setAdapter(basePostsAdapter);
+        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        commentsRecyclerView.setAdapter(basePostsAdapter);
 
         return view;
     }

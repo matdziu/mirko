@@ -7,6 +7,7 @@
     android:padding="16dp">
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/base_post_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp">
@@ -17,7 +18,7 @@
             android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/post_info_layout"
+                android:id="@+id/base_post_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -44,10 +45,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/post_text_view"
+                android:id="@+id/base_post_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/post_info_layout"
+                android:layout_below="@+id/base_post_info_layout"
                 android:layout_marginTop="16sp"
                 android:textSize="16sp"
                 tools:text="Witam na wewnetrznym mirkoblogu naszej rozmowy! \nUsuncie konta" />

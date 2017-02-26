@@ -15,4 +15,5 @@
     <string name="empty_nickname_error">Wpisz swój nick</string>
     <string name="wrong_nickname_error">Nick nie może zawierać spacji</string>
     <string name="logout_text">Wyloguj</string>
+    <string name="comments_text">Komentarze:</string>
 </resources>

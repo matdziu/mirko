@@ -18,6 +18,8 @@
 
         <activity android:name=".home.HomeActivity" />
 
+        <activity android:name=".postdetail.PostDetailActivity" />
+
     </application>
 
 </manifest>
