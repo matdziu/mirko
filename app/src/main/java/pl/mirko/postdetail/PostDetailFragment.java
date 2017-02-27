@@ -3,6 +3,7 @@ package pl.mirko.postdetail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,10 +46,12 @@ public class PostDetailFragment extends Fragment {
 
         postDetailPresenter = new PostDetailPresenter();
 
-        post = Parcels.unwrap(getActivity()
+        Post rawPost = Parcels.unwrap(getActivity()
                 .getIntent()
                 .getExtras()
                 .getParcelable(POST_KEY));
+
+        post = (Post) postDetailPresenter.setScoreColor(rawPost);
 
         basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(post.commentList), getContext());
     }
@@ -62,6 +65,7 @@ public class PostDetailFragment extends Fragment {
         authorTextView.setText(post.author);
         postTextView.setText(post.postContent);
         scoreTextView.setText(String.valueOf(post.score));
+        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentsRecyclerView.setAdapter(basePostsAdapter);

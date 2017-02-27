@@ -25,15 +25,19 @@ public class BasePresenter {
     public List<BasePost> setScoreColor(List<BasePost> basePostList) {
         List<BasePost> outputPostList = new ArrayList<>();
         for (BasePost basePost : basePostList) {
-            if (basePost.score > 0) {
-                basePost.setScoreColor(android.R.color.holo_green_dark);
-            } else if (basePost.score < 0) {
-                basePost.setScoreColor(android.R.color.holo_red_dark);
-            } else {
-                basePost.setScoreColor(android.R.color.darker_gray);
-            }
-            outputPostList.add(basePost);
+            outputPostList.add(setScoreColor(basePost));
         }
         return outputPostList;
+    }
+
+    public BasePost setScoreColor(BasePost basePost) {
+        if (basePost.score > 0) {
+            basePost.setScoreColor(android.R.color.holo_green_dark);
+        } else if (basePost.score < 0) {
+            basePost.setScoreColor(android.R.color.holo_red_dark);
+        } else {
+            basePost.setScoreColor(android.R.color.darker_gray);
+        }
+        return basePost;
     }
 }
