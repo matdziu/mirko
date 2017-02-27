@@ -10,15 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
-import pl.mirko.models.BasePost;
-import pl.mirko.models.Comment;
+import pl.mirko.models.Post;
+
+import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
 public class PostDetailFragment extends Fragment {
 
@@ -37,6 +37,7 @@ public class PostDetailFragment extends Fragment {
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
+    private Post post;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,13 +45,12 @@ public class PostDetailFragment extends Fragment {
 
         postDetailPresenter = new PostDetailPresenter();
 
-        List<BasePost> commentList = new ArrayList<>();
-        Comment comment1 = new Comment("mateusz_d", "siema", 5);
-        Comment comment2 = new Comment("mateusz_d", "siema", -5);
-        commentList.add(comment1);
-        commentList.add(comment2);
+        post = Parcels.unwrap(getActivity()
+                .getIntent()
+                .getExtras()
+                .getParcelable(POST_KEY));
 
-        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(commentList), getContext());
+        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(post.commentList), getContext());
     }
 
     @Nullable
@@ -58,6 +58,10 @@ public class PostDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
+
+        authorTextView.setText(post.author);
+        postTextView.setText(post.postContent);
+        scoreTextView.setText(String.valueOf(post.score));
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentsRecyclerView.setAdapter(basePostsAdapter);

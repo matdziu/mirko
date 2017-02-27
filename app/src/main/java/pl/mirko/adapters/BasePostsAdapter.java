@@ -2,6 +2,7 @@ package pl.mirko.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -24,6 +27,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     private List<BasePost> basePostList;
     private Context context;
 
+    public static String POST_KEY = "postContent";
+
     public BasePostsAdapter(List<BasePost> basePostList, Context context) {
         this.basePostList = basePostList;
         this.context = context;
@@ -37,16 +42,20 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.authorTextView.setText(basePostList.get(position).author);
-        holder.basePostTextView.setText(basePostList.get(position).post);
+        holder.basePostTextView.setText(basePostList.get(position).postContent);
         holder.scoreTextView.setText(String.valueOf(basePostList.get(position).score));
         holder.scoreTextView.setTextColor(ContextCompat.getColor(context, basePostList.get(position).getScoreColor()));
         if (basePostList.get(position) instanceof Post) {
             holder.basePostCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, PostDetailActivity.class));
+                    Intent intent = new Intent(context, PostDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(POST_KEY, Parcels.wrap(basePostList.get(holder.getAdapterPosition())));
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
                 }
             });
         }

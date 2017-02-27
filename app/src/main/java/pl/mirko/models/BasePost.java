@@ -1,16 +1,21 @@
 package pl.mirko.models;
 
-public abstract class BasePost {
+import org.parceler.Parcel;
+import org.parceler.ParcelConstructor;
+
+@Parcel
+public class BasePost {
 
     public String author;
-    public String post;
+    public String postContent;
     public int score;
 
     private int scoreColor;
 
-    BasePost(String author, String post, int score) {
+    @ParcelConstructor
+    BasePost(String author, String postContent, int score) {
         this.author = author;
-        this.post = post;
+        this.postContent = postContent;
         this.score = score;
     }
 
