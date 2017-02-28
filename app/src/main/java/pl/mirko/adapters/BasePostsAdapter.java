@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
@@ -18,6 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mirko.R;
+import pl.mirko.base.BasePresenter;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 import pl.mirko.postdetail.PostDetailActivity;
@@ -26,12 +28,14 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
     private List<BasePost> basePostList;
     private Context context;
+    private BasePresenter basePresenter;
 
     public static String POST_KEY = "postContent";
 
-    public BasePostsAdapter(List<BasePost> basePostList, Context context) {
+    public BasePostsAdapter(List<BasePost> basePostList, Context context, BasePresenter basePresenter) {
         this.basePostList = basePostList;
         this.context = context;
+        this.basePresenter = basePresenter;
     }
 
     @Override
@@ -47,6 +51,24 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.basePostTextView.setText(basePostList.get(position).postContent);
         holder.scoreTextView.setText(String.valueOf(basePostList.get(position).score));
         holder.scoreTextView.setTextColor(ContextCompat.getColor(context, basePostList.get(position).getScoreColor()));
+        holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BasePost rawPost = basePostList.get(holder.getAdapterPosition());
+                rawPost.increaseScore();
+                basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
+                notifyDataSetChanged();
+            }
+        });
+        holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BasePost rawPost = basePostList.get(holder.getAdapterPosition());
+                rawPost.decreaseScore();
+                basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
+                notifyDataSetChanged();
+            }
+        });
         if (basePostList.get(position) instanceof Post) {
             holder.basePostCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -79,6 +101,12 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
         @BindView(R.id.base_post_card_view)
         CardView basePostCardView;
+
+        @BindView(R.id.thumb_up_button)
+        ImageButton thumbUpButton;
+
+        @BindView(R.id.thumb_down_button)
+        ImageButton thumbDownButton;
 
         ViewHolder(View itemView) {
             super(itemView);

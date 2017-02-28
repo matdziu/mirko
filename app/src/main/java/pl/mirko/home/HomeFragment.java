@@ -46,7 +46,8 @@ public class HomeFragment extends Fragment {
         postList.add(new Post("oscarek", "mama auto\nrejestracja XDDDDD", -4, commentList));
         postList.add(new Post("janusz", "jestem fanatykiem wedkarstwa", 0, commentList));
 
-        basePostsAdapter = new BasePostsAdapter(homePresenter.setScoreColor(postList), getContext());
+        basePostsAdapter = new BasePostsAdapter(homePresenter.setScoreColor(postList),
+                getContext(), homePresenter);
     }
 
     @Nullable

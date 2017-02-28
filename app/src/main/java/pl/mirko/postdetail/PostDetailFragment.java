@@ -15,8 +15,10 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
+import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
@@ -53,7 +55,8 @@ public class PostDetailFragment extends Fragment {
 
         post = (Post) postDetailPresenter.setScoreColor(rawPost);
 
-        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(post.commentList), getContext());
+        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(post.commentList),
+                getContext(), postDetailPresenter);
     }
 
     @Nullable
@@ -71,5 +74,23 @@ public class PostDetailFragment extends Fragment {
         commentsRecyclerView.setAdapter(basePostsAdapter);
 
         return view;
+    }
+
+    @OnClick(R.id.thumb_up_button)
+    public void onThumbUpButtonClicked() {
+        post.increaseScore();
+        updateScoreView(post);
+    }
+
+    @OnClick(R.id.thumb_down_button)
+    public void onThumbDownButtonClicked() {
+        post.decreaseScore();
+        updateScoreView(post);
+    }
+
+    private void updateScoreView(BasePost basePost) {
+        BasePost formattedPost = postDetailPresenter.setScoreColor(basePost);
+        scoreTextView.setText(String.valueOf(formattedPost.score));
+        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), formattedPost.getScoreColor()));
     }
 }

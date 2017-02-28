@@ -26,4 +26,12 @@ public class BasePost {
     public void setScoreColor(int scoreColor) {
         this.scoreColor = scoreColor;
     }
+
+    public void increaseScore() {
+        score += 1;
+    }
+
+    public void decreaseScore() {
+        score -= 1;
+    }
 }
