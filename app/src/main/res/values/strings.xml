@@ -16,4 +16,6 @@
     <string name="wrong_nickname_error">Nick nie może zawierać spacji</string>
     <string name="logout_text">Wyloguj</string>
     <string name="comments_text">Komentarze:</string>
+    <string name="thumb_up_desc">Thumb up</string>
+    <string name="thumb_down_desc">Thumb down</string>
 </resources>

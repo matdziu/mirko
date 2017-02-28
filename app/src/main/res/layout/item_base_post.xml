@@ -18,16 +18,31 @@
             android:id="@+id/base_post_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/author_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="90"
+                android:layout_weight="70"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="michal_b" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:contentDescription="@string/thumb_down_desc"
+                android:src="@drawable/ic_thumb_down" />
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:contentDescription="@string/thumb_up_desc"
+                android:src="@drawable/ic_thumb_up" />
 
             <TextView
                 android:id="@+id/score_text_view"
