@@ -31,20 +31,20 @@
                 tools:text="michal_b" />
 
             <ImageButton
-                android:id="@+id/thumb_down_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:contentDescription="@string/thumb_down_desc"
-                android:src="@drawable/ic_thumb_down" />
-
-            <ImageButton
                 android:id="@+id/thumb_up_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="10"
                 android:contentDescription="@string/thumb_up_desc"
                 android:src="@drawable/ic_thumb_up" />
+
+            <ImageButton
+                android:id="@+id/thumb_down_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:contentDescription="@string/thumb_down_desc"
+                android:src="@drawable/ic_thumb_down" />
 
             <TextView
                 android:id="@+id/score_text_view"
