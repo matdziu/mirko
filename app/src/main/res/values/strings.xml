@@ -20,4 +20,5 @@
     <string name="thumb_down_desc">Thumb down</string>
     <string name="create_post_hint">Napisz post...</string>
     <string name="create_comment_hint">Napisz komentarz...</string>
+    <string name="send">Wyślij</string>
 </resources>
