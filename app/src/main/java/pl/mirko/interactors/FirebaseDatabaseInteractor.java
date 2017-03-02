@@ -60,11 +60,11 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<BasePost> basePostList = new ArrayList<>();
+                        List<BasePost> postList = new ArrayList<>();
                         for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
-                            basePostList.add(dataItem.getValue(BasePost.class));
+                            postList.add(dataItem.getValue(Post.class));
                         }
-                        basePostListener.onBasePostFetchingFinished(basePostList);
+                        basePostListener.onBasePostFetchingFinished(postList);
                     }
 
                     @Override
