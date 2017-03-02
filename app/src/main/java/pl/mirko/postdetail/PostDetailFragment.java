@@ -1,5 +1,6 @@
 package pl.mirko.postdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
+import pl.mirko.createcomment.CreateCommentActivity;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
@@ -92,5 +94,10 @@ public class PostDetailFragment extends Fragment {
         BasePost formattedPost = postDetailPresenter.setScoreColor(basePost);
         scoreTextView.setText(String.valueOf(formattedPost.score));
         scoreTextView.setTextColor(ContextCompat.getColor(getContext(), formattedPost.getScoreColor()));
+    }
+
+    @OnClick(R.id.add_comment_fab)
+    public void onAddCommentFabClicked() {
+        startActivity(new Intent(getContext(), CreateCommentActivity.class));
     }
 }

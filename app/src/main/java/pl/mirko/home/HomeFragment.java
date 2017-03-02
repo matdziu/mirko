@@ -1,5 +1,6 @@
 package pl.mirko.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,8 +15,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
+import pl.mirko.createpost.CreatePostActivity;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
@@ -60,5 +63,10 @@ public class HomeFragment extends Fragment {
         homeRecyclerView.setAdapter(basePostsAdapter);
 
         return view;
+    }
+
+    @OnClick(R.id.add_post_fab)
+    public void onAddPostFabClicked() {
+        startActivity(new Intent(getContext(), CreatePostActivity.class));
     }
 }

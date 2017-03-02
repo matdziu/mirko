@@ -20,6 +20,10 @@
 
         <activity android:name=".postdetail.PostDetailActivity" />
 
+        <activity android:name=".createpost.CreatePostActivity" />
+
+        <activity android:name=".createcomment.CreateCommentActivity" />
+
     </application>
 
 </manifest>
