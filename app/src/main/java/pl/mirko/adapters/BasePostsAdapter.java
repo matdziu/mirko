@@ -51,7 +51,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         BasePost post = basePresenter.setScoreColor(rawPost);
 
         holder.authorTextView.setText(post.author);
-        holder.basePostTextView.setText(post.postContent);
+        holder.basePostTextView.setText(post.content);
         holder.scoreTextView.setText(String.valueOf(post.score));
         holder.scoreTextView.setTextColor(ContextCompat.getColor(context, post.getScoreColor()));
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {

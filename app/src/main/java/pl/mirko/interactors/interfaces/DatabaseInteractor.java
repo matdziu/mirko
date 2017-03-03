@@ -3,7 +3,6 @@ package pl.mirko.interactors.interfaces;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.models.Comment;
-import pl.mirko.models.Post;
 import pl.mirko.models.User;
 
 public interface DatabaseInteractor {
@@ -12,7 +11,7 @@ public interface DatabaseInteractor {
 
     void createNewPost(String content, BasePostSendingListener basePostSendingListener);
 
-    void createNewComment(Post post, Comment newComment,
+    void createNewComment(String postId, Comment newComment,
                           BasePostSendingListener basePostSendingListener);
 
     void fetchPosts(BasePostFetchingListener basePostFetchingListener);

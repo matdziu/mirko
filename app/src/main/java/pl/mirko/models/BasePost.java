@@ -7,8 +7,9 @@ import org.parceler.ParcelConstructor;
 public class BasePost {
 
     public String author;
-    public String postContent;
+    public String content;
     public int score;
+    public String postId;
 
     private int scoreColor;
 
@@ -17,10 +18,10 @@ public class BasePost {
     }
 
     @ParcelConstructor
-    BasePost(String author, String postContent, int score) {
+    BasePost(String author, String content, String postId) {
         this.author = author;
-        this.postContent = postContent;
-        this.score = score;
+        this.content = content;
+        this.postId = postId;
     }
 
     public int getScoreColor() {

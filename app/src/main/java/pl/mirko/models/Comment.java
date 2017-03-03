@@ -2,7 +2,12 @@ package pl.mirko.models;
 
 public class Comment extends BasePost {
 
-    public Comment(String author, String post, int score) {
-        super(author, post, score);
+    @SuppressWarnings("unused")
+    public Comment() {
+        // default constructor for Firebase
+    }
+
+    public Comment(String author, String content, String postId) {
+        super(author, content, postId);
     }
 }

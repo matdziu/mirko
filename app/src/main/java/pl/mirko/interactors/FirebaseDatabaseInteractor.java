@@ -32,6 +32,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
     private static final String USERS = "users";
     private static final String POSTS = "posts";
+    private static final String COMMENTS = "comments";
 
     @Override
     public void createNewUser(User newUser) {
@@ -54,7 +55,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User currentUser = dataSnapshot.getValue(User.class);
                             String postId = UUID.randomUUID().toString();
-                            Post newPost = new Post(currentUser.nickname, content, 0, null, postId);
+                            Post newPost = new Post(currentUser.nickname, content, postId);
                             databaseReference
                                     .child(POSTS)
                                     .child(postId)
@@ -76,14 +77,13 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void createNewComment(Post post, Comment newComment,
+    public void createNewComment(String postId, Comment newComment,
                                  final BasePostSendingListener basePostSendingListener) {
         basePostSendingListener.onBasePostSendingStarted();
-        post.commentList.add(newComment);
         databaseReference
-                .child(POSTS)
-                .child(post.id)
-                .setValue(post)
+                .child(COMMENTS)
+                .push()
+                .setValue(newComment)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

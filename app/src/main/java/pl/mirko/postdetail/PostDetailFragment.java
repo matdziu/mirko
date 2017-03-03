@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,8 +59,7 @@ public class PostDetailFragment extends Fragment {
 
         post = (Post) postDetailPresenter.setScoreColor(rawPost);
 
-        basePostsAdapter = new BasePostsAdapter(postDetailPresenter.setScoreColor(post.commentList),
-                getContext(), postDetailPresenter);
+        basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), postDetailPresenter);
     }
 
     @Nullable
@@ -68,7 +69,7 @@ public class PostDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         authorTextView.setText(post.author);
-        postTextView.setText(post.postContent);
+        postTextView.setText(post.content);
         scoreTextView.setText(String.valueOf(post.score));
         scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
 
