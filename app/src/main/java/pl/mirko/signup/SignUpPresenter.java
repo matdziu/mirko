@@ -68,19 +68,19 @@ class SignUpPresenter implements SignUpListener {
 
     @Override
     public void onSignUpStarted() {
-        signUpView.showProgressBar();
+        signUpView.showProgressBar(true);
     }
 
     @Override
     public void onSignUpSuccessful(User user) {
-        signUpView.hideProgressBar();
+        signUpView.showProgressBar(false);
         firebaseDatabaseInteractor.createNewUser(user);
         signUpView.navigateToHome();
     }
 
     @Override
     public void onSignUpFailure() {
-        signUpView.hideProgressBar();
+        signUpView.showProgressBar(false);
         signUpView.showSignUpError();
     }
 }

@@ -51,18 +51,18 @@ class LoginPresenter implements LoginListener {
 
     @Override
     public void onLoginStarted() {
-        loginView.showProgressBar();
+        loginView.showProgressBar(true);
     }
 
     @Override
     public void onLoginSuccessful() {
-        loginView.hideProgressBar();
+        loginView.showProgressBar(false);
         loginView.navigateToHome();
     }
 
     @Override
     public void onLoginFailure() {
-        loginView.hideProgressBar();
+        loginView.showProgressBar(false);
         loginView.showLoginError();
     }
 }

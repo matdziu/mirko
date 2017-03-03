@@ -120,14 +120,13 @@ public class LoginFragment extends Fragment implements LoginView {
     }
 
     @Override
-    public void showProgressBar() {
-        loginContentView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgressBar() {
-        loginContentView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
+    public void showProgressBar(boolean show) {
+        if (show) {
+            loginContentView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            loginContentView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

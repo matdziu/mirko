@@ -122,15 +122,13 @@ public class SignUpFragment extends Fragment implements SignUpView {
     }
 
     @Override
-    public void showProgressBar() {
-        signUpContentView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgressBar() {
-        signUpContentView.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.GONE);
-
+    public void showProgressBar(boolean show) {
+        if (show) {
+            signUpContentView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            signUpContentView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

@@ -14,7 +14,5 @@ interface LoginView {
 
     void navigateToHome();
 
-    void showProgressBar();
-
-    void hideProgressBar();
+    void showProgressBar(boolean show);
 }
