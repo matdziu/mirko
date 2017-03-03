@@ -132,7 +132,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<BasePost> postList = new ArrayList<>();
                         for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
-                            postList.add(dataItem.getValue(Post.class));
+                            postList.add(0, dataItem.getValue(Post.class));
                         }
                         basePostFetchingListener.onBasePostFetchingFinished(postList);
                     }
