@@ -107,7 +107,11 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @OnClick(R.id.add_comment_fab)
     public void onAddCommentFabClicked() {
-        startActivity(new Intent(getContext(), CreateCommentActivity.class));
+        Intent intent = new Intent(getContext(), CreateCommentActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(POST_KEY, Parcels.wrap(post));
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

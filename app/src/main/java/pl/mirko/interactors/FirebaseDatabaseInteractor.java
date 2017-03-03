@@ -77,19 +77,38 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void createNewComment(String postId, Comment newComment,
+    public void createNewComment(final Post post, final String content,
                                  final BasePostSendingListener basePostSendingListener) {
-        basePostSendingListener.onBasePostSendingStarted();
-        databaseReference
-                .child(COMMENTS)
-                .push()
-                .setValue(newComment)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        basePostSendingListener.onBasePostSendingFinished();
-                    }
-                });
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            basePostSendingListener.onBasePostSendingStarted();
+            databaseReference
+                    .child(USERS)
+                    .child(firebaseUser.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User currentUser = dataSnapshot.getValue(User.class);
+                            Comment newComment = new Comment(currentUser.nickname, content, post.postId);
+                            databaseReference
+                                    .child(COMMENTS)
+                                    .push()
+                                    .setValue(newComment)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            basePostSendingListener.onBasePostSendingFinished();
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Timber.e(databaseError.getMessage());
+                        }
+                    });
+        }
+
     }
 
     @Override
