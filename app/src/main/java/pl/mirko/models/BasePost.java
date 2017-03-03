@@ -12,6 +12,10 @@ public class BasePost {
 
     private int scoreColor;
 
+    public BasePost() {
+        // default constructor for Firebase
+    }
+
     @ParcelConstructor
     BasePost(String author, String postContent, int score) {
         this.author = author;

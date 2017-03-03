@@ -47,14 +47,16 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.authorTextView.setText(basePostList.get(position).author);
-        holder.basePostTextView.setText(basePostList.get(position).postContent);
-        holder.scoreTextView.setText(String.valueOf(basePostList.get(position).score));
-        holder.scoreTextView.setTextColor(ContextCompat.getColor(context, basePostList.get(position).getScoreColor()));
+        final BasePost rawPost = basePostList.get(position);
+        BasePost post = basePresenter.setScoreColor(rawPost);
+
+        holder.authorTextView.setText(post.author);
+        holder.basePostTextView.setText(post.postContent);
+        holder.scoreTextView.setText(String.valueOf(post.score));
+        holder.scoreTextView.setTextColor(ContextCompat.getColor(context, post.getScoreColor()));
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BasePost rawPost = basePostList.get(holder.getAdapterPosition());
                 rawPost.increaseScore();
                 basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
                 notifyDataSetChanged();
@@ -63,7 +65,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BasePost rawPost = basePostList.get(holder.getAdapterPosition());
                 rawPost.decreaseScore();
                 basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
                 notifyDataSetChanged();
@@ -86,6 +87,11 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     @Override
     public int getItemCount() {
         return basePostList.size();
+    }
+
+    public void setNewData(List<BasePost> basePostList) {
+        this.basePostList = basePostList;
+        notifyDataSetChanged();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
