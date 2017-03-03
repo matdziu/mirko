@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import pl.mirko.R;
 import pl.mirko.base.BasePresenter;
 import pl.mirko.models.BasePost;
+import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.postdetail.PostDetailActivity;
 
@@ -32,6 +33,9 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
     public static String POST_KEY = "postContent";
 
+    private static int POST_TYPE = 1;
+    private static int COMMENT_TYPE = 0;
+
     public BasePostsAdapter(List<BasePost> basePostList, Context context, BasePresenter basePresenter) {
         this.basePostList = basePostList;
         this.context = context;
@@ -39,10 +43,27 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if (basePostList.get(position) instanceof Post) {
+            return POST_TYPE;
+        } else if (basePostList.get(position) instanceof Comment) {
+            return COMMENT_TYPE;
+        } else {
+            return -1;
+        }
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_base_post, parent, false);
-        return new ViewHolder(view);
+        if (viewType == POST_TYPE) {
+            return new ViewHolder(view, 16);
+        } else if (viewType == COMMENT_TYPE) {
+            return new ViewHolder(view, 0);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -114,9 +135,12 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         @BindView(R.id.thumb_down_button)
         ImageButton thumbDownButton;
 
-        ViewHolder(View itemView) {
+        ViewHolder(View itemView, int topMargin) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            ViewGroup.MarginLayoutParams marginLayoutParams =
+                    (ViewGroup.MarginLayoutParams) basePostCardView.getLayoutParams();
+            marginLayoutParams.topMargin = topMargin;
         }
     }
 }
