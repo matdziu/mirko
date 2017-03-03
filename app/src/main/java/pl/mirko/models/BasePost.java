@@ -9,7 +9,7 @@ public class BasePost {
     public String author;
     public String content;
     public int score;
-    public String postId;
+    public String id;
 
     private int scoreColor;
 
@@ -18,10 +18,10 @@ public class BasePost {
     }
 
     @ParcelConstructor
-    BasePost(String author, String content, String postId) {
+    BasePost(String author, String content, String id) {
         this.author = author;
         this.content = content;
-        this.postId = postId;
+        this.id = id;
     }
 
     public int getScoreColor() {

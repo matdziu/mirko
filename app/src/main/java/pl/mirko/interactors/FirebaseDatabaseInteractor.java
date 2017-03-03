@@ -14,7 +14,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
@@ -53,9 +52,13 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            String postId = databaseReference
+                                    .child(POSTS)
+                                    .push().getKey();
+
                             User currentUser = dataSnapshot.getValue(User.class);
-                            String postId = UUID.randomUUID().toString();
                             Post newPost = new Post(currentUser.nickname, content, postId);
+
                             databaseReference
                                     .child(POSTS)
                                     .child(postId)
@@ -88,12 +91,19 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            String commentId = databaseReference
+                                    .child(COMMENTS)
+                                    .child(post.id)
+                                    .push().getKey();
+
                             User currentUser = dataSnapshot.getValue(User.class);
-                            Comment newComment = new Comment(currentUser.nickname, content, post.postId);
+                            Comment newComment = new Comment(currentUser.nickname, content,
+                                    commentId, post.id);
+
                             databaseReference
                                     .child(COMMENTS)
-                                    .child(post.postId)
-                                    .push()
+                                    .child(post.id)
+                                    .child(commentId)
                                     .setValue(newComment)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -139,7 +149,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
         basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(COMMENTS)
-                .child(post.postId)
+                .child(post.id)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
