@@ -6,6 +6,7 @@ import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.models.BasePost;
+import pl.mirko.models.Post;
 
 class PostDetailPresenter extends BasePresenter implements BasePostFetchingListener {
 
@@ -17,8 +18,8 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
         this.postDetailView = postDetailView;
     }
 
-    void fetchComments() {
-        firebaseDatabaseInteractor.fetchComments(this);
+    void fetchComments(Post post) {
+        firebaseDatabaseInteractor.fetchComments(post, this);
     }
 
     @Override

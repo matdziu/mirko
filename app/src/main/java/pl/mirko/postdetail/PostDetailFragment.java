@@ -74,7 +74,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
 
-        postDetailPresenter.fetchComments();
+        postDetailPresenter.fetchComments(post);
 
         authorTextView.setText(post.author);
         postTextView.setText(post.content);

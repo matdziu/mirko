@@ -92,6 +92,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                             Comment newComment = new Comment(currentUser.nickname, content, post.postId);
                             databaseReference
                                     .child(COMMENTS)
+                                    .child(post.postId)
                                     .push()
                                     .setValue(newComment)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -134,10 +135,11 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchComments(final BasePostFetchingListener basePostFetchingListener) {
+    public void fetchComments(Post post, final BasePostFetchingListener basePostFetchingListener) {
         basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(COMMENTS)
+                .child(post.postId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
