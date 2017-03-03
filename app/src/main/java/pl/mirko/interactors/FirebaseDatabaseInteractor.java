@@ -1,5 +1,11 @@
 package pl.mirko.interactors;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import pl.mirko.base.BasePostListener;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.listeners.BasePostFetchingListener;
+import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
@@ -21,6 +28,7 @@ import timber.log.Timber;
 public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     private static final String USERS = "users";
     private static final String POSTS = "posts";
@@ -34,27 +42,59 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void createNewPost(Post newPost) {
-        String postId = UUID.randomUUID().toString();
-        newPost.id = postId;
-        databaseReference
-                .child(POSTS)
-                .child(postId)
-                .setValue(newPost);
+    public void createNewPost(final String content, final BasePostSendingListener basePostSendingListener) {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            basePostSendingListener.onBasePostSendingStarted();
+            databaseReference
+                    .child(USERS)
+                    .child(firebaseUser.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User currentUser = dataSnapshot.getValue(User.class);
+                            String postId = UUID.randomUUID().toString();
+                            Post newPost = new Post(currentUser.nickname, content, 0, null, postId);
+                            databaseReference
+                                    .child(POSTS)
+                                    .child(postId)
+                                    .setValue(newPost)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            basePostSendingListener.onBasePostSendingFinished();
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Timber.e(databaseError.getMessage());
+                        }
+                    });
+        }
     }
 
     @Override
-    public void createNewComment(Post post, Comment newComment) {
+    public void createNewComment(Post post, Comment newComment,
+                                 final BasePostSendingListener basePostSendingListener) {
+        basePostSendingListener.onBasePostSendingStarted();
         post.commentList.add(newComment);
         databaseReference
                 .child(POSTS)
                 .child(post.id)
-                .setValue(post);
+                .setValue(post)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        basePostSendingListener.onBasePostSendingFinished();
+                    }
+                });
     }
 
     @Override
-    public void fetchPosts(final BasePostListener basePostListener) {
-        basePostListener.onBasePostFetchingStarted();
+    public void fetchPosts(final BasePostFetchingListener basePostFetchingListener) {
+        basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(POSTS)
                 .addValueEventListener(new ValueEventListener() {
@@ -64,7 +104,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
                             postList.add(dataItem.getValue(Post.class));
                         }
-                        basePostListener.onBasePostFetchingFinished(postList);
+                        basePostFetchingListener.onBasePostFetchingFinished(postList);
                     }
 
                     @Override

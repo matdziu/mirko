@@ -1,6 +1,7 @@
 package pl.mirko.interactors.interfaces;
 
-import pl.mirko.base.BasePostListener;
+import pl.mirko.listeners.BasePostFetchingListener;
+import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.models.User;
@@ -9,9 +10,10 @@ public interface DatabaseInteractor {
 
     void createNewUser(User newUser);
 
-    void createNewPost(Post newPost);
+    void createNewPost(String content, BasePostSendingListener basePostSendingListener);
 
-    void createNewComment(Post post, Comment newComment);
+    void createNewComment(Post post, Comment newComment,
+                          BasePostSendingListener basePostSendingListener);
 
-    void fetchPosts(BasePostListener basePostListener);
+    void fetchPosts(BasePostFetchingListener basePostFetchingListener);
 }
