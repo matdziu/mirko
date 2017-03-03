@@ -15,4 +15,6 @@ public interface DatabaseInteractor {
                           BasePostSendingListener basePostSendingListener);
 
     void fetchPosts(BasePostFetchingListener basePostFetchingListener);
+
+    void fetchComments(BasePostFetchingListener basePostFetchingListener);
 }

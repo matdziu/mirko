@@ -10,11 +10,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,12 +24,13 @@ import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.createcomment.CreateCommentActivity;
+import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
-public class PostDetailFragment extends Fragment {
+public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @BindView(R.id.author_text_view)
     TextView authorTextView;
@@ -41,6 +44,9 @@ public class PostDetailFragment extends Fragment {
     @BindView(R.id.comments_recycler_view)
     RecyclerView commentsRecyclerView;
 
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
@@ -50,7 +56,7 @@ public class PostDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        postDetailPresenter = new PostDetailPresenter();
+        postDetailPresenter = new PostDetailPresenter(new FirebaseDatabaseInteractor(), this);
 
         Post rawPost = Parcels.unwrap(getActivity()
                 .getIntent()
@@ -67,6 +73,8 @@ public class PostDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
+
+        postDetailPresenter.fetchComments();
 
         authorTextView.setText(post.author);
         postTextView.setText(post.content);
@@ -100,5 +108,21 @@ public class PostDetailFragment extends Fragment {
     @OnClick(R.id.add_comment_fab)
     public void onAddCommentFabClicked() {
         startActivity(new Intent(getContext(), CreateCommentActivity.class));
+    }
+
+    @Override
+    public void showProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+            commentsRecyclerView.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            commentsRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void updateRecyclerView(List<BasePost> commentList) {
+        basePostsAdapter.setNewData(commentList);
     }
 }
