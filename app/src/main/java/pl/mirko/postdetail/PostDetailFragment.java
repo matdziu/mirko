@@ -129,6 +129,8 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         authorTextView.setText(post.author);
         postTextView.setText(post.content);
         scoreTextView.setText(String.valueOf(post.score));
-        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
+        if (getContext() != null) {
+            scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
+        }
     }
 }
