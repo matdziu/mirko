@@ -176,8 +176,10 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
             basePostReference = databaseReference
                     .child(POSTS);
         } else if (basePost instanceof Comment) {
+            Comment comment = (Comment) basePost;
             basePostReference = databaseReference
-                    .child(COMMENTS);
+                    .child(COMMENTS)
+                    .child(comment.commentedPostId);
         }
 
         if (basePostReference != null) {
