@@ -2,6 +2,8 @@ package pl.mirko.interactors.interfaces;
 
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
+import pl.mirko.listeners.OnPostChangedListener;
+import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 import pl.mirko.models.User;
 
@@ -16,4 +18,8 @@ public interface DatabaseInteractor {
     void fetchPosts(BasePostFetchingListener basePostFetchingListener);
 
     void fetchComments(Post post, BasePostFetchingListener basePostFetchingListener);
+
+    void updateScore(BasePost basePost, int updatedScore);
+
+    void addOnPostChangedListener(Post post, OnPostChangedListener onPostChangedListener);
 }

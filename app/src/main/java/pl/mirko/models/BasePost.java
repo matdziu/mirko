@@ -32,11 +32,11 @@ public class BasePost {
         this.scoreColor = scoreColor;
     }
 
-    public void increaseScore() {
-        score += 1;
+    public int getScore() {
+        return score;
     }
 
-    public void decreaseScore() {
-        score -= 1;
+    public void setScore(int score) {
+        this.score = score;
     }
 }

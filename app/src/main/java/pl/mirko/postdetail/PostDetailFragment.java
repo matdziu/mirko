@@ -24,6 +24,7 @@ import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.createcomment.CreateCommentActivity;
+import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
@@ -50,20 +51,21 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
+
+    private Post rawPost;
     private Post post;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        postDetailPresenter = new PostDetailPresenter(new FirebaseDatabaseInteractor(), this);
+        postDetailPresenter = new PostDetailPresenter(new FirebaseAuthInteractor(),
+                new FirebaseDatabaseInteractor(), this);
 
-        Post rawPost = Parcels.unwrap(getActivity()
+        rawPost = Parcels.unwrap(getActivity()
                 .getIntent()
                 .getExtras()
                 .getParcelable(POST_KEY));
-
-        post = (Post) postDetailPresenter.setScoreColor(rawPost);
 
         basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), postDetailPresenter);
     }
@@ -74,12 +76,9 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
 
+        showPostDetails(rawPost);
+        postDetailPresenter.addOnPostChangedListener(post);
         postDetailPresenter.fetchComments(post);
-
-        authorTextView.setText(post.author);
-        postTextView.setText(post.content);
-        scoreTextView.setText(String.valueOf(post.score));
-        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentsRecyclerView.setAdapter(basePostsAdapter);
@@ -89,20 +88,14 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @OnClick(R.id.thumb_up_button)
     public void onThumbUpButtonClicked() {
-        post.increaseScore();
-        updateScoreView(post);
+        int updatedScore = post.getScore() + 1;
+        postDetailPresenter.updateScore(post, updatedScore);
     }
 
     @OnClick(R.id.thumb_down_button)
     public void onThumbDownButtonClicked() {
-        post.decreaseScore();
-        updateScoreView(post);
-    }
-
-    private void updateScoreView(BasePost basePost) {
-        BasePost formattedPost = postDetailPresenter.setScoreColor(basePost);
-        scoreTextView.setText(String.valueOf(formattedPost.score));
-        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), formattedPost.getScoreColor()));
+        int updatedScore = post.getScore() - 1;
+        postDetailPresenter.updateScore(post, updatedScore);
     }
 
     @OnClick(R.id.add_comment_fab)
@@ -128,5 +121,14 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @Override
     public void updateRecyclerView(List<BasePost> commentList) {
         basePostsAdapter.setNewData(commentList);
+    }
+
+    @Override
+    public void showPostDetails(Post rawPost) {
+        this.post = (Post) postDetailPresenter.setScoreColor(rawPost);
+        authorTextView.setText(post.author);
+        postTextView.setText(post.content);
+        scoreTextView.setText(String.valueOf(post.score));
+        scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
     }
 }

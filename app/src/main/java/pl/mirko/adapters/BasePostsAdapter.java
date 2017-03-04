@@ -69,26 +69,24 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final BasePost rawPost = basePostList.get(position);
-        BasePost post = basePresenter.setScoreColor(rawPost);
+        final BasePost basePost = basePresenter.setScoreColor(rawPost);
 
-        holder.authorTextView.setText(post.author);
-        holder.basePostTextView.setText(post.content);
-        holder.scoreTextView.setText(String.valueOf(post.score));
-        holder.scoreTextView.setTextColor(ContextCompat.getColor(context, post.getScoreColor()));
+        holder.authorTextView.setText(basePost.author);
+        holder.basePostTextView.setText(basePost.content);
+        holder.scoreTextView.setText(String.valueOf(basePost.score));
+        holder.scoreTextView.setTextColor(ContextCompat.getColor(context, basePost.getScoreColor()));
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rawPost.increaseScore();
-                basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
-                notifyDataSetChanged();
+                int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() + 1;
+                basePresenter.updateScore(basePost, updatedScore);
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rawPost.decreaseScore();
-                basePostList.set(holder.getAdapterPosition(), basePresenter.setScoreColor(rawPost));
-                notifyDataSetChanged();
+                int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() - 1;
+                basePresenter.updateScore(basePost, updatedScore);
             }
         });
         if (basePostList.get(position) instanceof Post) {

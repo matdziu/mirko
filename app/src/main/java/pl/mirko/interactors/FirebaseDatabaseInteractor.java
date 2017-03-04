@@ -18,6 +18,7 @@ import java.util.List;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
+import pl.mirko.listeners.OnPostChangedListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
@@ -158,6 +159,44 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                             commentList.add(dataItem.getValue(Comment.class));
                         }
                         basePostFetchingListener.onBasePostFetchingFinished(commentList);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Timber.e(databaseError.getMessage());
+                    }
+                });
+    }
+
+    @Override
+    public void updateScore(BasePost basePost, int updatedScore) {
+        DatabaseReference basePostReference = null;
+
+        if (basePost instanceof Post) {
+            basePostReference = databaseReference
+                    .child(POSTS);
+        } else if (basePost instanceof Comment) {
+            basePostReference = databaseReference
+                    .child(COMMENTS);
+        }
+
+        if (basePostReference != null) {
+            basePostReference
+                    .child(basePost.id)
+                    .child("score")
+                    .setValue(updatedScore);
+        }
+    }
+
+    @Override
+    public void addOnPostChangedListener(Post post, final OnPostChangedListener onPostChangedListener) {
+        databaseReference
+                .child(POSTS)
+                .child(post.id)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        onPostChangedListener.onPostChanged(dataSnapshot.getValue(Post.class));
                     }
 
                     @Override

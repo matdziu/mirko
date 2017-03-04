@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.createpost.CreatePostActivity;
+import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
 
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment implements HomeView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        homePresenter = new HomePresenter(new FirebaseDatabaseInteractor(), this);
+        homePresenter = new HomePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(), this);
         basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), homePresenter);
     }
 
