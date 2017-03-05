@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.mirko.R;
+import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
+
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 public class BasePresenter {
 
     private FirebaseAuthInteractor firebaseAuthInteractor;
     private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private BasePostView basePostView;
 
     public BasePresenter(FirebaseAuthInteractor firebaseAuthInteractor,
                          FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
@@ -48,5 +53,17 @@ public class BasePresenter {
 
     public void sendThumb(String thumb, BasePost basePost) {
         firebaseDatabaseInteractor.sendThumb(thumb, basePost);
+    }
+
+    public void setBasePostView(BasePostView basePostView) {
+        this.basePostView = basePostView;
+    }
+
+    public void setProperThumbView(BasePost basePost, BasePostsAdapter.ViewHolder viewHolder) {
+        if (basePost.getThumb().equals(UP)) {
+            basePostView.setThumbUpView(viewHolder);
+        } else if (basePost.getThumb().equals(DOWN)) {
+            basePostView.setThumbDownView(viewHolder);
+        }
     }
 }

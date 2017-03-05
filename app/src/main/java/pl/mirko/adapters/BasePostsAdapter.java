@@ -3,6 +3,7 @@ package pl.mirko.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mirko.R;
+import pl.mirko.base.BasePostView;
 import pl.mirko.base.BasePresenter;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
@@ -28,7 +30,8 @@ import pl.mirko.postdetail.PostDetailActivity;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
-public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder> {
+public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder>
+        implements BasePostView {
 
     private List<BasePost> basePostList;
     private Context context;
@@ -43,6 +46,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         this.basePostList = basePostList;
         this.context = context;
         this.basePresenter = basePresenter;
+        basePresenter.setBasePostView(this);
     }
 
     @Override
@@ -84,10 +88,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                 basePresenter.sendThumb(UP, basePost);
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() + 1;
                 basePresenter.updateScore(basePost, updatedScore);
-                holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-                holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
-                holder.thumbDownButton.setEnabled(true);
-                holder.thumbUpButton.setEnabled(false);
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
@@ -96,10 +96,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                 basePresenter.sendThumb(DOWN, basePost);
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() - 1;
                 basePresenter.updateScore(basePost, updatedScore);
-                holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-                holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
-                holder.thumbDownButton.setEnabled(false);
-                holder.thumbUpButton.setEnabled(true);
             }
         });
         if (basePostList.get(position) instanceof Post) {
@@ -114,6 +110,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                 }
             });
         }
+
+        basePresenter.setProperThumbView(basePost, holder);
     }
 
     @Override
@@ -126,7 +124,27 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         notifyDataSetChanged();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void setThumbUpView(@Nullable ViewHolder viewHolder) {
+        if (viewHolder != null) {
+            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
+            viewHolder.thumbDownButton.setEnabled(true);
+            viewHolder.thumbUpButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void setThumbDownView(@Nullable ViewHolder viewHolder) {
+        if (viewHolder != null) {
+            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
+            viewHolder.thumbDownButton.setEnabled(false);
+            viewHolder.thumbUpButton.setEnabled(true);
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.author_text_view)
         TextView authorTextView;
