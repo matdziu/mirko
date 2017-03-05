@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -47,6 +48,12 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.thumb_up_button)
+    ImageButton thumbUpButton;
+
+    @BindView(R.id.thumb_down_button)
+    ImageButton thumbDownButton;
 
     private BasePostsAdapter basePostsAdapter;
 
@@ -90,12 +97,16 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     public void onThumbUpButtonClicked() {
         int updatedScore = post.getScore() + 1;
         postDetailPresenter.updateScore(post, updatedScore);
+        thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
+        thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
     }
 
     @OnClick(R.id.thumb_down_button)
     public void onThumbDownButtonClicked() {
         int updatedScore = post.getScore() - 1;
         postDetailPresenter.updateScore(post, updatedScore);
+        thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
+        thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
     }
 
     @OnClick(R.id.add_comment_fab)

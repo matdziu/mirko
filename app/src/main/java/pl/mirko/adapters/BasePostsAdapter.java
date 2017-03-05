@@ -80,6 +80,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
             public void onClick(View v) {
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() + 1;
                 basePresenter.updateScore(basePost, updatedScore);
+                holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+                holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +89,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
             public void onClick(View v) {
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() - 1;
                 basePresenter.updateScore(basePost, updatedScore);
+                holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+                holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
             }
         });
         if (basePostList.get(position) instanceof Post) {

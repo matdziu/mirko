@@ -33,16 +33,23 @@
             <ImageButton
                 android:id="@+id/thumb_up_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="10"
+                android:background="@color/colorGrey"
                 android:contentDescription="@string/thumb_up_desc"
                 android:src="@drawable/ic_thumb_up" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3" />
 
             <ImageButton
                 android:id="@+id/thumb_down_button"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_weight="10"
+                android:background="@color/colorGrey"
                 android:contentDescription="@string/thumb_down_desc"
                 android:src="@drawable/ic_thumb_down" />
 
