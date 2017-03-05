@@ -99,16 +99,12 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @OnClick(R.id.thumb_up_button)
     public void onThumbUpButtonClicked() {
-        postDetailPresenter.sendThumb(UP, post);
-        int updatedScore = post.getScore() + 1;
-        postDetailPresenter.updateScore(post, updatedScore);
+        postDetailPresenter.updateScore(post, UP);
     }
 
     @OnClick(R.id.thumb_down_button)
     public void onThumbDownButtonClicked() {
-        postDetailPresenter.sendThumb(DOWN, post);
-        int updatedScore = post.getScore() - 1;
-        postDetailPresenter.updateScore(post, updatedScore);
+        postDetailPresenter.updateScore(post, DOWN);
     }
 
     @OnClick(R.id.add_comment_fab)
@@ -153,8 +149,6 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         if (getContext() != null) {
             thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
             thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
-            thumbDownButton.setEnabled(false);
-            thumbUpButton.setEnabled(true);
         }
     }
 
@@ -163,8 +157,14 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         if (getContext() != null) {
             thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
             thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
-            thumbDownButton.setEnabled(true);
-            thumbUpButton.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void showNoThumbView() {
+        if (getContext() != null) {
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         }
     }
 }

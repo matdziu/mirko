@@ -16,4 +16,6 @@ interface PostDetailView {
     void showThumbDownView();
 
     void showThumbUpView();
+
+    void showNoThumbView();
 }

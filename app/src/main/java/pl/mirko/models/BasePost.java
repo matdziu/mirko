@@ -3,6 +3,8 @@ package pl.mirko.models;
 import org.parceler.Parcel;
 import org.parceler.ParcelConstructor;
 
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.NO_THUMB;
+
 @Parcel
 public class BasePost {
 
@@ -12,7 +14,7 @@ public class BasePost {
     public String id;
 
     private int scoreColor;
-    private String thumb = "noThumb";
+    private String thumb = NO_THUMB;
 
     public BasePost() {
         // default constructor for Firebase

@@ -12,6 +12,7 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.NO_THUMB;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 class PostDetailPresenter extends BasePresenter implements BasePostFetchingListener,
@@ -56,10 +57,16 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
     public void onPostThumbsFetched(Post post) {
         postDetailView.showPostDetails(post);
 
-        if (post.getThumb().equals(UP)) {
-            postDetailView.showThumbUpView();
-        } else if (post.getThumb().equals(DOWN)) {
-            postDetailView.showThumbDownView();
+        switch (post.getThumb()) {
+            case UP:
+                postDetailView.showThumbUpView();
+                break;
+            case DOWN:
+                postDetailView.showThumbDownView();
+                break;
+            case NO_THUMB:
+                postDetailView.showNoThumbView();
+                break;
         }
     }
 

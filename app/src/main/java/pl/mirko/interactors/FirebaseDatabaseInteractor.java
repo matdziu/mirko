@@ -39,6 +39,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
     public static final String UP = "up";
     public static final String DOWN = "down";
+    public static final String NO_THUMB = "noThumb";
 
     @Override
     public void createNewUser(User newUser) {

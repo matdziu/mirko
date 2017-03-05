@@ -84,17 +84,13 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.sendThumb(UP, basePost);
-                int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() + 1;
-                basePresenter.updateScore(basePost, updatedScore);
+                basePresenter.updateScore(basePost, UP);
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.sendThumb(DOWN, basePost);
-                int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() - 1;
-                basePresenter.updateScore(basePost, updatedScore);
+                basePresenter.updateScore(basePost, DOWN);
             }
         });
         if (basePostList.get(position) instanceof Post) {
@@ -123,8 +119,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (viewHolder != null) {
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
-            viewHolder.thumbDownButton.setEnabled(true);
-            viewHolder.thumbUpButton.setEnabled(false);
         }
     }
 
@@ -133,8 +127,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (viewHolder != null) {
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
-            viewHolder.thumbDownButton.setEnabled(false);
-            viewHolder.thumbUpButton.setEnabled(true);
         }
     }
 
@@ -143,8 +135,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (viewHolder != null) {
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-            viewHolder.thumbDownButton.setEnabled(true);
-            viewHolder.thumbUpButton.setEnabled(true);
         }
     }
 
