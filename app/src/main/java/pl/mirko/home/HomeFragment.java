@@ -79,6 +79,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void updateRecyclerView(List<BasePost> postList) {
-        basePostsAdapter.setNewData(postList);
+        basePostsAdapter = new BasePostsAdapter(postList, getContext(), homePresenter);
+        homeRecyclerView.setAdapter(basePostsAdapter);
     }
 }
