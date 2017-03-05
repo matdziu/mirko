@@ -28,14 +28,6 @@ public class BasePresenter {
         firebaseAuthInteractor.logout();
     }
 
-    public List<BasePost> setScoreColor(List<BasePost> basePostList) {
-        List<BasePost> outputPostList = new ArrayList<>();
-        for (BasePost basePost : basePostList) {
-            outputPostList.add(setScoreColor(basePost));
-        }
-        return outputPostList;
-    }
-
     public BasePost setScoreColor(BasePost basePost) {
         if (basePost.score > 0) {
             basePost.setScoreColor(R.color.colorGreen);

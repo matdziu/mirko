@@ -3,7 +3,6 @@ package pl.mirko.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -119,13 +118,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         return basePostList.size();
     }
 
-    public void setNewData(List<BasePost> basePostList) {
-        this.basePostList = basePostList;
-        notifyDataSetChanged();
-    }
-
     @Override
-    public void showThumbUpView(@Nullable ViewHolder viewHolder) {
+    public void showThumbUpView(ViewHolder viewHolder) {
         if (viewHolder != null) {
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
@@ -135,11 +129,21 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
-    public void showThumbDownView(@Nullable ViewHolder viewHolder) {
+    public void showThumbDownView(ViewHolder viewHolder) {
         if (viewHolder != null) {
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
             viewHolder.thumbDownButton.setEnabled(false);
+            viewHolder.thumbUpButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void showNoThumbView(ViewHolder viewHolder) {
+        if (viewHolder != null) {
+            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            viewHolder.thumbDownButton.setEnabled(true);
             viewHolder.thumbUpButton.setEnabled(true);
         }
     }
