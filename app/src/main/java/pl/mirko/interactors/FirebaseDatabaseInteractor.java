@@ -239,7 +239,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchThumbs(final List<BasePost> basePostList, final ThumbFetchingListener thumbFetchingListener) {
+    public void fetchPostsThumbs(final List<BasePost> postList,
+                                 final ThumbFetchingListener thumbFetchingListener) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             databaseReference
@@ -247,17 +248,50 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (BasePost basePost : basePostList) {
-                                if (dataSnapshot.child(basePost.id)
+                            for (BasePost post : postList) {
+                                if (dataSnapshot.child(post.id)
                                         .child(THUMBS)
                                         .hasChild(firebaseUser.getUid())) {
-                                    basePost.setThumb(dataSnapshot.child(basePost.id)
+                                    post.setThumb(dataSnapshot.child(post.id)
                                             .child(THUMBS)
                                             .child(firebaseUser.getUid())
                                             .getValue(String.class));
                                 }
                             }
-                            thumbFetchingListener.onThumbFetchingFinished(basePostList);
+                            thumbFetchingListener.onThumbFetchingFinished(postList);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Timber.e(databaseError.getMessage());
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void fetchCommentsThumbs(String commentedPostId,
+                                    final List<BasePost> commentList,
+                                    final ThumbFetchingListener thumbFetchingListener) {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            databaseReference
+                    .child(COMMENTS)
+                    .child(commentedPostId)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (BasePost comment : commentList) {
+                                if (dataSnapshot.child(comment.id)
+                                        .child(THUMBS)
+                                        .hasChild(firebaseUser.getUid())) {
+                                    comment.setThumb(dataSnapshot.child(comment.id)
+                                            .child(THUMBS)
+                                            .child(firebaseUser.getUid())
+                                            .getValue(String.class));
+                                }
+                            }
+                            thumbFetchingListener.onThumbFetchingFinished(commentList);
                         }
 
                         @Override

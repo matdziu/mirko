@@ -28,5 +28,7 @@ public interface DatabaseInteractor {
 
     void addOnPostChangedListener(Post post, OnPostChangedListener onPostChangedListener);
 
-    void fetchThumbs(List<BasePost> basePostList, ThumbFetchingListener thumbFetchingListener);
+    void fetchPostsThumbs(List<BasePost> postList, ThumbFetchingListener thumbFetchingListener);
+
+    void fetchCommentsThumbs(String commentedPostId, List<BasePost> commentList, ThumbFetchingListener thumbFetchingListener);
 }

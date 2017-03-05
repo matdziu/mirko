@@ -76,6 +76,8 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
                 .getExtras()
                 .getParcelable(POST_KEY));
 
+        postDetailPresenter.setPostId(rawPost.id);
+
         basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), postDetailPresenter);
     }
 

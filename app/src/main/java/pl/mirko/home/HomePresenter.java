@@ -32,7 +32,7 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener, T
 
     @Override
     public void onBasePostFetchingFinished(List<BasePost> postList) {
-        firebaseDatabaseInteractor.fetchThumbs(postList, this);
+        firebaseDatabaseInteractor.fetchPostsThumbs(postList, this);
     }
 
     @Override
