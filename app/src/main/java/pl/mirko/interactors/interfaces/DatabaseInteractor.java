@@ -21,5 +21,7 @@ public interface DatabaseInteractor {
 
     void updateScore(BasePost basePost, int updatedScore);
 
+    void sendThumb(String thumb, BasePost basePost);
+
     void addOnPostChangedListener(Post post, OnPostChangedListener onPostChangedListener);
 }

@@ -33,6 +33,11 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     private static final String USERS = "users";
     private static final String POSTS = "posts";
     private static final String COMMENTS = "comments";
+    private static final String THUMBS = "thumbs";
+    private static final String SCORE_FIELD_NAME = "score";
+
+    public static final String UP = "up";
+    public static final String DOWN = "down";
 
     @Override
     public void createNewUser(User newUser) {
@@ -185,8 +190,32 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
         if (basePostReference != null) {
             basePostReference
                     .child(basePost.id)
-                    .child("score")
+                    .child(SCORE_FIELD_NAME)
                     .setValue(updatedScore);
+        }
+    }
+
+    @Override
+    public void sendThumb(String thumb, BasePost basePost) {
+        DatabaseReference basePostReference = null;
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        if (basePost instanceof Post) {
+            basePostReference = databaseReference
+                    .child(POSTS);
+        } else if (basePost instanceof Comment) {
+            Comment comment = (Comment) basePost;
+            basePostReference = databaseReference
+                    .child(COMMENTS)
+                    .child(comment.commentedPostId);
+        }
+
+        if (basePostReference != null && firebaseUser != null) {
+            basePostReference
+                    .child(basePost.id)
+                    .child(THUMBS)
+                    .child(firebaseUser.getUid())
+                    .setValue(thumb);
         }
     }
 

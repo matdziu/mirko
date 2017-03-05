@@ -45,4 +45,8 @@ public class BasePresenter {
     public void updateScore(BasePost basePost, int updatedScore) {
         firebaseDatabaseInteractor.updateScore(basePost, updatedScore);
     }
+
+    public void sendThumb(String thumb, BasePost basePost) {
+        firebaseDatabaseInteractor.sendThumb(thumb, basePost);
+    }
 }

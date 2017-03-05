@@ -25,6 +25,9 @@ import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.postdetail.PostDetailActivity;
 
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
+
 public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder> {
 
     private List<BasePost> basePostList;
@@ -78,19 +81,25 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                basePresenter.sendThumb(UP, basePost);
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() + 1;
                 basePresenter.updateScore(basePost, updatedScore);
                 holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
                 holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
+                holder.thumbDownButton.setEnabled(true);
+                holder.thumbUpButton.setEnabled(false);
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                basePresenter.sendThumb(DOWN, basePost);
                 int updatedScore = basePostList.get(holder.getAdapterPosition()).getScore() - 1;
                 basePresenter.updateScore(basePost, updatedScore);
                 holder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
                 holder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
+                holder.thumbDownButton.setEnabled(false);
+                holder.thumbUpButton.setEnabled(true);
             }
         });
         if (basePostList.get(position) instanceof Post) {

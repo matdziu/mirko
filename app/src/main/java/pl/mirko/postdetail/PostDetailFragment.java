@@ -31,6 +31,8 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 public class PostDetailFragment extends Fragment implements PostDetailView {
 
@@ -95,18 +97,24 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @OnClick(R.id.thumb_up_button)
     public void onThumbUpButtonClicked() {
+        postDetailPresenter.sendThumb(UP, post);
         int updatedScore = post.getScore() + 1;
         postDetailPresenter.updateScore(post, updatedScore);
         thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
+        thumbDownButton.setEnabled(true);
+        thumbUpButton.setEnabled(false);
     }
 
     @OnClick(R.id.thumb_down_button)
     public void onThumbDownButtonClicked() {
+        postDetailPresenter.sendThumb(DOWN, post);
         int updatedScore = post.getScore() - 1;
         postDetailPresenter.updateScore(post, updatedScore);
         thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+        thumbDownButton.setEnabled(false);
+        thumbUpButton.setEnabled(true);
     }
 
     @OnClick(R.id.add_comment_fab)
