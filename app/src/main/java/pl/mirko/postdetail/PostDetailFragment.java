@@ -102,10 +102,6 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailPresenter.sendThumb(UP, post);
         int updatedScore = post.getScore() + 1;
         postDetailPresenter.updateScore(post, updatedScore);
-        thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
-        thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
-        thumbDownButton.setEnabled(true);
-        thumbUpButton.setEnabled(false);
     }
 
     @OnClick(R.id.thumb_down_button)
@@ -113,10 +109,6 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailPresenter.sendThumb(DOWN, post);
         int updatedScore = post.getScore() - 1;
         postDetailPresenter.updateScore(post, updatedScore);
-        thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
-        thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
-        thumbDownButton.setEnabled(false);
-        thumbUpButton.setEnabled(true);
     }
 
     @OnClick(R.id.add_comment_fab)
@@ -152,6 +144,26 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         scoreTextView.setText(String.valueOf(post.score));
         if (getContext() != null) {
             scoreTextView.setTextColor(ContextCompat.getColor(getContext(), post.getScoreColor()));
+        }
+    }
+
+    @Override
+    public void showThumbDownView() {
+        if (getContext() != null) {
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+            thumbDownButton.setEnabled(false);
+            thumbUpButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void showThumbUpView() {
+        if (getContext() != null) {
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGreen));
+            thumbDownButton.setEnabled(true);
+            thumbUpButton.setEnabled(false);
         }
     }
 }

@@ -301,4 +301,33 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     });
         }
     }
+
+    @Override
+    public void fetchSinglePostThumbs(final Post post, final OnPostChangedListener onPostChangedListener) {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            databaseReference
+                    .child(POSTS)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.child(post.id)
+                                    .child(THUMBS)
+                                    .hasChild(firebaseUser.getUid())) {
+                                post.setThumb(dataSnapshot.child(post.id)
+                                        .child(THUMBS)
+                                        .child(firebaseUser.getUid())
+                                        .getValue(String.class));
+                            }
+                            onPostChangedListener.onPostThumbsFetched(post);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Timber.e(databaseError.getMessage());
+                        }
+                    });
+        }
+
+    }
 }

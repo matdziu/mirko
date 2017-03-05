@@ -125,7 +125,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
-    public void setThumbUpView(@Nullable ViewHolder viewHolder) {
+    public void showThumbUpView(@Nullable ViewHolder viewHolder) {
         if (viewHolder != null) {
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
@@ -135,7 +135,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
-    public void setThumbDownView(@Nullable ViewHolder viewHolder) {
+    public void showThumbDownView(@Nullable ViewHolder viewHolder) {
         if (viewHolder != null) {
             viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));

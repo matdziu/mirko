@@ -12,4 +12,8 @@ interface PostDetailView {
     void updateRecyclerView(List<BasePost> commentList);
 
     void showPostDetails(Post rawPost);
+
+    void showThumbDownView();
+
+    void showThumbUpView();
 }

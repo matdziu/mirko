@@ -11,6 +11,9 @@ import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
+import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
+
 class PostDetailPresenter extends BasePresenter implements BasePostFetchingListener,
         OnPostChangedListener, ThumbFetchingListener {
 
@@ -46,7 +49,18 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
 
     @Override
     public void onPostChanged(Post post) {
+        firebaseDatabaseInteractor.fetchSinglePostThumbs(post, this);
+    }
+
+    @Override
+    public void onPostThumbsFetched(Post post) {
         postDetailView.showPostDetails(post);
+
+        if (post.getThumb().equals(UP)) {
+            postDetailView.showThumbUpView();
+        } else if (post.getThumb().equals(DOWN)) {
+            postDetailView.showThumbDownView();
+        }
     }
 
     @Override

@@ -6,7 +6,7 @@ import pl.mirko.adapters.BasePostsAdapter;
 
 public interface BasePostView {
 
-    void setThumbUpView(@Nullable BasePostsAdapter.ViewHolder viewHolder);
+    void showThumbUpView(@Nullable BasePostsAdapter.ViewHolder viewHolder);
 
-    void setThumbDownView(@Nullable BasePostsAdapter.ViewHolder viewHolder);
+    void showThumbDownView(@Nullable BasePostsAdapter.ViewHolder viewHolder);
 }

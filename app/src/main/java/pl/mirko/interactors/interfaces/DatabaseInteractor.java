@@ -31,4 +31,6 @@ public interface DatabaseInteractor {
     void fetchPostsThumbs(List<BasePost> postList, ThumbFetchingListener thumbFetchingListener);
 
     void fetchCommentsThumbs(String commentedPostId, List<BasePost> commentList, ThumbFetchingListener thumbFetchingListener);
+
+    void fetchSinglePostThumbs(Post post, OnPostChangedListener onPostChangedListener);
 }

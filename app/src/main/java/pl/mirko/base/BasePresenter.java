@@ -61,9 +61,9 @@ public class BasePresenter {
 
     public void setProperThumbView(BasePost basePost, BasePostsAdapter.ViewHolder viewHolder) {
         if (basePost.getThumb().equals(UP)) {
-            basePostView.setThumbUpView(viewHolder);
+            basePostView.showThumbUpView(viewHolder);
         } else if (basePost.getThumb().equals(DOWN)) {
-            basePostView.setThumbDownView(viewHolder);
+            basePostView.showThumbDownView(viewHolder);
         }
     }
 }
