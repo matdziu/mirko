@@ -12,6 +12,7 @@ public class BasePost {
     public String id;
 
     private int scoreColor;
+    private String thumb = "noThumb";
 
     public BasePost() {
         // default constructor for Firebase
@@ -38,5 +39,13 @@ public class BasePost {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 }

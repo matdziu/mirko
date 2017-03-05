@@ -19,6 +19,7 @@ import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.OnPostChangedListener;
+import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
@@ -136,8 +137,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<BasePost> postList = new ArrayList<>();
-                        for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
+                        final List<BasePost> postList = new ArrayList<>();
+                        for (final DataSnapshot dataItem : dataSnapshot.getChildren()) {
                             postList.add(0, dataItem.getValue(Post.class));
                         }
                         basePostFetchingListener.onBasePostFetchingFinished(postList);
@@ -235,5 +236,35 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         Timber.e(databaseError.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void fetchThumbs(final List<BasePost> basePostList, final ThumbFetchingListener thumbFetchingListener) {
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            databaseReference
+                    .child(POSTS)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (BasePost basePost : basePostList) {
+                                if (dataSnapshot.child(basePost.id)
+                                        .child(THUMBS)
+                                        .hasChild(firebaseUser.getUid())) {
+                                    basePost.setThumb(dataSnapshot.child(basePost.id)
+                                            .child(THUMBS)
+                                            .child(firebaseUser.getUid())
+                                            .getValue(String.class));
+                                }
+                            }
+                            thumbFetchingListener.onThumbFetchingFinished(basePostList);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Timber.e(databaseError.getMessage());
+                        }
+                    });
+        }
     }
 }

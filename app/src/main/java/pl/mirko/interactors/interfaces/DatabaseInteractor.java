@@ -1,8 +1,11 @@
 package pl.mirko.interactors.interfaces;
 
+import java.util.List;
+
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.OnPostChangedListener;
+import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 import pl.mirko.models.User;
@@ -24,4 +27,6 @@ public interface DatabaseInteractor {
     void sendThumb(String thumb, BasePost basePost);
 
     void addOnPostChangedListener(Post post, OnPostChangedListener onPostChangedListener);
+
+    void fetchThumbs(List<BasePost> basePostList, ThumbFetchingListener thumbFetchingListener);
 }
