@@ -3,6 +3,7 @@ package pl.mirko.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.mirko.R;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
@@ -13,13 +14,9 @@ public class BasePresenter {
     private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
 
     public BasePresenter(FirebaseAuthInteractor firebaseAuthInteractor,
-                  FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
+                         FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
         this.firebaseAuthInteractor = firebaseAuthInteractor;
         this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
-    }
-
-    protected BasePresenter() {
-        // default constructor
     }
 
     void logout() {
@@ -36,11 +33,11 @@ public class BasePresenter {
 
     public BasePost setScoreColor(BasePost basePost) {
         if (basePost.score > 0) {
-            basePost.setScoreColor(android.R.color.holo_green_dark);
+            basePost.setScoreColor(R.color.colorGreen);
         } else if (basePost.score < 0) {
-            basePost.setScoreColor(android.R.color.holo_red_dark);
+            basePost.setScoreColor(R.color.colorRed);
         } else {
-            basePost.setScoreColor(android.R.color.darker_gray);
+            basePost.setScoreColor(R.color.colorGrey);
         }
         return basePost;
     }
