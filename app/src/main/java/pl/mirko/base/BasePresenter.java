@@ -1,7 +1,6 @@
 package pl.mirko.base;
 
 import pl.mirko.R;
-import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.models.BasePost;
@@ -14,7 +13,6 @@ public class BasePresenter {
 
     private FirebaseAuthInteractor firebaseAuthInteractor;
     private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
-    private BasePostView basePostView;
 
     public BasePresenter(FirebaseAuthInteractor firebaseAuthInteractor,
                          FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
@@ -60,20 +58,16 @@ public class BasePresenter {
         }
     }
 
-    public void setBasePostView(BasePostView basePostView) {
-        this.basePostView = basePostView;
-    }
-
-    public void setProperThumbView(BasePost basePost, BasePostsAdapter.ViewHolder viewHolder) {
+    public void setProperThumbView(BasePost basePost, BasePostView basePostView) {
         switch (basePost.getThumb()) {
             case UP:
-                basePostView.showThumbUpView(viewHolder);
+                basePostView.showThumbUpView();
                 break;
             case DOWN:
-                basePostView.showThumbDownView(viewHolder);
+                basePostView.showThumbDownView();
                 break;
             case NO_THUMB:
-                basePostView.showNoThumbView(viewHolder);
+                basePostView.showNoThumbView();
                 break;
         }
     }

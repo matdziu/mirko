@@ -29,8 +29,7 @@ import pl.mirko.postdetail.PostDetailActivity;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
-public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder>
-        implements BasePostView {
+public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder> {
 
     private List<BasePost> basePostList;
     private Context context;
@@ -45,7 +44,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         this.basePostList = basePostList;
         this.context = context;
         this.basePresenter = basePresenter;
-        basePresenter.setBasePostView(this);
     }
 
     @Override
@@ -114,31 +112,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         return basePostList.size();
     }
 
-    @Override
-    public void showThumbUpView(ViewHolder viewHolder) {
-        if (viewHolder != null) {
-            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
-        }
-    }
-
-    @Override
-    public void showThumbDownView(ViewHolder viewHolder) {
-        if (viewHolder != null) {
-            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
-        }
-    }
-
-    @Override
-    public void showNoThumbView(ViewHolder viewHolder) {
-        if (viewHolder != null) {
-            viewHolder.thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-            viewHolder.thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
-        }
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder implements BasePostView {
 
         @BindView(R.id.author_text_view)
         TextView authorTextView;
@@ -158,12 +132,33 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         @BindView(R.id.thumb_down_button)
         ImageButton thumbDownButton;
 
+        private Context context;
+
         ViewHolder(View itemView, int topMargin) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            context = itemView.getContext();
             ViewGroup.MarginLayoutParams marginLayoutParams =
                     (ViewGroup.MarginLayoutParams) basePostCardView.getLayoutParams();
             marginLayoutParams.topMargin = topMargin;
+        }
+
+        @Override
+        public void showThumbUpView() {
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
+        }
+
+        @Override
+        public void showThumbDownView() {
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
+        }
+
+        @Override
+        public void showNoThumbView() {
+            thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+            thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
         }
     }
 }
