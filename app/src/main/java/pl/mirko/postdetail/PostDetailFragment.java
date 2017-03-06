@@ -129,8 +129,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @Override
     public void updateRecyclerView(List<BasePost> commentList) {
-        basePostsAdapter = new BasePostsAdapter(commentList, getContext(), postDetailPresenter);
-        commentsRecyclerView.setAdapter(basePostsAdapter);
+        basePostsAdapter.setNewDataSet(commentList);
     }
 
     @Override

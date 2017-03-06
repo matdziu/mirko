@@ -107,6 +107,11 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         basePresenter.setProperThumbView(basePost, holder);
     }
 
+    public void setNewDataSet(List<BasePost> basePostList) {
+        this.basePostList = basePostList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return basePostList.size();
