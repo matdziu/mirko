@@ -3,8 +3,8 @@ package pl.mirko.postdetail;
 import java.util.List;
 
 import pl.mirko.base.BasePresenter;
-import pl.mirko.interactors.FirebaseAuthInteractor;
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.AuthenticationInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.OnPostChangedListener;
 import pl.mirko.listeners.ThumbFetchingListener;
@@ -18,24 +18,24 @@ import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 class PostDetailPresenter extends BasePresenter implements BasePostFetchingListener,
         OnPostChangedListener, ThumbFetchingListener {
 
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private DatabaseInteractor databaseInteractor;
     private PostDetailView postDetailView;
     private String postId;
 
-    PostDetailPresenter(FirebaseAuthInteractor firebaseAuthInteractor,
-                        FirebaseDatabaseInteractor firebaseDatabaseInteractor,
+    PostDetailPresenter(AuthenticationInteractor authenticationInteractor,
+                        DatabaseInteractor databaseInteractor,
                         PostDetailView postDetailView) {
-        super(firebaseAuthInteractor, firebaseDatabaseInteractor);
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+        super(authenticationInteractor, databaseInteractor);
+        this.databaseInteractor = databaseInteractor;
         this.postDetailView = postDetailView;
     }
 
     void fetchComments(Post post) {
-        firebaseDatabaseInteractor.fetchComments(post, this);
+        databaseInteractor.fetchComments(post, this);
     }
 
     void addOnPostChangedListener(Post post) {
-        firebaseDatabaseInteractor.addOnPostChangedListener(post, this);
+        databaseInteractor.addOnPostChangedListener(post, this);
     }
 
     @Override
@@ -45,12 +45,12 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
 
     @Override
     public void onBasePostFetchingFinished(List<BasePost> basePostList) {
-        firebaseDatabaseInteractor.fetchCommentsThumbs(postId, basePostList, this);
+        databaseInteractor.fetchCommentsThumbs(postId, basePostList, this);
     }
 
     @Override
     public void onPostChanged(Post post) {
-        firebaseDatabaseInteractor.fetchSinglePostThumbs(post, this);
+        databaseInteractor.fetchSinglePostThumbs(post, this);
     }
 
     @Override

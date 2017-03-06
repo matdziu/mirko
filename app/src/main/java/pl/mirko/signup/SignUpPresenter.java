@@ -1,21 +1,21 @@
 package pl.mirko.signup;
 
-import pl.mirko.interactors.FirebaseAuthInteractor;
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.AuthenticationInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.models.User;
 
 class SignUpPresenter implements SignUpListener {
 
     private SignUpView signUpView;
-    private FirebaseAuthInteractor firebaseAuthInteractor;
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private AuthenticationInteractor authenticationInteractor;
+    private DatabaseInteractor databaseInteractor;
 
     SignUpPresenter(SignUpView signUpView,
-                    FirebaseAuthInteractor firebaseAuthInteractor,
-                    FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
+                    AuthenticationInteractor authenticationInteractor,
+                    DatabaseInteractor firebaseDatabaseInteractor) {
         this.signUpView = signUpView;
-        this.firebaseAuthInteractor = firebaseAuthInteractor;
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+        this.authenticationInteractor = authenticationInteractor;
+        this.databaseInteractor = firebaseDatabaseInteractor;
     }
 
     void createAccount(String email, String nickname, String password) {
@@ -62,7 +62,7 @@ class SignUpPresenter implements SignUpListener {
         }
 
         if (isEmailCorrect && isNicknameCorrect && isPasswordCorrect) {
-            firebaseAuthInteractor.createNewAccount(email, password, nickname, this);
+            authenticationInteractor.createNewAccount(email, password, nickname, this);
         }
     }
 
@@ -74,7 +74,7 @@ class SignUpPresenter implements SignUpListener {
     @Override
     public void onSignUpSuccessful(User user) {
         signUpView.showProgressBar(false);
-        firebaseDatabaseInteractor.createNewUser(user);
+        databaseInteractor.createNewUser(user);
         signUpView.navigateToHome();
     }
 

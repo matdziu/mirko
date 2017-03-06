@@ -1,8 +1,8 @@
 package pl.mirko.base;
 
 import pl.mirko.R;
-import pl.mirko.interactors.FirebaseAuthInteractor;
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.AuthenticationInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.models.BasePost;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
@@ -11,17 +11,17 @@ import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 public class BasePresenter {
 
-    private FirebaseAuthInteractor firebaseAuthInteractor;
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private AuthenticationInteractor authenticationInteractor;
+    private DatabaseInteractor databaseInteractor;
 
-    public BasePresenter(FirebaseAuthInteractor firebaseAuthInteractor,
-                         FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
-        this.firebaseAuthInteractor = firebaseAuthInteractor;
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+    public BasePresenter(AuthenticationInteractor authenticationInteractor,
+                         DatabaseInteractor databaseInteractor) {
+        this.authenticationInteractor = authenticationInteractor;
+        this.databaseInteractor = databaseInteractor;
     }
 
     void logout() {
-        firebaseAuthInteractor.logout();
+        authenticationInteractor.logout();
     }
 
     public BasePost setScoreColor(BasePost basePost) {
@@ -38,23 +38,23 @@ public class BasePresenter {
     public void updateScore(BasePost basePost, String thumbClicked) {
         String previousThumb = basePost.getThumb();
         if (previousThumb.equals(UP) && thumbClicked.equals(UP)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() - 1);
-            firebaseDatabaseInteractor.sendThumb(NO_THUMB, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() - 1);
+            databaseInteractor.sendThumb(NO_THUMB, basePost);
         } else if (previousThumb.equals(DOWN) && thumbClicked.equals(DOWN)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() + 1);
-            firebaseDatabaseInteractor.sendThumb(NO_THUMB, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() + 1);
+            databaseInteractor.sendThumb(NO_THUMB, basePost);
         } else if (previousThumb.equals(UP) && thumbClicked.equals(DOWN)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() - 2);
-            firebaseDatabaseInteractor.sendThumb(DOWN, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() - 2);
+            databaseInteractor.sendThumb(DOWN, basePost);
         } else if (previousThumb.equals(DOWN) && thumbClicked.equals(UP)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() + 2);
-            firebaseDatabaseInteractor.sendThumb(UP, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() + 2);
+            databaseInteractor.sendThumb(UP, basePost);
         } else if (previousThumb.equals(NO_THUMB) && thumbClicked.equals(UP)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() + 1);
-            firebaseDatabaseInteractor.sendThumb(UP, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() + 1);
+            databaseInteractor.sendThumb(UP, basePost);
         } else if (previousThumb.equals(NO_THUMB) && thumbClicked.equals(DOWN)) {
-            firebaseDatabaseInteractor.updateScore(basePost, basePost.getScore() - 1);
-            firebaseDatabaseInteractor.sendThumb(DOWN, basePost);
+            databaseInteractor.updateScore(basePost, basePost.getScore() - 1);
+            databaseInteractor.sendThumb(DOWN, basePost);
         }
     }
 

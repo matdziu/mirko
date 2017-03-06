@@ -1,21 +1,21 @@
 package pl.mirko.createcomment;
 
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.models.Post;
 
 class CreateCommentPresenter implements BasePostSendingListener {
 
     private CreateCommentView createCommentView;
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private DatabaseInteractor databaseInteractor;
 
-    CreateCommentPresenter(CreateCommentView createCommentView, FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
+    CreateCommentPresenter(CreateCommentView createCommentView, DatabaseInteractor databaseInteractor) {
         this.createCommentView = createCommentView;
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+        this.databaseInteractor = databaseInteractor;
     }
 
     void createNewComment(Post post, String content) {
-        firebaseDatabaseInteractor.createNewComment(post, content, this);
+        databaseInteractor.createNewComment(post, content, this);
     }
 
     @Override

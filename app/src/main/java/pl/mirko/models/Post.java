@@ -5,7 +5,6 @@ import org.parceler.Parcel;
 @Parcel
 public class Post extends BasePost {
 
-    @SuppressWarnings("unused")
     Post() {
         // default constructor for Firebase
     }

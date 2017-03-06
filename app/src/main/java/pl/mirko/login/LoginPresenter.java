@@ -1,15 +1,15 @@
 package pl.mirko.login;
 
-import pl.mirko.interactors.FirebaseAuthInteractor;
+import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 
 class LoginPresenter implements LoginListener {
 
     private LoginView loginView;
-    private FirebaseAuthInteractor firebaseAuthInteractor;
+    private AuthenticationInteractor authenticationInteractor;
 
-    LoginPresenter(LoginView loginView, FirebaseAuthInteractor firebaseAuthInteractor) {
+    LoginPresenter(LoginView loginView, AuthenticationInteractor authenticationInteractor) {
         this.loginView = loginView;
-        this.firebaseAuthInteractor = firebaseAuthInteractor;
+        this.authenticationInteractor = authenticationInteractor;
     }
 
     void login(String email, String password) {
@@ -33,20 +33,20 @@ class LoginPresenter implements LoginListener {
         }
 
         if (isEmailCorrect && isPasswordCorrect) {
-            firebaseAuthInteractor.login(email, password, this);
+            authenticationInteractor.login(email, password, this);
         }
     }
 
     void initAuthStateListener() {
-        firebaseAuthInteractor.initAuthStateListener(this);
+        authenticationInteractor.initAuthStateListener(this);
     }
 
     void addAuthStateListener() {
-        firebaseAuthInteractor.addAuthStateListener();
+        authenticationInteractor.addAuthStateListener();
     }
 
     void removeAuthStateListener() {
-        firebaseAuthInteractor.removeAuthStateListener();
+        authenticationInteractor.removeAuthStateListener();
     }
 
     @Override

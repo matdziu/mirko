@@ -1,20 +1,20 @@
 package pl.mirko.createpost;
 
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostSendingListener;
 
 class CreatePostPresenter implements BasePostSendingListener {
 
     private CreatePostView createPostView;
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private DatabaseInteractor databaseInteractor;
 
-    CreatePostPresenter(CreatePostView createPostView, FirebaseDatabaseInteractor firebaseDatabaseInteractor) {
+    CreatePostPresenter(CreatePostView createPostView, DatabaseInteractor databaseInteractor) {
         this.createPostView = createPostView;
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+        this.databaseInteractor = databaseInteractor;
     }
 
     void createNewPost(String content) {
-        firebaseDatabaseInteractor.createNewPost(content, this);
+        databaseInteractor.createNewPost(content, this);
     }
 
     @Override

@@ -3,26 +3,26 @@ package pl.mirko.home;
 import java.util.List;
 
 import pl.mirko.base.BasePresenter;
-import pl.mirko.interactors.FirebaseAuthInteractor;
-import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.interfaces.AuthenticationInteractor;
+import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 
 class HomePresenter extends BasePresenter implements BasePostFetchingListener, ThumbFetchingListener {
 
-    private FirebaseDatabaseInteractor firebaseDatabaseInteractor;
+    private DatabaseInteractor databaseInteractor;
     private HomeView homeView;
 
-    HomePresenter(FirebaseAuthInteractor firebaseAuthInteractor,
-                  FirebaseDatabaseInteractor firebaseDatabaseInteractor, HomeView homeView) {
-        super(firebaseAuthInteractor, firebaseDatabaseInteractor);
-        this.firebaseDatabaseInteractor = firebaseDatabaseInteractor;
+    HomePresenter(AuthenticationInteractor authenticationInteractor,
+                  DatabaseInteractor databaseInteractor, HomeView homeView) {
+        super(authenticationInteractor, databaseInteractor);
+        this.databaseInteractor = databaseInteractor;
         this.homeView = homeView;
     }
 
     void fetchPosts() {
-        firebaseDatabaseInteractor.fetchPosts(this);
+        databaseInteractor.fetchPosts(this);
     }
 
     @Override
@@ -32,7 +32,7 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener, T
 
     @Override
     public void onBasePostFetchingFinished(List<BasePost> postList) {
-        firebaseDatabaseInteractor.fetchPostsThumbs(postList, this);
+        databaseInteractor.fetchPostsThumbs(postList, this);
     }
 
     @Override
