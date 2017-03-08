@@ -86,4 +86,9 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
                 = new TagSuggestionsAdapter(new ArrayList<String>(), tags, getContext(), createPostPresenter);
         createPostEditText.setAdapter(tagSuggestionsAdapter);
     }
+
+    @Override
+    public void appendTag(String tag) {
+        createPostEditText.append(tag);
+    }
 }
