@@ -1,6 +1,7 @@
 package pl.mirko.createpost;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
@@ -18,7 +19,16 @@ class CreatePostPresenter implements BasePostSendingListener, TagFetchingListene
     }
 
     void createNewPost(String content) {
-        databaseInteractor.createNewPost(content, this);
+        List<String> contentWords = new ArrayList<>(Arrays.asList(content.split("\\s+")));
+        List<String> tags = new ArrayList<>();
+
+        for (String word : contentWords) {
+            if (word.startsWith("#") && word.length() > 1) {
+                tags.add(word.replace("#", ""));
+            }
+        }
+
+        databaseInteractor.createNewPost(content, tags, this);
     }
 
     void fetchTags() {

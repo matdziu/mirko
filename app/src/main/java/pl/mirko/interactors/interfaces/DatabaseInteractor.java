@@ -15,7 +15,7 @@ public interface DatabaseInteractor {
 
     void createNewUser(User newUser);
 
-    void createNewPost(String content, BasePostSendingListener basePostSendingListener);
+    void createNewPost(String content, List<String> tags, BasePostSendingListener basePostSendingListener);
 
     void createNewComment(Post post, String content, BasePostSendingListener basePostSendingListener);
 
@@ -36,4 +36,6 @@ public interface DatabaseInteractor {
     void fetchSinglePostThumbs(Post post, PostChangedListener postChangedListener);
 
     void fetchTags(TagFetchingListener tagFetchingListener);
+
+    void updateTags(List<String> tags, String postId);
 }

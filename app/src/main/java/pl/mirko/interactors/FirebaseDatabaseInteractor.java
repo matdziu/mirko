@@ -52,7 +52,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void createNewPost(final String content, final BasePostSendingListener basePostSendingListener) {
+    public void createNewPost(final String content, final List<String> tags,
+                              final BasePostSendingListener basePostSendingListener) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             basePostSendingListener.onBasePostSendingStarted();
@@ -79,6 +80,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                                             basePostSendingListener.onBasePostSendingFinished();
                                         }
                                     });
+                            updateTags(tags, postId);
                         }
 
                         @Override
@@ -353,5 +355,18 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         Timber.e(databaseError.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void updateTags(List<String> tags, String postId) {
+        if (tags.size() != 0) {
+            for (String tag : tags) {
+                databaseReference
+                        .child(TAGS)
+                        .child(tag)
+                        .push()
+                        .setValue(postId);
+            }
+        }
     }
 }
