@@ -24,10 +24,12 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
 
         for (String word : contentWords) {
             if (word.startsWith("#") && word.length() > 1) {
-                tags.add(word.replace("#", ""));
+                String formattedTag = word.replace("#", "");
+                if (!formattedTag.equals("")) {
+                    tags.add(word.replace("#", ""));
+                }
             }
         }
-
         databaseInteractor.createNewPost(content, tags, this);
     }
 
@@ -37,10 +39,8 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
 
     public List<String> filterTagSuggestions(String postContent, List<String> allTags) {
         List<String> filteredTags = new ArrayList<>();
-        for (String tag : allTags) {
-            if (tag.equals(postContent)) {
-                filteredTags.add(tag);
-            }
+        if (postContent.endsWith(" " + "#")) {
+            filteredTags = allTags;
         }
         return filteredTags;
     }
