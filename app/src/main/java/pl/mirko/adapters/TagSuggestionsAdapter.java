@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.createpost.CreatePostPresenter;
 
@@ -58,8 +59,16 @@ public class TagSuggestionsAdapter extends ArrayAdapter<String> implements Filte
         @BindView(R.id.tag_suggestion_text_view)
         TextView tagSuggestionTextView;
 
+        @BindView(R.id.tag_suggestion_view)
+        ViewGroup tagSuggestionView;
+
         ViewHolder(View itemView) {
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.tag_suggestion_view)
+        void onTagSuggestionClicked() {
+
         }
     }
 
