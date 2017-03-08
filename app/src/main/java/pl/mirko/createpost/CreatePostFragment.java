@@ -83,7 +83,7 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     @Override
     public void setTagSuggestions(List<String> tags) {
         TagSuggestionsAdapter tagSuggestionsAdapter
-                = new TagSuggestionsAdapter(new ArrayList<String>(), tags, getContext());
+                = new TagSuggestionsAdapter(new ArrayList<String>(), tags, getContext(), createPostPresenter);
         createPostEditText.setAdapter(tagSuggestionsAdapter);
     }
 }

@@ -6,18 +6,22 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import pl.mirko.createpost.CreatePostPresenter;
 
 public class TagSuggestionsAdapter extends ArrayAdapter<String> implements Filterable {
 
     private List<String> allTags;
     private List<String> tagSuggestions;
+    private CreatePostPresenter createPostPresenter;
 
-    public TagSuggestionsAdapter(List<String> initialTagSuggestions, List<String> allTags, Context context) {
+    public TagSuggestionsAdapter(List<String> initialTagSuggestions, List<String> allTags,
+                                 Context context, CreatePostPresenter createPostPresenter) {
         super(context, android.R.layout.simple_dropdown_item_1line, initialTagSuggestions);
         this.tagSuggestions = initialTagSuggestions;
         this.allTags = allTags;
+        this.createPostPresenter = createPostPresenter;
     }
 
     @NonNull
@@ -27,13 +31,9 @@ public class TagSuggestionsAdapter extends ArrayAdapter<String> implements Filte
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<String> filteredTags = new ArrayList<>();
                 if (constraint != null) {
-                    for (String tag : allTags) {
-                        if (tag.equals(constraint.toString())) {
-                            filteredTags.add(tag);
-                        }
-                    }
+                    List<String> filteredTags = createPostPresenter
+                            .filterTagSuggestions(constraint.toString(), allTags);
                     FilterResults filterResults = new FilterResults();
                     filterResults.values = filteredTags;
                     filterResults.count = filteredTags.size();

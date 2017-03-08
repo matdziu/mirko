@@ -8,7 +8,7 @@ import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.TagFetchingListener;
 
-class CreatePostPresenter implements BasePostSendingListener, TagFetchingListener {
+public class CreatePostPresenter implements BasePostSendingListener, TagFetchingListener {
 
     private CreatePostView createPostView;
     private DatabaseInteractor databaseInteractor;
@@ -33,6 +33,16 @@ class CreatePostPresenter implements BasePostSendingListener, TagFetchingListene
 
     void fetchTags() {
         databaseInteractor.fetchTags(this);
+    }
+
+    public List<String> filterTagSuggestions(String postContent, List<String> allTags) {
+        List<String> filteredTags = new ArrayList<>();
+        for (String tag : allTags) {
+            if (tag.equals(postContent)) {
+                filteredTags.add(tag);
+            }
+        }
+        return filteredTags;
     }
 
     @Override
