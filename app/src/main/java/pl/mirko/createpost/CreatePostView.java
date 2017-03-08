@@ -1,5 +1,7 @@
 package pl.mirko.createpost;
 
+import java.util.List;
+
 interface CreatePostView {
 
     void showProgressBar(boolean show);
@@ -7,4 +9,6 @@ interface CreatePostView {
     void finish();
 
     void showSoftKeyboard(boolean show);
+
+    void setTagSuggestions(List<String> tags);
 }

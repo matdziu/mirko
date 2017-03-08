@@ -6,7 +6,7 @@ import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
-import pl.mirko.listeners.OnPostChangedListener;
+import pl.mirko.listeners.PostChangedListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
@@ -16,7 +16,7 @@ import static pl.mirko.interactors.FirebaseDatabaseInteractor.NO_THUMB;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 class PostDetailPresenter extends BasePresenter implements BasePostFetchingListener,
-        OnPostChangedListener, ThumbFetchingListener {
+        PostChangedListener, ThumbFetchingListener {
 
     private DatabaseInteractor databaseInteractor;
     private PostDetailView postDetailView;

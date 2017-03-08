@@ -18,7 +18,8 @@ import java.util.List;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
-import pl.mirko.listeners.OnPostChangedListener;
+import pl.mirko.listeners.PostChangedListener;
+import pl.mirko.listeners.TagFetchingListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
@@ -36,6 +37,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     private static final String COMMENTS = "comments";
     private static final String THUMBS = "thumbs";
     private static final String SCORE_FIELD_NAME = "score";
+    private static final String TAGS = "tags";
 
     public static final String UP = "up";
     public static final String DOWN = "down";
@@ -222,14 +224,14 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void addOnPostChangedListener(Post post, final OnPostChangedListener onPostChangedListener) {
+    public void addOnPostChangedListener(Post post, final PostChangedListener postChangedListener) {
         databaseReference
                 .child(POSTS)
                 .child(post.id)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        onPostChangedListener.onPostChanged(dataSnapshot.getValue(Post.class));
+                        postChangedListener.onPostChanged(dataSnapshot.getValue(Post.class));
                     }
 
                     @Override
@@ -304,7 +306,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchSinglePostThumbs(final Post post, final OnPostChangedListener onPostChangedListener) {
+    public void fetchSinglePostThumbs(final Post post, final PostChangedListener postChangedListener) {
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser != null) {
             databaseReference
@@ -320,7 +322,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                                         .child(firebaseUser.getUid())
                                         .getValue(String.class));
                             }
-                            onPostChangedListener.onPostThumbsFetched(post);
+                            postChangedListener.onPostThumbsFetched(post);
                         }
 
                         @Override
@@ -330,5 +332,26 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     });
         }
 
+    }
+
+    @Override
+    public void fetchTags(final TagFetchingListener tagFetchingListener) {
+        databaseReference
+                .child(TAGS)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<String> tags = new ArrayList<>();
+                        for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
+                            tags.add(dataItem.getKey());
+                        }
+                        tagFetchingListener.onTagFetchingFinished(tags);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Timber.e(databaseError.getMessage());
+                    }
+                });
     }
 }

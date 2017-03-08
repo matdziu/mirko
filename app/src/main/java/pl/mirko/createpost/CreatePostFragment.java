@@ -7,8 +7,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +40,9 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
         View view = inflater.inflate(R.layout.fragment_create_post, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+
+        createPostPresenter.fetchTags();
+
         return view;
     }
 
@@ -71,5 +77,12 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     public void showSoftKeyboard(boolean show) {
         CreatePostActivity createPostActivity = (CreatePostActivity) getActivity();
         createPostActivity.showSoftKeyboard(show);
+    }
+
+    @Override
+    public void setTagSuggestions(List<String> tags) {
+        ArrayAdapter<String> tagSuggestionsAdapter = new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_dropdown_item_1line, tags);
+        createPostEditText.setAdapter(tagSuggestionsAdapter);
     }
 }
