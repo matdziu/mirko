@@ -39,8 +39,16 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
 
     public List<String> filterTagSuggestions(String postContent, List<String> allTags) {
         List<String> filteredTags = new ArrayList<>();
-        if (postContent.endsWith(" " + "#")) {
-            filteredTags = allTags;
+        List<String> contentWords = new ArrayList<>(Arrays.asList(postContent.split("\\s+")));
+
+        for (String word : contentWords) {
+            if (word.startsWith("#")) {
+                for (String tag : allTags) {
+                    if (tag.startsWith(word)) {
+                        filteredTags.add(tag);
+                    }
+                }
+            }
         }
         return filteredTags;
     }
