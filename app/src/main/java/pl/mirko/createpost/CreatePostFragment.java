@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mirko.R;
