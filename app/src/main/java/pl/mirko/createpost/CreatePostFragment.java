@@ -7,15 +7,16 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mirko.R;
+import pl.mirko.adapters.TagSuggestionsAdapter;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 
 public class CreatePostFragment extends Fragment implements CreatePostView {
@@ -81,8 +82,8 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
 
     @Override
     public void setTagSuggestions(List<String> tags) {
-        ArrayAdapter<String> tagSuggestionsAdapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, tags);
+        TagSuggestionsAdapter tagSuggestionsAdapter
+                = new TagSuggestionsAdapter(new ArrayList<String>(), tags, getContext());
         createPostEditText.setAdapter(tagSuggestionsAdapter);
     }
 }
