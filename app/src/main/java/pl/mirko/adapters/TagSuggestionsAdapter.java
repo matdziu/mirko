@@ -52,7 +52,7 @@ public class TagSuggestionsAdapter extends ArrayAdapter<String> implements Filte
         viewHolder.tagSuggestionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createPostPresenter.getCreatePostView().appendTag(tagSuggestions.get(position));
+                createPostPresenter.appendTag(tagSuggestions.get(position));
             }
         });
 

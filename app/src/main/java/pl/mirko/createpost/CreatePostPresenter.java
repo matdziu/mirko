@@ -74,7 +74,7 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
         createPostView.setTagSuggestions(formattedTags);
     }
 
-    public CreatePostView getCreatePostView() {
-        return createPostView;
+    public void appendTag(String tag) {
+
     }
 }

@@ -88,7 +88,18 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     }
 
     @Override
-    public void appendTag(String tag) {
-        createPostEditText.append(tag);
+    public void setContent(String content) {
+        createPostEditText.setText(content);
+    }
+
+
+    @Override
+    public String getCurrentPostContent() {
+        return createPostEditText.getText().toString();
+    }
+
+    @Override
+    public int getCurrentCursorPosition() {
+        return createPostEditText.getSelectionStart();
     }
 }

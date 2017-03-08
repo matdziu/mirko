@@ -2,7 +2,7 @@ package pl.mirko.createpost;
 
 import java.util.List;
 
-public interface CreatePostView {
+interface CreatePostView {
 
     void showProgressBar(boolean show);
 
@@ -12,5 +12,9 @@ public interface CreatePostView {
 
     void setTagSuggestions(List<String> tags);
 
-    void appendTag(String tag);
+    void setContent(String content);
+
+    String getCurrentPostContent();
+
+    int getCurrentCursorPosition();
 }
