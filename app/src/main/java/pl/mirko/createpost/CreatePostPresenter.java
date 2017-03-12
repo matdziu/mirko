@@ -39,12 +39,13 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
 
     public List<String> filterTagSuggestions(String postContent, List<String> allTags) {
         List<String> filteredTags = new ArrayList<>();
-        List<String> contentWords = new ArrayList<>(Arrays.asList(postContent.split("\\s+")));
+        StringBuilder contentStringBuilder = new StringBuilder(postContent);
+        int currentCursorPosition = createPostView.getCurrentCursorPosition();
 
-        for (String word : contentWords) {
-            if (word.startsWith("#")) {
+        for (int index = currentCursorPosition - 1; index >= 0; index--) {
+            if (contentStringBuilder.charAt(index) == '#') {
                 for (String tag : allTags) {
-                    if (tag.startsWith(word)) {
+                    if (tag.startsWith(contentStringBuilder.substring(index, currentCursorPosition))) {
                         filteredTags.add(tag);
                     }
                 }
@@ -75,6 +76,16 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
     }
 
     public void appendTag(String tag) {
+        StringBuilder contentStringBuilder = new StringBuilder(createPostView.getCurrentPostContent());
+        int currentCursorPosition = createPostView.getCurrentCursorPosition();
 
+        for (int index = currentCursorPosition - 1; index >= 0; index--) {
+            if (contentStringBuilder.charAt(index) == '#') {
+                contentStringBuilder.replace(index, currentCursorPosition, tag);
+                createPostView.setContent(contentStringBuilder.toString());
+                createPostView.setCursorPosition(index + tag.length());
+                break;
+            }
+        }
     }
 }

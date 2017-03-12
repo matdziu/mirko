@@ -102,4 +102,10 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     public int getCurrentCursorPosition() {
         return createPostEditText.getSelectionStart();
     }
+
+    @Override
+    public void setCursorPosition(int position) {
+        createPostEditText.setSelection(position);
+        createPostEditText.dismissDropDown();
+    }
 }

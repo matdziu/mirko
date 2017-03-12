@@ -17,4 +17,6 @@ interface CreatePostView {
     String getCurrentPostContent();
 
     int getCurrentCursorPosition();
+
+    void setCursorPosition(int position);
 }
