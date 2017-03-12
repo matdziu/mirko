@@ -21,4 +21,5 @@
     <string name="create_post_hint">Napisz post...</string>
     <string name="create_comment_hint">Napisz komentarz...</string>
     <string name="send">Wyślij</string>
+    <string name="search_hint">Szukaj tagów...</string>
 </resources>
