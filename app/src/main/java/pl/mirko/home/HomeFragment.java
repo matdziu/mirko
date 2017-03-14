@@ -3,10 +3,14 @@ package pl.mirko.home;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -47,12 +51,16 @@ public class HomeFragment extends Fragment implements HomeView {
 
     private HomePresenter homePresenter;
 
+    private CursorAdapter suggestionsAdapter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         homePresenter = new HomePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(), this);
         basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), homePresenter);
+        suggestionsAdapter = new SimpleCursorAdapter(getContext(), R.layout.item_tag_suggestion,
+                null, new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1}, new int[]{R.id.tag_suggestion_text_view}, 0);
     }
 
     @Nullable
@@ -63,6 +71,7 @@ public class HomeFragment extends Fragment implements HomeView {
         setHasOptionsMenu(true);
 
         homePresenter.fetchPosts();
+        homePresenter.fetchTags();
 
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         homeRecyclerView.setAdapter(basePostsAdapter);
@@ -103,6 +112,23 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
+    public void setTagSuggestions(List<String> tags) {
+        String[] columns = {
+                BaseColumns._ID,
+                SearchManager.SUGGEST_COLUMN_TEXT_1
+        };
+
+        MatrixCursor cursor = new MatrixCursor(columns);
+
+        for (int index = 0; index < tags.size(); index++) {
+            String[] row = {Integer.toString(index), tags.get(index)};
+            cursor.addRow(row);
+        }
+
+        suggestionsAdapter.swapCursor(cursor);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.home_menu, menu);
 
@@ -110,6 +136,7 @@ public class HomeFragment extends Fragment implements HomeView {
         MenuItem searchMenuItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSuggestionsAdapter(suggestionsAdapter);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

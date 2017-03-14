@@ -6,10 +6,12 @@ import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
+import pl.mirko.listeners.TagFetchingListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 
-class HomePresenter extends BasePresenter implements BasePostFetchingListener, ThumbFetchingListener {
+class HomePresenter extends BasePresenter implements BasePostFetchingListener,
+        ThumbFetchingListener, TagFetchingListener {
 
     private DatabaseInteractor databaseInteractor;
     private HomeView homeView;
@@ -49,5 +51,14 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener, T
         } else {
             homeView.showWrongQueryFormatError();
         }
+    }
+
+    void fetchTags() {
+        databaseInteractor.fetchTags(this);
+    }
+
+    @Override
+    public void onTagFetchingFinished(List<String> tags) {
+        homeView.setTagSuggestions(tags);
     }
 }

@@ -13,4 +13,6 @@ interface HomeView {
     void showWrongQueryFormatError();
 
     void showSoftKeyboard(boolean show);
+
+    void setTagSuggestions(List<String> tags);
 }
