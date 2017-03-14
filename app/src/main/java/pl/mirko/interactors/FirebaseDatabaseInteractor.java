@@ -93,7 +93,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void createNewComment(final Post post, final String content,
+    public void createNewComment(final String commentedPostId, final String content,
                                  final BasePostSendingListener basePostSendingListener) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
@@ -106,16 +106,16 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             final String commentId = databaseReference
                                     .child(COMMENTS)
-                                    .child(post.id)
+                                    .child(commentedPostId)
                                     .push().getKey();
 
                             User currentUser = dataSnapshot.getValue(User.class);
                             Comment newComment = new Comment(currentUser.nickname, content,
-                                    commentId, post.id);
+                                    commentId, commentedPostId);
 
                             databaseReference
                                     .child(COMMENTS)
-                                    .child(post.id)
+                                    .child(commentedPostId)
                                     .child(commentId)
                                     .setValue(newComment)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {

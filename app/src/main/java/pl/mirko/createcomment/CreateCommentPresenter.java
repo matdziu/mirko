@@ -26,7 +26,7 @@ class CreateCommentPresenter implements BasePostSendingListener, BasePostImageSe
 
     void createNewComment(Post post, String content) {
         commentedPostId = post.id;
-        databaseInteractor.createNewComment(post, content, this);
+        databaseInteractor.createNewComment(commentedPostId, content, this);
     }
 
     @Override

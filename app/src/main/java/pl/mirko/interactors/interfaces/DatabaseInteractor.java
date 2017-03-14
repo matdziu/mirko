@@ -17,7 +17,8 @@ public interface DatabaseInteractor {
 
     void createNewPost(String content, List<String> tags, BasePostSendingListener basePostSendingListener);
 
-    void createNewComment(Post post, String content, BasePostSendingListener basePostSendingListener);
+    void createNewComment(String commentedPostId, String content,
+                          BasePostSendingListener basePostSendingListener);
 
     void fetchPosts(BasePostFetchingListener basePostFetchingListener);
 
