@@ -35,8 +35,8 @@ class CreateCommentPresenter extends BasePresenter implements BasePostSendingLis
 
     @Override
     public void onBasePostSendingFinished(String basePostId) {
-        if (currentImageFilePath != null) {
-            storageInteractor.uploadBasePostImage(currentImageFilePath, basePostId, this);
+        if (currentImageFile != null) {
+            storageInteractor.uploadBasePostImage(currentImageFile, basePostId, this);
         } else {
             createCommentView.showProgressBar(false);
             createCommentView.finish();
@@ -45,7 +45,7 @@ class CreateCommentPresenter extends BasePresenter implements BasePostSendingLis
 
     @Override
     public void onImageUploaded(String basePostId) {
-        databaseInteractor.storeCommentImageName(commentedPostId, basePostId, currentImageName);
+        databaseInteractor.storeCommentImageName(commentedPostId, basePostId, currentImageFile.getName());
         createCommentView.showProgressBar(false);
         createCommentView.finish();
     }

@@ -1,9 +1,11 @@
 package pl.mirko.interactors.interfaces;
 
+import java.io.File;
+
 import pl.mirko.listeners.BasePostImageSendingListener;
 
 public interface StorageInteractor {
 
-    void uploadBasePostImage(String imageFilePath, String basePostId,
+    void uploadBasePostImage(File imageFile, String basePostId,
                              BasePostImageSendingListener basePostImageSendingListener);
 }

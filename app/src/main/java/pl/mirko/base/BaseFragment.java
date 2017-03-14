@@ -67,8 +67,7 @@ public class BaseFragment extends Fragment {
             if (data != null) {
                 try {
                     File imageFile = createImageFile(createImageGallery());
-                    basePresenter.setCurrentImageFilePath(imageFile.getPath());
-                    basePresenter.setCurrentImageName(imageFile.getName());
+                    basePresenter.setCurrentImageFile(imageFile);
                     saveImageToTempFile(imageFile, data);
                 } catch (IOException e) {
                     e.printStackTrace();

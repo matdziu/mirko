@@ -70,8 +70,8 @@ public class CreatePostPresenter extends BasePresenter implements BasePostSendin
 
     @Override
     public void onBasePostSendingFinished(String basePostId) {
-        if (currentImageFilePath != null) {
-            storageInteractor.uploadBasePostImage(currentImageFilePath, basePostId, this);
+        if (currentImageFile != null) {
+            storageInteractor.uploadBasePostImage(currentImageFile, basePostId, this);
         } else {
             createPostView.showProgressBar(false);
             createPostView.finish();
@@ -103,7 +103,7 @@ public class CreatePostPresenter extends BasePresenter implements BasePostSendin
 
     @Override
     public void onImageUploaded(String basePostId) {
-        databaseInteractor.storePostImageName(basePostId, currentImageName);
+        databaseInteractor.storePostImageName(basePostId, currentImageFile.getName());
         createPostView.showProgressBar(false);
         createPostView.finish();
     }

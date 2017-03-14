@@ -18,12 +18,13 @@ public class FirebaseStorageInteractor implements StorageInteractor {
             FirebaseStorage.getInstance().getReference();
 
     @Override
-    public void uploadBasePostImage(final String imageFilePath, final String basePostId,
+    public void uploadBasePostImage(final File imageFile, final String basePostId,
                                     final BasePostImageSendingListener basePostImageSendingListener) {
-        Uri imageFile = Uri.fromFile(new File(imageFilePath));
+        Uri imageFileUri = Uri.fromFile(imageFile);
         storageReference
                 .child(basePostId)
-                .putFile(imageFile)
+                .child(imageFile.getName())
+                .putFile(imageFileUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

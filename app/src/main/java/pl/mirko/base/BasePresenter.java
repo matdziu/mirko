@@ -1,5 +1,7 @@
 package pl.mirko.base;
 
+import java.io.File;
+
 import pl.mirko.R;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
@@ -14,8 +16,7 @@ public class BasePresenter {
     private AuthenticationInteractor authenticationInteractor;
     private DatabaseInteractor databaseInteractor;
 
-    protected String currentImageFilePath;
-    protected String currentImageName;
+    protected File currentImageFile;
 
     public BasePresenter(AuthenticationInteractor authenticationInteractor,
                          DatabaseInteractor databaseInteractor) {
@@ -79,11 +80,7 @@ public class BasePresenter {
         }
     }
 
-    void setCurrentImageFilePath(String currentImageFilePath) {
-        this.currentImageFilePath = currentImageFilePath;
-    }
-
-    void setCurrentImageName(String currentImageName) {
-        this.currentImageName = currentImageName;
+    void setCurrentImageFile(File currentImageFile) {
+        this.currentImageFile = currentImageFile;
     }
 }
