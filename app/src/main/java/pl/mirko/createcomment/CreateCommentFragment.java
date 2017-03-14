@@ -1,6 +1,5 @@
 package pl.mirko.createcomment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,9 +12,6 @@ import android.widget.ProgressBar;
 
 import org.parceler.Parcels;
 
-import java.io.File;
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,7 +21,6 @@ import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.Post;
 
-import static android.app.Activity.RESULT_OK;
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
 public class CreateCommentFragment extends BaseFragment implements CreateCommentView {
@@ -53,6 +48,7 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
 
         createCommentPresenter = new CreateCommentPresenter(this, new FirebaseDatabaseInteractor(),
                 new FirebaseStorageInteractor());
+        basePresenter = createCommentPresenter;
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
@@ -103,23 +99,5 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
     @OnClick(R.id.add_multimedia_fab)
     public void onAddMultimediaFabClicked() {
         startImagePickActivity();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                try {
-                    File imageFile = createImageFile(createImageGallery());
-                    createCommentPresenter.setCurrentImageFilePath(imageFile.getPath());
-                    createCommentPresenter.setCurrentImageName(imageName);
-                    saveImageToTempFile(imageFile, data);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }

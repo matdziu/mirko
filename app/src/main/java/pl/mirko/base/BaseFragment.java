@@ -15,10 +15,13 @@ import java.util.Locale;
 
 import pl.mirko.R;
 
+import static android.app.Activity.RESULT_OK;
+
 public class BaseFragment extends Fragment {
 
     protected int REQUEST_PICK_IMAGE = 1;
     protected String imageName;
+    protected BasePresenter basePresenter;
 
     protected void startImagePickActivity() {
         Intent photoIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -54,6 +57,24 @@ public class BaseFragment extends Fragment {
 
             OutputStream outputStream = new FileOutputStream(imageFile);
             outputStream.write(buffer);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
+            if (data != null) {
+                try {
+                    File imageFile = createImageFile(createImageGallery());
+                    basePresenter.setCurrentImageFilePath(imageFile.getPath());
+                    basePresenter.setCurrentImageName(imageName);
+                    saveImageToTempFile(imageFile, data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

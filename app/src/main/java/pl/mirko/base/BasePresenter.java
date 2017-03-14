@@ -14,10 +14,17 @@ public class BasePresenter {
     private AuthenticationInteractor authenticationInteractor;
     private DatabaseInteractor databaseInteractor;
 
+    protected String currentImageFilePath;
+    protected String currentImageName;
+
     public BasePresenter(AuthenticationInteractor authenticationInteractor,
                          DatabaseInteractor databaseInteractor) {
         this.authenticationInteractor = authenticationInteractor;
         this.databaseInteractor = databaseInteractor;
+    }
+
+    protected BasePresenter() {
+        // default constructor
     }
 
     void logout() {
@@ -70,5 +77,13 @@ public class BasePresenter {
                 basePostView.showNoThumbView();
                 break;
         }
+    }
+
+    void setCurrentImageFilePath(String currentImageFilePath) {
+        this.currentImageFilePath = currentImageFilePath;
+    }
+
+    void setCurrentImageName(String currentImageName) {
+        this.currentImageName = currentImageName;
     }
 }

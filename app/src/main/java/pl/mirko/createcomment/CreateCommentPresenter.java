@@ -1,19 +1,17 @@
 package pl.mirko.createcomment;
 
+import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostImageSendingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.models.Post;
 
-class CreateCommentPresenter implements BasePostSendingListener, BasePostImageSendingListener {
+class CreateCommentPresenter extends BasePresenter implements BasePostSendingListener, BasePostImageSendingListener {
 
     private CreateCommentView createCommentView;
     private DatabaseInteractor databaseInteractor;
     private StorageInteractor storageInteractor;
-
-    private String currentImageFilePath;
-    private String currentImageName;
 
     private String commentedPostId;
 
@@ -43,14 +41,6 @@ class CreateCommentPresenter implements BasePostSendingListener, BasePostImageSe
             createCommentView.showProgressBar(false);
             createCommentView.finish();
         }
-    }
-
-    void setCurrentImageFilePath(String currentImageFilePath) {
-        this.currentImageFilePath = currentImageFilePath;
-    }
-
-    void setCurrentImageName(String currentImageName) {
-        this.currentImageName = currentImageName;
     }
 
     @Override

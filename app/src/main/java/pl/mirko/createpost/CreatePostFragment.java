@@ -1,6 +1,5 @@
 package pl.mirko.createpost;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,8 +10,6 @@ import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +21,6 @@ import pl.mirko.adapters.TagSuggestionsAdapter;
 import pl.mirko.base.BaseFragment;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
-
-import static android.app.Activity.RESULT_OK;
 
 public class CreatePostFragment extends BaseFragment implements CreatePostView {
 
@@ -45,6 +40,7 @@ public class CreatePostFragment extends BaseFragment implements CreatePostView {
         super.onCreate(savedInstanceState);
         createPostPresenter = new CreatePostPresenter(this, new FirebaseDatabaseInteractor(),
                 new FirebaseStorageInteractor());
+        basePresenter = createPostPresenter;
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
@@ -127,23 +123,5 @@ public class CreatePostFragment extends BaseFragment implements CreatePostView {
     @OnClick(R.id.add_multimedia_fab)
     public void onAddMultimediaFabClicked() {
         startImagePickActivity();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_PICK_IMAGE && resultCode == RESULT_OK) {
-            if (data != null) {
-                try {
-                    File imageFile = createImageFile(createImageGallery());
-                    createPostPresenter.setCurrentImageFilePath(imageFile.getPath());
-                    createPostPresenter.setCurrentImageName(imageName);
-                    saveImageToTempFile(imageFile, data);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 }
