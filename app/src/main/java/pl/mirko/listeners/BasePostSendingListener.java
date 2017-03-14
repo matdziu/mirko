@@ -4,5 +4,5 @@ public interface BasePostSendingListener {
 
     void onBasePostSendingStarted();
 
-    void onBasePostSendingFinished();
+    void onBasePostSendingFinished(String basePostId);
 }

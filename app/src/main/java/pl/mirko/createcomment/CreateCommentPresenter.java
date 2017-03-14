@@ -25,7 +25,7 @@ class CreateCommentPresenter implements BasePostSendingListener {
     }
 
     @Override
-    public void onBasePostSendingFinished() {
+    public void onBasePostSendingFinished(String basePostId) {
         createCommentView.showProgressBar(false);
         createCommentView.finish();
     }

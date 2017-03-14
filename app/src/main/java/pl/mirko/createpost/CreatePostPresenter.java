@@ -5,20 +5,26 @@ import java.util.Arrays;
 import java.util.List;
 
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostImageSendingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.TagFetchingListener;
-import pl.mirko.models.BasePost;
 
 public class CreatePostPresenter implements BasePostSendingListener, TagFetchingListener,
         BasePostImageSendingListener {
 
     private CreatePostView createPostView;
     private DatabaseInteractor databaseInteractor;
+    private StorageInteractor storageInteractor;
 
-    CreatePostPresenter(CreatePostView createPostView, DatabaseInteractor databaseInteractor) {
+    private String currentImageFilePath;
+    private String currentImageName;
+
+    CreatePostPresenter(CreatePostView createPostView, DatabaseInteractor databaseInteractor,
+                        StorageInteractor storageInteractor) {
         this.createPostView = createPostView;
         this.databaseInteractor = databaseInteractor;
+        this.storageInteractor = storageInteractor;
     }
 
     void createNewPost(String content) {
@@ -65,9 +71,13 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
     }
 
     @Override
-    public void onBasePostSendingFinished() {
-        createPostView.showProgressBar(false);
-        createPostView.finish();
+    public void onBasePostSendingFinished(String basePostId) {
+        if (currentImageFilePath != null) {
+            storageInteractor.uploadBasePostImage(currentImageFilePath, basePostId, this);
+        } else {
+            createPostView.showProgressBar(false);
+            createPostView.finish();
+        }
     }
 
     @Override
@@ -94,7 +104,17 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
     }
 
     @Override
-    public void onImageUploaded(BasePost basePost, String imagePath) {
-        databaseInteractor.storeImagePath(basePost, imagePath);
+    public void onImageUploaded(String basePostId) {
+        databaseInteractor.storePostImageName(basePostId, currentImageName);
+        createPostView.showProgressBar(false);
+        createPostView.finish();
+    }
+
+    void setCurrentImageFilePath(String currentImageFilePath) {
+        this.currentImageFilePath = currentImageFilePath;
+    }
+
+    void setCurrentImageName(String currentImageName) {
+        this.currentImageName = currentImageName;
     }
 }

@@ -37,7 +37,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     private static final String COMMENTS = "comments";
     private static final String THUMBS = "thumbs";
     private static final String SCORE_FIELD_NAME = "score";
-    private static final String IMAGE_PATH_FIELD_NAME = "imagePath";
+    private static final String IMAGE_NAME_FIELD = "imageName";
     private static final String TAGS = "tags";
 
     public static final String UP = "up";
@@ -64,7 +64,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String postId = databaseReference
+                            final String postId = databaseReference
                                     .child(POSTS)
                                     .push().getKey();
 
@@ -78,7 +78,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            basePostSendingListener.onBasePostSendingFinished();
+                                            basePostSendingListener.onBasePostSendingFinished(postId);
                                         }
                                     });
                             updateTags(tags, postId);
@@ -104,7 +104,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String commentId = databaseReference
+                            final String commentId = databaseReference
                                     .child(COMMENTS)
                                     .child(post.id)
                                     .push().getKey();
@@ -121,7 +121,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-                                            basePostSendingListener.onBasePostSendingFinished();
+                                            basePostSendingListener.onBasePostSendingFinished(commentId);
                                         }
                                     });
                         }
@@ -408,24 +408,21 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void storeImagePath(BasePost basePost, String imagePath) {
-        DatabaseReference basePostReference = null;
+    public void storePostImageName(String postId, String imageName) {
+        databaseReference
+                .child(POSTS)
+                .child(postId)
+                .child(IMAGE_NAME_FIELD)
+                .setValue(imageName);
+    }
 
-        if (basePost instanceof Post) {
-            basePostReference = databaseReference
-                    .child(POSTS);
-        } else if (basePost instanceof Comment) {
-            Comment comment = (Comment) basePost;
-            basePostReference = databaseReference
-                    .child(COMMENTS)
-                    .child(comment.commentedPostId);
-        }
-
-        if (basePostReference != null) {
-            basePostReference
-                    .child(basePost.id)
-                    .child(IMAGE_PATH_FIELD_NAME)
-                    .setValue(imagePath);
-        }
+    @Override
+    public void storeCommentImageName(String commentedPostId, String commentId, String imageName) {
+        databaseReference
+                .child(COMMENTS)
+                .child(commentedPostId)
+                .child(commentId)
+                .child(IMAGE_NAME_FIELD)
+                .child(imageName);
     }
 }

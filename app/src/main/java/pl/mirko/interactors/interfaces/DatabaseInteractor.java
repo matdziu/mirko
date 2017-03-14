@@ -41,5 +41,7 @@ public interface DatabaseInteractor {
 
     void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener);
 
-    void storeImagePath(BasePost basePost, String imagePath);
+    void storePostImageName(String postId, String imageName);
+
+    void storeCommentImageName(String commentedPostId, String commentId, String imageName);
 }
