@@ -22,12 +22,6 @@ public class BaseFragment extends Fragment {
     protected int REQUEST_PICK_IMAGE = 1;
     protected BasePresenter basePresenter;
 
-    protected void startImagePickActivity() {
-        Intent photoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoIntent.setType("image/*");
-        startActivityForResult(photoIntent, REQUEST_PICK_IMAGE);
-    }
-
     @SuppressWarnings("ResultOfMethodCallIgnored")
     protected File createImageGallery() {
         File storageDirectory = Environment.getExternalStoragePublicDirectory(
@@ -69,10 +63,17 @@ public class BaseFragment extends Fragment {
                     File imageFile = createImageFile(createImageGallery());
                     basePresenter.setCurrentImageFile(imageFile);
                     saveImageToTempFile(imageFile, data);
+                    basePresenter.onImageAdded();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    public void startImagePickActivity() {
+        Intent photoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoIntent.setType("image/*");
+        startActivityForResult(photoIntent, REQUEST_PICK_IMAGE);
     }
 }

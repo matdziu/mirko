@@ -23,4 +23,6 @@
     <string name="send">Wyślij</string>
     <string name="search_hint">Szukaj tagów...</string>
     <string name="wrong_tag_format">Zły format tagu</string>
+    <string name="photo_added_text">Zdjęcie dodane</string>
+    <string name="photo_deleted_text">Zdjęcie usunięte</string>
 </resources>

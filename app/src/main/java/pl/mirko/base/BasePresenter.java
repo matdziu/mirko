@@ -17,6 +17,7 @@ public class BasePresenter {
     private DatabaseInteractor databaseInteractor;
 
     protected File currentImageFile;
+    private BaseMultimediaView baseMultimediaView;
 
     public BasePresenter(AuthenticationInteractor authenticationInteractor,
                          DatabaseInteractor databaseInteractor) {
@@ -82,5 +83,22 @@ public class BasePresenter {
 
     void setCurrentImageFile(File currentImageFile) {
         this.currentImageFile = currentImageFile;
+    }
+
+    public void setBaseMultimediaView(BaseMultimediaView baseMultimediaView) {
+        this.baseMultimediaView = baseMultimediaView;
+    }
+
+    public void onAddImageFabClicked() {
+        if (currentImageFile == null) {
+            baseMultimediaView.startImagePickActivity();
+        } else {
+            currentImageFile = null;
+            baseMultimediaView.showImageDeletedInfo();
+        }
+    }
+
+    void onImageAdded() {
+        baseMultimediaView.showImageAddedInfo();
     }
 }

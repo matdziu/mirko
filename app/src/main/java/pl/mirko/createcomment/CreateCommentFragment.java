@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -17,13 +18,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.base.BaseFragment;
+import pl.mirko.base.BaseMultimediaView;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.Post;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
-public class CreateCommentFragment extends BaseFragment implements CreateCommentView {
+public class CreateCommentFragment extends BaseFragment implements CreateCommentView, BaseMultimediaView {
 
     @BindView(R.id.create_edit_text)
     EditText createCommentEditText;
@@ -49,6 +51,7 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
         createCommentPresenter = new CreateCommentPresenter(this, new FirebaseDatabaseInteractor(),
                 new FirebaseStorageInteractor());
         basePresenter = createCommentPresenter;
+        basePresenter.setBaseMultimediaView(this);
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
@@ -98,6 +101,16 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
 
     @OnClick(R.id.add_multimedia_fab)
     public void onAddMultimediaFabClicked() {
-        startImagePickActivity();
+        basePresenter.onAddImageFabClicked();
+    }
+
+    @Override
+    public void showImageAddedInfo() {
+        Toast.makeText(getContext(), R.string.photo_added_text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showImageDeletedInfo() {
+        Toast.makeText(getContext(), R.string.photo_deleted_text, Toast.LENGTH_SHORT).show();
     }
 }
