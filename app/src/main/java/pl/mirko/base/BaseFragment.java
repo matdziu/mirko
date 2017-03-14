@@ -20,7 +20,6 @@ import static android.app.Activity.RESULT_OK;
 public class BaseFragment extends Fragment {
 
     protected int REQUEST_PICK_IMAGE = 1;
-    protected String imageName;
     protected BasePresenter basePresenter;
 
     protected void startImagePickActivity() {
@@ -43,7 +42,7 @@ public class BaseFragment extends Fragment {
     protected File createImageFile(File galleryFolder) throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
-        imageName = "image_" + timeStamp + "_";
+        String imageName = "image_" + timeStamp + "_";
         return File.createTempFile(imageName, ".jpg", galleryFolder);
     }
 
@@ -69,7 +68,7 @@ public class BaseFragment extends Fragment {
                 try {
                     File imageFile = createImageFile(createImageGallery());
                     basePresenter.setCurrentImageFilePath(imageFile.getPath());
-                    basePresenter.setCurrentImageName(imageName);
+                    basePresenter.setCurrentImageName(imageFile.getName());
                     saveImageToTempFile(imageFile, data);
                 } catch (IOException e) {
                     e.printStackTrace();
