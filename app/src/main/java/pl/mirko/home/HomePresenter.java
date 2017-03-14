@@ -1,5 +1,6 @@
 package pl.mirko.home;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.mirko.base.BasePresenter;
@@ -15,6 +16,7 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
 
     private DatabaseInteractor databaseInteractor;
     private HomeView homeView;
+    private List<String> tagSuggestions;
 
     HomePresenter(AuthenticationInteractor authenticationInteractor,
                   DatabaseInteractor databaseInteractor, HomeView homeView) {
@@ -59,6 +61,14 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
 
     @Override
     public void onTagFetchingFinished(List<String> tags) {
-        homeView.setTagSuggestions(tags);
+        tagSuggestions = tags;
+    }
+
+    List<String> filterTagSuggestions(String newText) {
+        List<String> filteredTags = new ArrayList<>();
+        for (String tag : tagSuggestions) {
+            if (tag.startsWith(newText)) filteredTags.add(tag);
+        }
+        return filteredTags;
     }
 }

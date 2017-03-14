@@ -112,23 +112,6 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void setTagSuggestions(List<String> tags) {
-        String[] columns = {
-                BaseColumns._ID,
-                SearchManager.SUGGEST_COLUMN_TEXT_1
-        };
-
-        MatrixCursor cursor = new MatrixCursor(columns);
-
-        for (int index = 0; index < tags.size(); index++) {
-            String[] row = {Integer.toString(index), tags.get(index)};
-            cursor.addRow(row);
-        }
-
-        suggestionsAdapter.swapCursor(cursor);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.home_menu, menu);
 
@@ -147,7 +130,13 @@ public class HomeFragment extends Fragment implements HomeView {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                if (newText.isEmpty()) {
+                    suggestionsAdapter.swapCursor(null);
+                } else {
+                    List<String> filteredTags = homePresenter.filterTagSuggestions(newText);
+                    suggestionsAdapter.swapCursor(createNewCursor(filteredTags));
+                }
+                return true;
             }
         });
 
@@ -163,5 +152,20 @@ public class HomeFragment extends Fragment implements HomeView {
                 return true;
             }
         });
+    }
+
+    private MatrixCursor createNewCursor(List<String> filteredTags) {
+        String[] columns = {
+                BaseColumns._ID,
+                SearchManager.SUGGEST_COLUMN_TEXT_1
+        };
+
+        MatrixCursor matrixCursor = new MatrixCursor(columns);
+
+        for (int index = 0; index < filteredTags.size(); index++) {
+            String[] row = {Integer.toString(index), filteredTags.get(index)};
+            matrixCursor.addRow(row);
+        }
+        return matrixCursor;
     }
 }
