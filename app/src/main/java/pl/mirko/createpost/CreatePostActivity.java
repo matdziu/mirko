@@ -19,6 +19,7 @@ public class CreatePostActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
         fragmentTransaction.add(R.id.create_post_fragment_container, new CreatePostFragment());
         fragmentTransaction.commit();
     }

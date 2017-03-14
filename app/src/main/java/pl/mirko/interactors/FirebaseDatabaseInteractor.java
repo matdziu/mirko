@@ -423,6 +423,6 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .child(commentedPostId)
                 .child(commentId)
                 .child(IMAGE_NAME_FIELD)
-                .child(imageName);
+                .setValue(imageName);
     }
 }
