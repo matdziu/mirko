@@ -21,11 +21,14 @@ import pl.mirko.interactors.FirebaseDatabaseInteractor;
 
 public class CreatePostFragment extends Fragment implements CreatePostView {
 
-    @BindView(R.id.create_post_edit_text)
+    @BindView(R.id.create_edit_text)
     AutoCompleteTextView createPostEditText;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.create_content_view)
+    ViewGroup createPostContentView;
 
     private CreatePostPresenter createPostPresenter;
 
@@ -38,9 +41,10 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_create, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        createPostEditText.setHint(getResources().getString(R.string.create_post_hint));
 
         createPostPresenter.fetchTags();
 
@@ -62,10 +66,10 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     public void showProgressBar(boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
-            createPostEditText.setVisibility(View.GONE);
+            createPostContentView.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.GONE);
-            createPostEditText.setVisibility(View.VISIBLE);
+            createPostContentView.setVisibility(View.VISIBLE);
         }
     }
 

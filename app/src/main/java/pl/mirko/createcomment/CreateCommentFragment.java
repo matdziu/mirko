@@ -22,11 +22,14 @@ import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
 public class CreateCommentFragment extends Fragment implements CreateCommentView {
 
-    @BindView(R.id.create_comment_edit_text)
+    @BindView(R.id.create_edit_text)
     EditText createCommentEditText;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.create_content_view)
+    ViewGroup createCommentContentView;
 
     private CreateCommentPresenter createCommentPresenter;
     private Post post;
@@ -46,9 +49,10 @@ public class CreateCommentFragment extends Fragment implements CreateCommentView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_comment, container, false);
+        View view = inflater.inflate(R.layout.fragment_create, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        createCommentEditText.setHint(getResources().getString(R.string.create_comment_hint));
         return view;
     }
 
@@ -73,10 +77,10 @@ public class CreateCommentFragment extends Fragment implements CreateCommentView
     public void showProgressBar(boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
-            createCommentEditText.setVisibility(View.GONE);
+            createCommentContentView.setVisibility(View.GONE);
         } else {
             progressBar.setVisibility(View.GONE);
-            createCommentEditText.setVisibility(View.VISIBLE);
+            createCommentContentView.setVisibility(View.VISIBLE);
         }
     }
 
