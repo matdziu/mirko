@@ -42,6 +42,12 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener, T
     }
 
     void queryPosts(String tag) {
-        databaseInteractor.queryPosts(tag, this);
+        if (tag != null) {
+            if (tag.trim().startsWith("#")) {
+                databaseInteractor.queryPosts(tag.trim().substring(1), this);
+            } else {
+                databaseInteractor.queryPosts(tag.trim(), this);
+            }
+        }
     }
 }
