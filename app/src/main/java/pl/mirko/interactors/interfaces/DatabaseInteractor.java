@@ -38,4 +38,6 @@ public interface DatabaseInteractor {
     void fetchTags(TagFetchingListener tagFetchingListener);
 
     void updateTags(List<String> tags, String postId);
+
+    void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener);
 }

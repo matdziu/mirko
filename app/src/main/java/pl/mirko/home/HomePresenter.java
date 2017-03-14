@@ -40,4 +40,8 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener, T
         homeView.updateRecyclerView(postList);
         homeView.showProgressBar(false);
     }
+
+    void queryPosts(String tag) {
+        databaseInteractor.queryPosts(tag, this);
+    }
 }

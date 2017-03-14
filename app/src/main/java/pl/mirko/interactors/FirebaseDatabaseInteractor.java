@@ -369,4 +369,40 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
             }
         }
     }
+
+    @Override
+    public void queryPosts(String tag, final BasePostFetchingListener basePostFetchingListener) {
+        basePostFetchingListener.onBasePostFetchingStarted();
+        databaseReference
+                .child(TAGS)
+                .child(tag)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final List<BasePost> postList = new ArrayList<>();
+                        for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
+                            databaseReference
+                                    .child(POSTS)
+                                    .child(dataItem.getValue(String.class))
+                                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            postList.add(dataSnapshot.getValue(Post.class));
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Timber.e(databaseError.getMessage());
+                                        }
+                                    });
+                        }
+                        basePostFetchingListener.onBasePostFetchingFinished(postList);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Timber.e(databaseError.getMessage());
+                    }
+                });
+    }
 }
