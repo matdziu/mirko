@@ -100,6 +100,8 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query);
+                HomeActivity homeActivity = (HomeActivity) getActivity();
+                homeActivity.showSoftKeyboard(false);
                 return true;
             }
 
