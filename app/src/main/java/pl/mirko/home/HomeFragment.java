@@ -117,10 +117,11 @@ public class HomeFragment extends Fragment implements HomeView {
 
         SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchMenuItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSuggestionsAdapter(suggestionsAdapter);
 
+        final List<String> filteredTags = new ArrayList<>();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -133,7 +134,8 @@ public class HomeFragment extends Fragment implements HomeView {
                 if (newText.isEmpty()) {
                     suggestionsAdapter.swapCursor(null);
                 } else {
-                    List<String> filteredTags = homePresenter.filterTagSuggestions(newText);
+                    filteredTags.clear();
+                    filteredTags.addAll(homePresenter.filterTagSuggestions(newText));
                     suggestionsAdapter.swapCursor(createNewCursor(filteredTags));
                 }
                 return true;
@@ -150,6 +152,19 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
+            }
+        });
+
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                searchView.setQuery(filteredTags.get(position), false);
+                return true;
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
             }
         });
     }
