@@ -23,7 +23,8 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
         List<String> tags = new ArrayList<>();
 
         for (String word : contentWords) {
-            if (word.startsWith("#") && word.length() > 1) {
+            if (word.startsWith("#") && word.length() > 1 && !word.contains(".") &&
+                    !word.contains("$") && !word.contains("[") && !word.contains("]")) {
                 String formattedTag = word.replace("#", "");
                 if (!formattedTag.equals("")) {
                     tags.add(word.replace("#", ""));
