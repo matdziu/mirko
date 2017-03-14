@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements HomeView {
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionClick(int position) {
-                searchView.setQuery(filteredTags.get(position), false);
+                searchView.setQuery(filteredTags.get(position), true);
                 return true;
             }
 
