@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
@@ -44,6 +45,8 @@ public class CreateCommentFragment extends Fragment implements CreateCommentView
                 .getParcelable(POST_KEY));
 
         createCommentPresenter = new CreateCommentPresenter(this, new FirebaseDatabaseInteractor());
+        getActivity().getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     @Nullable
