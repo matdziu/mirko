@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,17 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
+    public void showWrongQueryFormatError() {
+        Toast.makeText(getContext(), R.string.wrong_tag_format, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showSoftKeyboard(boolean show) {
+        HomeActivity homeActivity = (HomeActivity) getActivity();
+        homeActivity.showSoftKeyboard(false);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         getActivity().getMenuInflater().inflate(R.menu.home_menu, menu);
 
@@ -103,8 +115,6 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query);
-                HomeActivity homeActivity = (HomeActivity) getActivity();
-                homeActivity.showSoftKeyboard(false);
                 return true;
             }
 

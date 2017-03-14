@@ -9,4 +9,8 @@ interface HomeView {
     void showProgressBar(boolean show);
 
     void updateRecyclerView(List<BasePost> postList);
+
+    void showWrongQueryFormatError();
+
+    void showSoftKeyboard(boolean show);
 }
