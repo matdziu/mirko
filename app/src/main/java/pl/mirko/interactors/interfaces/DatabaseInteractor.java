@@ -40,4 +40,6 @@ public interface DatabaseInteractor {
     void updateTags(List<String> tags, String postId);
 
     void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener);
+
+    void storeImagePath(BasePost basePost, String imagePath);
 }

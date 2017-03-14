@@ -37,6 +37,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     private static final String COMMENTS = "comments";
     private static final String THUMBS = "thumbs";
     private static final String SCORE_FIELD_NAME = "score";
+    private static final String IMAGE_PATH_FIELD_NAME = "imagePath";
     private static final String TAGS = "tags";
 
     public static final String UP = "up";
@@ -404,5 +405,27 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         Timber.e(databaseError.getMessage());
                     }
                 });
+    }
+
+    @Override
+    public void storeImagePath(BasePost basePost, String imagePath) {
+        DatabaseReference basePostReference = null;
+
+        if (basePost instanceof Post) {
+            basePostReference = databaseReference
+                    .child(POSTS);
+        } else if (basePost instanceof Comment) {
+            Comment comment = (Comment) basePost;
+            basePostReference = databaseReference
+                    .child(COMMENTS)
+                    .child(comment.commentedPostId);
+        }
+
+        if (basePostReference != null) {
+            basePostReference
+                    .child(basePost.id)
+                    .child(IMAGE_PATH_FIELD_NAME)
+                    .setValue(imagePath);
+        }
     }
 }

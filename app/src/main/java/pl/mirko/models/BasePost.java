@@ -12,6 +12,7 @@ public class BasePost {
     public String content;
     public int score;
     public String id;
+    public String imagePath;
 
     private int scoreColor;
     private String thumb = NO_THUMB;

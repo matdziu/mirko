@@ -16,6 +16,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.mirko.R;
 import pl.mirko.adapters.TagSuggestionsAdapter;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
@@ -114,5 +115,10 @@ public class CreatePostFragment extends Fragment implements CreatePostView {
     public void setCursorPosition(int position) {
         createPostEditText.setSelection(position);
         createPostEditText.dismissDropDown();
+    }
+
+    @OnClick(R.id.add_multimedia_fab)
+    public void onAddMultimediaFabCliked() {
+
     }
 }

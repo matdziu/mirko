@@ -5,10 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.listeners.BasePostImageSendingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.TagFetchingListener;
+import pl.mirko.models.BasePost;
 
-public class CreatePostPresenter implements BasePostSendingListener, TagFetchingListener {
+public class CreatePostPresenter implements BasePostSendingListener, TagFetchingListener,
+        BasePostImageSendingListener {
 
     private CreatePostView createPostView;
     private DatabaseInteractor databaseInteractor;
@@ -88,5 +91,10 @@ public class CreatePostPresenter implements BasePostSendingListener, TagFetching
                 break;
             }
         }
+    }
+
+    @Override
+    public void onImageUploaded(BasePost basePost, String imagePath) {
+        databaseInteractor.storeImagePath(basePost, imagePath);
     }
 }
