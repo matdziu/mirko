@@ -1,7 +1,5 @@
 package pl.mirko.base;
 
-import java.io.File;
-
 import pl.mirko.R;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
@@ -16,17 +14,10 @@ public class BasePresenter {
     private AuthenticationInteractor authenticationInteractor;
     private DatabaseInteractor databaseInteractor;
 
-    protected File currentImageFile;
-    private BaseMultimediaView baseMultimediaView;
-
     public BasePresenter(AuthenticationInteractor authenticationInteractor,
                          DatabaseInteractor databaseInteractor) {
         this.authenticationInteractor = authenticationInteractor;
         this.databaseInteractor = databaseInteractor;
-    }
-
-    protected BasePresenter() {
-        // default constructor
     }
 
     void logout() {
@@ -79,26 +70,5 @@ public class BasePresenter {
                 basePostView.showNoThumbView();
                 break;
         }
-    }
-
-    void setCurrentImageFile(File currentImageFile) {
-        this.currentImageFile = currentImageFile;
-    }
-
-    public void setBaseMultimediaView(BaseMultimediaView baseMultimediaView) {
-        this.baseMultimediaView = baseMultimediaView;
-    }
-
-    public void onAddImageFabClicked() {
-        if (currentImageFile == null) {
-            baseMultimediaView.startImagePickActivity();
-        } else {
-            currentImageFile = null;
-            baseMultimediaView.showImageDeletedInfo();
-        }
-    }
-
-    void onImageAdded() {
-        baseMultimediaView.showImageAddedInfo();
     }
 }

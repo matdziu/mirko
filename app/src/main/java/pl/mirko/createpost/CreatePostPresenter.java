@@ -4,25 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import pl.mirko.base.BasePresenter;
+import pl.mirko.basecreate.BaseCreatePresenter;
+import pl.mirko.basecreate.BaseCreateView;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.interactors.interfaces.StorageInteractor;
-import pl.mirko.listeners.BasePostImageSendingListener;
-import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.TagFetchingListener;
 
-public class CreatePostPresenter extends BasePresenter implements BasePostSendingListener,
-        TagFetchingListener, BasePostImageSendingListener {
+public class CreatePostPresenter extends BaseCreatePresenter implements TagFetchingListener {
 
     private CreatePostView createPostView;
     private DatabaseInteractor databaseInteractor;
-    private StorageInteractor storageInteractor;
 
     CreatePostPresenter(CreatePostView createPostView, DatabaseInteractor databaseInteractor,
-                        StorageInteractor storageInteractor) {
+                        StorageInteractor storageInteractor, BaseCreateView baseCreateView) {
+        super(storageInteractor, baseCreateView);
         this.createPostView = createPostView;
         this.databaseInteractor = databaseInteractor;
-        this.storageInteractor = storageInteractor;
     }
 
     void createNewPost(String content) {
@@ -63,22 +60,6 @@ public class CreatePostPresenter extends BasePresenter implements BasePostSendin
     }
 
     @Override
-    public void onBasePostSendingStarted() {
-        createPostView.showSoftKeyboard(false);
-        createPostView.showProgressBar(true);
-    }
-
-    @Override
-    public void onBasePostSendingFinished(String basePostId) {
-        if (currentImageFile != null) {
-            storageInteractor.uploadBasePostImage(currentImageFile, basePostId, this);
-        } else {
-            createPostView.showProgressBar(false);
-            createPostView.finish();
-        }
-    }
-
-    @Override
     public void onTagFetchingFinished(List<String> tags) {
         List<String> formattedTags = new ArrayList<>();
         for (String rawTag : tags) {
@@ -104,7 +85,6 @@ public class CreatePostPresenter extends BasePresenter implements BasePostSendin
     @Override
     public void onImageUploaded(String basePostId) {
         databaseInteractor.storePostImageName(basePostId, currentImageFile.getName());
-        createPostView.showProgressBar(false);
-        createPostView.finish();
+        super.onImageUploaded(basePostId);
     }
 }

@@ -1,10 +1,7 @@
 package pl.mirko.createcomment;
 
-interface CreateCommentView {
+import pl.mirko.basecreate.BaseCreateView;
 
-    void showSoftKeyboard(boolean show);
+interface CreateCommentView extends BaseCreateView {
 
-    void showProgressBar(boolean show);
-
-    void finish();
 }
