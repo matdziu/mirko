@@ -1,11 +1,11 @@
 package pl.mirko.interactors.interfaces;
 
-import java.io.File;
+import android.net.Uri;
 
 import pl.mirko.listeners.BasePostImageSendingListener;
 
 public interface StorageInteractor {
 
-    void uploadBasePostImage(File imageFile, String basePostId,
+    void uploadBasePostImage(Uri imageUri, String basePostId,
                              BasePostImageSendingListener basePostImageSendingListener);
 }

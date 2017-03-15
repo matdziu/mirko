@@ -9,7 +9,6 @@ import pl.mirko.models.Post;
 class CreateCommentPresenter extends BaseCreatePresenter {
 
     private DatabaseInteractor databaseInteractor;
-    private String commentedPostId;
 
     CreateCommentPresenter(DatabaseInteractor databaseInteractor,
                            StorageInteractor storageInteractor, BaseCreateView baseCreateView) {
@@ -18,13 +17,6 @@ class CreateCommentPresenter extends BaseCreatePresenter {
     }
 
     void createNewComment(Post post, String content) {
-        this.commentedPostId = post.id;
-        databaseInteractor.createNewComment(commentedPostId, content, this);
-    }
-
-    @Override
-    public void onImageUploaded(String basePostId) {
-        databaseInteractor.storeCommentImageName(commentedPostId, basePostId, currentImageFile.getName());
-        super.onImageUploaded(basePostId);
+        databaseInteractor.createNewComment(post.id, content, this);
     }
 }

@@ -81,10 +81,4 @@ public class CreatePostPresenter extends BaseCreatePresenter implements TagFetch
             }
         }
     }
-
-    @Override
-    public void onImageUploaded(String basePostId) {
-        databaseInteractor.storePostImageName(basePostId, currentImageFile.getName());
-        super.onImageUploaded(basePostId);
-    }
 }

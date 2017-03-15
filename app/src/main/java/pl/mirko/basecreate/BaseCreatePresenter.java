@@ -1,6 +1,6 @@
 package pl.mirko.basecreate;
 
-import java.io.File;
+import android.net.Uri;
 
 import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostImageSendingListener;
@@ -10,7 +10,7 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
 
     private StorageInteractor storageInteractor;
     private BaseCreateView baseCreateView;
-    protected File currentImageFile;
+    private Uri currentImageUri;
 
     public BaseCreatePresenter(StorageInteractor storageInteractor, BaseCreateView baseCreateView) {
         this.storageInteractor = storageInteractor;
@@ -25,23 +25,23 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
 
     @Override
     public void onBasePostSendingFinished(String basePostId) {
-        if (currentImageFile != null) {
-            storageInteractor.uploadBasePostImage(currentImageFile, basePostId, this);
+        if (currentImageUri != null) {
+            storageInteractor.uploadBasePostImage(currentImageUri, basePostId, this);
         } else {
             baseCreateView.showProgressBar(false);
             baseCreateView.finish();
         }
     }
 
-    void setCurrentImageFile(File currentImageFile) {
-        this.currentImageFile = currentImageFile;
+    void setCurrentImageUri(Uri currentImageUri) {
+        this.currentImageUri = currentImageUri;
     }
 
     void onAddImageFabClicked() {
-        if (currentImageFile == null) {
+        if (currentImageUri == null) {
             baseCreateView.startImagePickActivity();
         } else {
-            currentImageFile = null;
+            currentImageUri = null;
             baseCreateView.showImageDeletedInfo();
         }
     }

@@ -406,23 +406,4 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     }
                 });
     }
-
-    @Override
-    public void storePostImageName(String postId, String imageName) {
-        databaseReference
-                .child(POSTS)
-                .child(postId)
-                .child(IMAGE_NAME_FIELD)
-                .setValue(imageName);
-    }
-
-    @Override
-    public void storeCommentImageName(String commentedPostId, String commentId, String imageName) {
-        databaseReference
-                .child(COMMENTS)
-                .child(commentedPostId)
-                .child(commentId)
-                .child(IMAGE_NAME_FIELD)
-                .setValue(imageName);
-    }
 }
