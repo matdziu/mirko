@@ -1,12 +1,17 @@
 package pl.mirko.createcomment;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -35,6 +40,9 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
 
     @BindView(R.id.create_content_view)
     ViewGroup createCommentContentView;
+
+    @BindView(R.id.add_multimedia_fab)
+    FloatingActionButton addMultimediaButton;
 
     private CreateCommentPresenter createCommentPresenter;
     private Post post;
@@ -107,10 +115,18 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
     @Override
     public void showImageAddedInfo() {
         Toast.makeText(getContext(), R.string.photo_added_text, Toast.LENGTH_SHORT).show();
+        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation_add_image);
+        rotateAnimation.setFillAfter(true);
+        addMultimediaButton.startAnimation(rotateAnimation);
+        addMultimediaButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorRed)));
     }
 
     @Override
     public void showImageDeletedInfo() {
         Toast.makeText(getContext(), R.string.photo_deleted_text, Toast.LENGTH_SHORT).show();
+        Animation rotateAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_animation_delete_image);
+        rotateAnimation.setFillAfter(true);
+        addMultimediaButton.startAnimation(rotateAnimation);
+        addMultimediaButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), R.color.colorAccent)));
     }
 }
