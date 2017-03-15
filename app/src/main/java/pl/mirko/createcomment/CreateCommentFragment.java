@@ -1,7 +1,10 @@
 package pl.mirko.createcomment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +50,8 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
     private CreateCommentPresenter createCommentPresenter;
     private Post post;
 
+    private final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,19 @@ public class CreateCommentFragment extends BaseFragment implements CreateComment
         basePresenter.setBaseMultimediaView(this);
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_EXTERNAL_STORAGE_PERMISSION_CODE:
+                if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    getActivity().finish();
+                }
+        }
     }
 
     @Nullable
