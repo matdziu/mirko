@@ -112,6 +112,9 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (basePost.hasImage) {
             holder.basePostImageView.setVisibility(View.VISIBLE);
             basePresenter.loadImage(basePost, holder);
+        } else {
+            Picasso.with(context).cancelRequest(holder.basePostImageView);
+            holder.basePostImageView.setImageDrawable(null);
         }
     }
 
