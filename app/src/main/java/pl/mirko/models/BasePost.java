@@ -46,4 +46,13 @@ public class BasePost {
     public void setThumb(String thumb) {
         this.thumb = thumb;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || !(other instanceof BasePost)) {
+            return false;
+        }
+        BasePost otherBasePost = (BasePost) other;
+        return id.equals(otherBasePost.id);
+    }
 }

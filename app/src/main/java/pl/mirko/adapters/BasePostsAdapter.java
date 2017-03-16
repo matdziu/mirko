@@ -112,6 +112,10 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         notifyDataSetChanged();
     }
 
+    public List<BasePost> getDataSet() {
+        return basePostList;
+    }
+
     @Override
     public int getItemCount() {
         return basePostList.size();
