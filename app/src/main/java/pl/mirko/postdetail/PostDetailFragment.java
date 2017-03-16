@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -181,7 +181,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @Override
     public void loadImage(String url) {
-        Glide.with(getContext())
+        Picasso.with(getContext())
                 .load(url)
                 .placeholder(R.drawable.image_placeholder)
                 .into(basePostImageView);

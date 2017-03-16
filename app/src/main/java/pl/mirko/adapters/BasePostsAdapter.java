@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -183,7 +183,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
         @Override
         public void loadImage(String url) {
-            Glide.with(context)
+            Picasso.with(context)
                     .load(url)
                     .placeholder(R.drawable.image_placeholder)
                     .into(basePostImageView);
