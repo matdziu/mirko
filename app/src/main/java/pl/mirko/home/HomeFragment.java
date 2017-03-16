@@ -34,6 +34,7 @@ import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.createpost.CreatePostActivity;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 
 public class HomeFragment extends Fragment implements HomeView {
@@ -59,7 +60,8 @@ public class HomeFragment extends Fragment implements HomeView {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        homePresenter = new HomePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(), this);
+        homePresenter = new HomePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(),
+                new FirebaseStorageInteractor(), this);
         basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), homePresenter);
         suggestionsAdapter = new SimpleCursorAdapter(getContext(), R.layout.item_tag_suggestion,
                 null, new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1}, new int[]{R.id.tag_suggestion_text_view}, 0);

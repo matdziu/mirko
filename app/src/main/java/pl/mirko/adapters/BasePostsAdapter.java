@@ -108,7 +108,11 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
 
         basePresenter.setProperThumbView(basePost, holder);
-        basePresenter.loadImage(basePost, holder);
+
+        if (basePost.hasImage) {
+            holder.basePostImageView.setVisibility(View.VISIBLE);
+            basePresenter.loadImage(basePost, holder);
+        }
     }
 
     public void setNewDataSet(List<BasePost> basePostList) {

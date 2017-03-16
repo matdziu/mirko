@@ -9,8 +9,8 @@ public class Comment extends BasePost {
         // default constructor for Firebase
     }
 
-    public Comment(String author, String content, String id, String commentedPostId) {
-        super(author, content, id);
+    public Comment(String author, String content, String id, String commentedPostId, boolean hasImage) {
+        super(author, content, id, hasImage);
         this.commentedPostId = commentedPostId;
     }
 }

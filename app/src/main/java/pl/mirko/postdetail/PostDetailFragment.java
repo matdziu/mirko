@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
@@ -27,6 +30,7 @@ import pl.mirko.adapters.BasePostsAdapter;
 import pl.mirko.createcomment.CreateCommentActivity;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
@@ -57,6 +61,9 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @BindView(R.id.thumb_down_button)
     ImageButton thumbDownButton;
 
+    @BindView(R.id.base_post_image_view)
+    ImageView basePostImageView;
+
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
@@ -69,7 +76,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         super.onCreate(savedInstanceState);
 
         postDetailPresenter = new PostDetailPresenter(new FirebaseAuthInteractor(),
-                new FirebaseDatabaseInteractor(), this);
+                new FirebaseDatabaseInteractor(), new FirebaseStorageInteractor(), this);
 
         rawPost = Parcels.unwrap(getActivity()
                 .getIntent()
@@ -86,6 +93,11 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, view);
+
+        if (rawPost.hasImage) {
+            basePostImageView.setVisibility(View.VISIBLE);
+            postDetailPresenter.loadImage(rawPost, this);
+        }
 
         showPostDetails(rawPost);
         postDetailPresenter.addOnPostChangedListener(post);
@@ -165,5 +177,13 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
             thumbDownButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
             thumbUpButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrey));
         }
+    }
+
+    @Override
+    public void loadImage(String url) {
+        Glide.with(getContext())
+                .load(url)
+                .placeholder(R.drawable.image_placeholder)
+                .into(basePostImageView);
     }
 }

@@ -11,6 +11,7 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
     private StorageInteractor storageInteractor;
     private BaseCreateView baseCreateView;
     private Uri currentImageUri;
+    protected boolean hasImage;
 
     public BaseCreatePresenter(StorageInteractor storageInteractor, BaseCreateView baseCreateView) {
         this.storageInteractor = storageInteractor;
@@ -43,6 +44,7 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
         } else {
             currentImageUri = null;
             baseCreateView.showImageDeletedInfo();
+            hasImage = false;
         }
     }
 
@@ -54,5 +56,6 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
 
     void onImageAdded() {
         baseCreateView.showImageAddedInfo();
+        hasImage = true;
     }
 }

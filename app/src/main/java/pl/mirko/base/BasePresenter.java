@@ -5,6 +5,7 @@ import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.models.BasePost;
+import rx.functions.Action1;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.NO_THUMB;
@@ -75,7 +76,18 @@ public class BasePresenter {
         }
     }
 
-    public void loadImage(BasePost basePost, BasePostView basePostView) {
-
+    public void loadImage(BasePost basePost, final BasePostView basePostView) {
+        storageInteractor.fetchBasePostImageUrl(basePost)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String url) {
+                        basePostView.loadImage(url);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 }

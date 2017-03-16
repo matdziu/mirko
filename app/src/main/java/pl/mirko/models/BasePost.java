@@ -12,6 +12,7 @@ public class BasePost {
     public String content;
     public int score;
     public String id;
+    public boolean hasImage;
 
     private int scoreColor;
     private String thumb = NO_THUMB;
@@ -21,10 +22,11 @@ public class BasePost {
     }
 
     @ParcelConstructor
-    BasePost(String author, String content, String id) {
+    BasePost(String author, String content, String id, boolean hasImage) {
         this.author = author;
         this.content = content;
         this.id = id;
+        this.hasImage = hasImage;
     }
 
     public int getScoreColor() {

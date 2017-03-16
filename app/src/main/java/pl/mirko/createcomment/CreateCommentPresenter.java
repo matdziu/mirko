@@ -17,6 +17,6 @@ class CreateCommentPresenter extends BaseCreatePresenter {
     }
 
     void createNewComment(Post post, String content) {
-        databaseInteractor.createNewComment(post.id, content, this);
+        databaseInteractor.createNewComment(post.id, content, this, hasImage);
     }
 }

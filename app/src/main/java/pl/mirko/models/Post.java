@@ -9,7 +9,7 @@ public class Post extends BasePost {
         // default constructor for Firebase
     }
 
-    public Post(String author, String postContent, String postId) {
-        super(author, postContent, postId);
+    public Post(String author, String postContent, String postId, boolean hasImage) {
+        super(author, postContent, postId, hasImage);
     }
 }

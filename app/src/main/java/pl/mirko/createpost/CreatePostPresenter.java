@@ -35,7 +35,7 @@ public class CreatePostPresenter extends BaseCreatePresenter implements TagFetch
                 }
             }
         }
-        databaseInteractor.createNewPost(content, tags, this);
+        databaseInteractor.createNewPost(content, tags, this, hasImage);
     }
 
     void fetchTags() {

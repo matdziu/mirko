@@ -9,6 +9,9 @@ import com.google.firebase.storage.UploadTask;
 
 import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostImageSendingListener;
+import pl.mirko.models.BasePost;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 public class FirebaseStorageInteractor implements StorageInteractor {
 
@@ -27,5 +30,20 @@ public class FirebaseStorageInteractor implements StorageInteractor {
                         basePostImageSendingListener.onImageUploaded(basePostId);
                     }
                 });
+    }
+
+    @Override
+    public Observable<String> fetchBasePostImageUrl(BasePost basePost) {
+        final PublishSubject<String> subject = PublishSubject.create();
+        storageReference
+                .child(basePost.id)
+                .getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        subject.onNext(uri.toString());
+                    }
+                });
+        return subject;
     }
 }

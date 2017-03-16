@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import pl.mirko.R;
 import pl.mirko.interactors.FirebaseAuthInteractor;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
+import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.login.LoginActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -32,7 +33,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResource());
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        basePresenter = new BasePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor());
+        basePresenter = new BasePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(),
+                new FirebaseStorageInteractor());
     }
 
     protected abstract int getLayoutResource();

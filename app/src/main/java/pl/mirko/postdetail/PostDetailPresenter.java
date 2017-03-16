@@ -5,6 +5,7 @@ import java.util.List;
 import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.PostChangedListener;
 import pl.mirko.listeners.ThumbFetchingListener;
@@ -24,8 +25,9 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
 
     PostDetailPresenter(AuthenticationInteractor authenticationInteractor,
                         DatabaseInteractor databaseInteractor,
+                        StorageInteractor storageInteractor,
                         PostDetailView postDetailView) {
-        super(authenticationInteractor, databaseInteractor);
+        super(authenticationInteractor, databaseInteractor, storageInteractor);
         this.databaseInteractor = databaseInteractor;
         this.postDetailView = postDetailView;
     }

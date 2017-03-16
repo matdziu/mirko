@@ -6,6 +6,7 @@ import java.util.List;
 import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.TagFetchingListener;
 import pl.mirko.listeners.ThumbFetchingListener;
@@ -19,8 +20,10 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
     private List<String> tagSuggestions;
 
     HomePresenter(AuthenticationInteractor authenticationInteractor,
-                  DatabaseInteractor databaseInteractor, HomeView homeView) {
-        super(authenticationInteractor, databaseInteractor);
+                  DatabaseInteractor databaseInteractor,
+                  StorageInteractor storageInteractor,
+                  HomeView homeView) {
+        super(authenticationInteractor, databaseInteractor, storageInteractor);
         this.databaseInteractor = databaseInteractor;
         this.homeView = homeView;
     }

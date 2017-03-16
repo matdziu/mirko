@@ -54,7 +54,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
     @Override
     public void createNewPost(final String content, final List<String> tags,
-                              final BasePostSendingListener basePostSendingListener) {
+                              final BasePostSendingListener basePostSendingListener,
+                              final boolean hasImage) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             basePostSendingListener.onBasePostSendingStarted();
@@ -69,7 +70,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                                     .push().getKey();
 
                             User currentUser = dataSnapshot.getValue(User.class);
-                            Post newPost = new Post(currentUser.nickname, content, postId);
+                            Post newPost = new Post(currentUser.nickname, content, postId, hasImage);
 
                             databaseReference
                                     .child(POSTS)
@@ -94,7 +95,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
     @Override
     public void createNewComment(final String commentedPostId, final String content,
-                                 final BasePostSendingListener basePostSendingListener) {
+                                 final BasePostSendingListener basePostSendingListener,
+                                 final boolean hasImage) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             basePostSendingListener.onBasePostSendingStarted();
@@ -111,7 +113,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
                             User currentUser = dataSnapshot.getValue(User.class);
                             Comment newComment = new Comment(currentUser.nickname, content,
-                                    commentId, commentedPostId);
+                                    commentId, commentedPostId, hasImage);
 
                             databaseReference
                                     .child(COMMENTS)

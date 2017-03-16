@@ -15,10 +15,11 @@ public interface DatabaseInteractor {
 
     void createNewUser(User newUser);
 
-    void createNewPost(String content, List<String> tags, BasePostSendingListener basePostSendingListener);
+    void createNewPost(String content, List<String> tags, BasePostSendingListener basePostSendingListener,
+                       boolean hasImage);
 
     void createNewComment(String commentedPostId, String content,
-                          BasePostSendingListener basePostSendingListener);
+                          BasePostSendingListener basePostSendingListener, boolean hasImage);
 
     void fetchPosts(BasePostFetchingListener basePostFetchingListener);
 
