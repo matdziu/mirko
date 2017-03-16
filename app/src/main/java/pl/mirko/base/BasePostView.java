@@ -7,4 +7,6 @@ public interface BasePostView {
     void showThumbDownView();
 
     void showNoThumbView();
+
+    void loadImage(String url);
 }

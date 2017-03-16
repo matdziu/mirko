@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
@@ -105,6 +108,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
 
         basePresenter.setProperThumbView(basePost, holder);
+        basePresenter.loadImage(basePost, holder);
     }
 
     public void setNewDataSet(List<BasePost> basePostList) {
@@ -141,6 +145,9 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         @BindView(R.id.thumb_down_button)
         ImageButton thumbDownButton;
 
+        @BindView(R.id.base_post_image_view)
+        ImageView basePostImageView;
+
         private Context context;
 
         ViewHolder(View itemView, int topMargin) {
@@ -168,6 +175,14 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         public void showNoThumbView() {
             thumbUpButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
             thumbDownButton.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrey));
+        }
+
+        @Override
+        public void loadImage(String url) {
+            Glide.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(basePostImageView);
         }
     }
 }

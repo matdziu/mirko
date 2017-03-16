@@ -3,6 +3,7 @@ package pl.mirko.base;
 import pl.mirko.R;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.interactors.interfaces.StorageInteractor;
 import pl.mirko.models.BasePost;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
@@ -13,11 +14,13 @@ public class BasePresenter {
 
     private AuthenticationInteractor authenticationInteractor;
     private DatabaseInteractor databaseInteractor;
+    private StorageInteractor storageInteractor;
 
     public BasePresenter(AuthenticationInteractor authenticationInteractor,
-                         DatabaseInteractor databaseInteractor) {
+                         DatabaseInteractor databaseInteractor, StorageInteractor storageInteractor) {
         this.authenticationInteractor = authenticationInteractor;
         this.databaseInteractor = databaseInteractor;
+        this.storageInteractor = storageInteractor;
     }
 
     void logout() {
@@ -70,5 +73,9 @@ public class BasePresenter {
                 basePostView.showNoThumbView();
                 break;
         }
+    }
+
+    public void loadImage(BasePost basePost, BasePostView basePostView) {
+
     }
 }
