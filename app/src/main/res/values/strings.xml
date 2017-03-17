@@ -25,4 +25,5 @@
     <string name="wrong_tag_format">Zły format tagu</string>
     <string name="photo_added_text">Zdjęcie dodane</string>
     <string name="photo_deleted_text">Zdjęcie usunięte</string>
+    <string name="no_internet_error">Połącz się z internetem</string>
 </resources>

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.postdetail.PostDetailActivity;
+import pl.mirko.utils.NetworkUtils;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
@@ -86,13 +88,21 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.updateScore(basePost, UP);
+                if (NetworkUtils.isOnline()) {
+                    basePresenter.updateScore(basePost, UP);
+                } else {
+                    holder.showNoInternetError();
+                }
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                basePresenter.updateScore(basePost, DOWN);
+                if (NetworkUtils.isOnline()) {
+                    basePresenter.updateScore(basePost, DOWN);
+                } else {
+                    holder.showNoInternetError();
+                }
             }
         });
         if (basePostList.get(position) instanceof Post) {
@@ -195,6 +205,10 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                         .placeholder(R.drawable.image_placeholder)
                         .into(basePostImageView);
             }
+        }
+
+        void showNoInternetError() {
+            Toast.makeText(context, R.string.no_internet_error, Toast.LENGTH_SHORT).show();
         }
 
         public void setId(String id) {
