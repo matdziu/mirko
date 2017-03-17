@@ -134,6 +134,7 @@ public class HomeFragment extends Fragment implements HomeView {
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query);
                 searchMode = true;
+                homeContentView.requestFocus();
                 return true;
             }
 
