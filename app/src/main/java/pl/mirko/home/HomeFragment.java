@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query);
+                searchMode = true;
                 return true;
             }
 
