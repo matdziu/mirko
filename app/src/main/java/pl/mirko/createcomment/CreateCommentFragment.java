@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -12,6 +13,7 @@ import pl.mirko.basecreate.BaseCreateFragment;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.Post;
+import pl.mirko.utils.NetworkUtils;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 
@@ -44,7 +46,11 @@ public class CreateCommentFragment extends BaseCreateFragment implements CreateC
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send:
-                createCommentPresenter.createNewComment(post, createEditText.getText().toString());
+                if (NetworkUtils.isOnline()) {
+                    createCommentPresenter.createNewComment(post, createEditText.getText().toString());
+                } else {
+                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

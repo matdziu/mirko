@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import pl.mirko.adapters.TagSuggestionsAdapter;
 import pl.mirko.basecreate.BaseCreateFragment;
 import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
+import pl.mirko.utils.NetworkUtils;
 
 public class CreatePostFragment extends BaseCreateFragment implements CreatePostView {
 
@@ -37,7 +39,11 @@ public class CreatePostFragment extends BaseCreateFragment implements CreatePost
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send:
-                createPostPresenter.createNewPost(createEditText.getText().toString());
+                if (NetworkUtils.isOnline()) {
+                    createPostPresenter.createNewPost(createEditText.getText().toString());
+                } else {
+                    Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
