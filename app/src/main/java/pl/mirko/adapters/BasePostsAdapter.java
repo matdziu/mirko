@@ -78,6 +78,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         final BasePost rawPost = basePostList.get(position);
         final BasePost basePost = basePresenter.setScoreColor(rawPost);
 
+        holder.setId(basePost.id);
         holder.authorTextView.setText(basePost.author);
         holder.basePostTextView.setText(basePost.content);
         holder.scoreTextView.setText(String.valueOf(basePost.score));
@@ -157,6 +158,8 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
         private Context context;
 
+        private String id;
+
         ViewHolder(View itemView, int topMargin) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -185,11 +188,17 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
 
         @Override
-        public void loadImage(String url) {
-            Picasso.with(context)
-                    .load(url)
-                    .placeholder(R.drawable.image_placeholder)
-                    .into(basePostImageView);
+        public void loadImage(String url, String basePostId) {
+            if (basePostId.equals(id)) {
+                Picasso.with(context)
+                        .load(url)
+                        .placeholder(R.drawable.image_placeholder)
+                        .into(basePostImageView);
+            }
+        }
+
+        public void setId(String id) {
+            this.id = id;
         }
     }
 }

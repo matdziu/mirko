@@ -76,12 +76,12 @@ public class BasePresenter {
         }
     }
 
-    public void loadImage(BasePost basePost, final BasePostView basePostView) {
+    public void loadImage(final BasePost basePost, final BasePostView basePostView) {
         storageInteractor.fetchBasePostImageUrl(basePost)
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String url) {
-                        basePostView.loadImage(url);
+                        basePostView.loadImage(url, basePost.id);
                     }
                 }, new Action1<Throwable>() {
                     @Override

@@ -180,7 +180,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     }
 
     @Override
-    public void loadImage(String url) {
+    public void loadImage(String url, String basePostId) {
         Picasso.with(getContext())
                 .load(url)
                 .placeholder(R.drawable.image_placeholder)

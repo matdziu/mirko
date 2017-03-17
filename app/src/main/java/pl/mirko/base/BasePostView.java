@@ -8,5 +8,5 @@ public interface BasePostView {
 
     void showNoThumbView();
 
-    void loadImage(String url);
+    void loadImage(String url, String basePostId);
 }
