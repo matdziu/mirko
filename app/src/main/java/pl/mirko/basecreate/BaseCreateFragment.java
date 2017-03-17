@@ -1,8 +1,11 @@
 package pl.mirko.basecreate;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -40,6 +43,7 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
     protected FloatingActionButton addMultimediaButton;
 
     private final int REQUEST_PICK_IMAGE = 1;
+    private final int PERMISSION_REQUEST_CODE = 2;
     protected BaseCreatePresenter baseCreatePresenter;
 
     @Override
@@ -47,6 +51,18 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
         super.onCreate(savedInstanceState);
         getActivity().getWindow()
                 .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        requestPermissions(new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                getActivity().finish();
+            }
+        }
     }
 
     @Nullable
@@ -114,8 +130,12 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
 
     @Override
     public void startImagePickActivity() {
-        Intent photoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoIntent.setType("image/*");
-        startActivityForResult(photoIntent, REQUEST_PICK_IMAGE);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(cameraIntent,
+                getResources().getString(R.string.pick_photo));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
+        startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE);
     }
 }
