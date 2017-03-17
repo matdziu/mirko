@@ -98,6 +98,10 @@ captures/
 # Keystore files
 *.jks
 
+# OS generated files
+.DS_Store
+.DS_Store?
+
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
