@@ -26,5 +26,5 @@
     <string name="photo_added_text">Zdjęcie dodane</string>
     <string name="photo_deleted_text">Zdjęcie usunięte</string>
     <string name="no_internet_error">Połącz się z internetem</string>
-    <string name="pick_photo">Wybierz zdjęcie</string>
+    <string name="pick_photo">Wybierz zdjęcie:</string>
 </resources>
