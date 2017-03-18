@@ -49,7 +49,7 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
     }
 
     @Override
-    public void onImageUploaded(String basePostId) {
+    public void onImageUploaded() {
         baseCreateView.showProgressBar(false);
         baseCreateView.finish();
     }

@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
@@ -155,6 +155,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @Override
     public void updateRecyclerView(List<BasePost> commentList) {
+        commentsRecyclerView.setItemViewCacheSize(commentList.size());
         basePostsAdapter.setNewDataSet(commentList);
     }
 
@@ -194,8 +195,8 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     }
 
     @Override
-    public void loadImage(String url, String basePostId) {
-        Picasso.with(getContext())
+    public void loadImage(String url) {
+        Glide.with(getContext())
                 .load(url)
                 .placeholder(R.drawable.image_placeholder)
                 .into(basePostImageView);

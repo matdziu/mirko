@@ -81,7 +81,7 @@
             android:layout_below="@+id/base_post_text_view"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:scaleType="fitCenter"
+            android:scaleType="fitStart"
             android:visibility="gone" />
 
     </RelativeLayout>

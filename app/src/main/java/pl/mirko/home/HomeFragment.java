@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment implements HomeView {
         if (searchMode) {
             postList.retainAll(basePostsAdapter.getDataSet());
         }
+        homeRecyclerView.setItemViewCacheSize(postList.size());
         basePostsAdapter.setNewDataSet(postList);
     }
 

@@ -81,7 +81,7 @@ public class BasePresenter {
                 .subscribe(new Action1<String>() {
                     @Override
                     public void call(String url) {
-                        basePostView.loadImage(url, basePost.id);
+                        basePostView.loadImage(url);
                     }
                 }, new Action1<Throwable>() {
                     @Override

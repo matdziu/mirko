@@ -130,12 +130,12 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
 
     @Override
     public void startImagePickActivity() {
-//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
         Intent chooserIntent = Intent.createChooser(galleryIntent,
                 getResources().getString(R.string.pick_photo));
-//        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{galleryIntent});
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{cameraIntent});
         startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE);
     }
 }

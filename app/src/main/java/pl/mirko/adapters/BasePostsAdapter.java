@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
@@ -63,6 +63,11 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     @Override
+    public long getItemId(int position) {
+        return Long.valueOf(basePostList.get(position).id);
+    }
+
+    @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_base_post, parent, false);
@@ -80,7 +85,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         final BasePost rawPost = basePostList.get(position);
         final BasePost basePost = basePresenter.setScoreColor(rawPost);
 
-        holder.setId(basePost.id);
         holder.authorTextView.setText(basePost.author);
         holder.basePostTextView.setText(basePost.content);
         holder.scoreTextView.setText(String.valueOf(basePost.score));
@@ -123,10 +127,13 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (basePost.hasImage) {
             holder.basePostImageView.setVisibility(View.VISIBLE);
             basePresenter.loadImage(basePost, holder);
-        } else {
-            Picasso.with(context).cancelRequest(holder.basePostImageView);
-            holder.basePostImageView.setImageDrawable(null);
         }
+    }
+
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.clear(holder.basePostImageView);
     }
 
     public void setNewDataSet(List<BasePost> basePostList) {
@@ -168,8 +175,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
         private Context context;
 
-        private String id;
-
         ViewHolder(View itemView, int topMargin) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -198,21 +203,15 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
 
         @Override
-        public void loadImage(String url, String basePostId) {
-            if (basePostId.equals(id)) {
-                Picasso.with(context)
-                        .load(url)
-                        .placeholder(R.drawable.image_placeholder)
-                        .into(basePostImageView);
-            }
+        public void loadImage(String url) {
+            Glide.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.image_placeholder)
+                    .into(basePostImageView);
         }
 
         void showNoInternetError() {
             Toast.makeText(context, R.string.no_internet_error, Toast.LENGTH_SHORT).show();
-        }
-
-        public void setId(String id) {
-            this.id = id;
         }
     }
 }

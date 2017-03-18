@@ -65,9 +65,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            final String postId = databaseReference
-                                    .child(POSTS)
-                                    .push().getKey();
+                            final String postId = String.valueOf(System.currentTimeMillis());
 
                             User currentUser = dataSnapshot.getValue(User.class);
                             Post newPost = new Post(currentUser.nickname, content, postId, hasImage);
@@ -106,10 +104,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            final String commentId = databaseReference
-                                    .child(COMMENTS)
-                                    .child(commentedPostId)
-                                    .push().getKey();
+                            final String commentId = String.valueOf(System.currentTimeMillis());
 
                             User currentUser = dataSnapshot.getValue(User.class);
                             Comment newComment = new Comment(currentUser.nickname, content,
