@@ -62,7 +62,6 @@ public class HomeFragment extends Fragment implements HomeView {
 
         homePresenter = new HomePresenter(new FirebaseAuthInteractor(), new FirebaseDatabaseInteractor(),
                 new FirebaseStorageInteractor(), this);
-        basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), homePresenter);
         suggestionsAdapter = new SimpleCursorAdapter(getContext(), R.layout.item_tag_suggestion,
                 null, new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1}, new int[]{R.id.tag_suggestion_text_view}, 0);
     }
@@ -78,7 +77,6 @@ public class HomeFragment extends Fragment implements HomeView {
         homePresenter.fetchTags();
 
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        homeRecyclerView.setAdapter(basePostsAdapter);
 
         return view;
     }
@@ -100,12 +98,24 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @Override
-    public void updateRecyclerView(List<BasePost> postList) {
-        if (searchMode) {
-            postList.retainAll(basePostsAdapter.getDataSet());
-        }
+    public void initDataSet(List<BasePost> postList) {
+        basePostsAdapter = new BasePostsAdapter(postList, getContext(), homePresenter);
+        homeRecyclerView.setAdapter(basePostsAdapter);
         homeRecyclerView.setItemViewCacheSize(postList.size());
-        basePostsAdapter.setNewDataSet(postList);
+        homePresenter.addPostEventListener();
+    }
+
+    @Override
+    public void addNewItem(BasePost basePost) {
+        if (!searchMode) {
+            basePostsAdapter.addNewItem(basePost);
+        }
+        homeRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
+    }
+
+    @Override
+    public void updateItem(BasePost basePost) {
+        basePostsAdapter.updateItem(basePost);
     }
 
     @Override

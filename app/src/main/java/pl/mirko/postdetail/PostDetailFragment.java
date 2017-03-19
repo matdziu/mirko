@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,8 +85,6 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
                 .getParcelable(POST_KEY));
 
         postDetailPresenter.setPostId(rawPost.id);
-
-        basePostsAdapter = new BasePostsAdapter(new ArrayList<BasePost>(), getContext(), postDetailPresenter);
     }
 
     @Nullable
@@ -106,7 +103,6 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailPresenter.fetchComments(post);
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        commentsRecyclerView.setAdapter(basePostsAdapter);
 
         return view;
     }
@@ -154,9 +150,22 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     }
 
     @Override
-    public void updateRecyclerView(List<BasePost> commentList) {
+    public void initDataSet(List<BasePost> commentList) {
+        basePostsAdapter = new BasePostsAdapter(commentList, getContext(), postDetailPresenter);
+        commentsRecyclerView.setAdapter(basePostsAdapter);
         commentsRecyclerView.setItemViewCacheSize(commentList.size());
-        basePostsAdapter.setNewDataSet(commentList);
+        postDetailPresenter.addCommentEventListener();
+    }
+
+    @Override
+    public void addNewItem(BasePost basePost) {
+        basePostsAdapter.addNewItem(basePost);
+        commentsRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
+    }
+
+    @Override
+    public void updateItem(BasePost basePost) {
+        basePostsAdapter.updateItem(basePost);
     }
 
     @Override

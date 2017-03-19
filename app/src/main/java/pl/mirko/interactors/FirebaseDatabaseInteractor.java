@@ -138,7 +138,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
         basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(POSTS)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final List<BasePost> postList = new ArrayList<>();
@@ -161,7 +161,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
         databaseReference
                 .child(COMMENTS)
                 .child(post.id)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<BasePost> commentList = new ArrayList<>();

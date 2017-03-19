@@ -8,7 +8,11 @@ interface HomeView {
 
     void showProgressBar(boolean show);
 
-    void updateRecyclerView(List<BasePost> postList);
+    void initDataSet(List<BasePost> postList);
+
+    void addNewItem(BasePost basePost);
+
+    void updateItem(BasePost basePost);
 
     void showWrongQueryFormatError();
 

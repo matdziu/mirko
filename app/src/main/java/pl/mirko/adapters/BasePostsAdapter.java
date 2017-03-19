@@ -137,13 +137,15 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         Glide.clear(holder.basePostImageView);
     }
 
-    public void setNewDataSet(List<BasePost> basePostList) {
-        this.basePostList = basePostList;
-        notifyDataSetChanged();
+    public void addNewItem(BasePost basePost) {
+        basePostList.add(0, basePost);
+        notifyItemInserted(0);
     }
 
-    public List<BasePost> getDataSet() {
-        return basePostList;
+    public void updateItem(BasePost basePost) {
+        int updateIndex = basePostList.indexOf(basePost);
+        basePostList.set(updateIndex, basePost);
+        notifyItemChanged(updateIndex);
     }
 
     @Override

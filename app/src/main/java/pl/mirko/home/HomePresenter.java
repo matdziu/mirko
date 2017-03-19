@@ -7,13 +7,14 @@ import pl.mirko.base.BasePresenter;
 import pl.mirko.interactors.interfaces.AuthenticationInteractor;
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
 import pl.mirko.interactors.interfaces.StorageInteractor;
+import pl.mirko.listeners.BasePostEventListener;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.TagFetchingListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 
 class HomePresenter extends BasePresenter implements BasePostFetchingListener,
-        ThumbFetchingListener, TagFetchingListener {
+        ThumbFetchingListener, TagFetchingListener, BasePostEventListener {
 
     private DatabaseInteractor databaseInteractor;
     private HomeView homeView;
@@ -44,7 +45,7 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
 
     @Override
     public void onThumbFetchingFinished(List<BasePost> postList) {
-        homeView.updateRecyclerView(postList);
+        homeView.initDataSet(postList);
         homeView.showProgressBar(false);
     }
 
@@ -73,5 +74,19 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
             if (tag.startsWith(newText)) filteredTags.add(tag);
         }
         return filteredTags;
+    }
+
+    @Override
+    public void onBasePostAdded(BasePost basePost) {
+        homeView.addNewItem(basePost);
+    }
+
+    @Override
+    public void onBasePostChanged(BasePost basePost) {
+        homeView.updateItem(basePost);
+    }
+
+    void addPostEventListener() {
+        databaseInteractor.addPostEventListener(this);
     }
 }

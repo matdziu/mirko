@@ -10,7 +10,11 @@ interface PostDetailView extends BasePostView {
 
     void showProgressBar(boolean show);
 
-    void updateRecyclerView(List<BasePost> commentList);
+    void initDataSet(List<BasePost> commentList);
+
+    void addNewItem(BasePost basePost);
+
+    void updateItem(BasePost basePost);
 
     void showPostDetails(Post rawPost);
 }
