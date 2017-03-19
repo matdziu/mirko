@@ -37,8 +37,6 @@ public interface DatabaseInteractor {
 
     void fetchCommentsThumbs(String commentedPostId, List<BasePost> commentList, ThumbFetchingListener thumbFetchingListener);
 
-    void fetchSinglePostThumbs(Post post, PostChangedListener postChangedListener);
-
     void fetchTags(TagFetchingListener tagFetchingListener);
 
     void updateTags(List<String> tags, String postId);

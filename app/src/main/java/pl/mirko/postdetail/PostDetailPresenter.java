@@ -12,6 +12,7 @@ import pl.mirko.listeners.PostChangedListener;
 import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
+import rx.functions.Action1;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.NO_THUMB;
@@ -52,25 +53,31 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
     }
 
     @Override
-    public void onPostChanged(Post post) {
-        databaseInteractor.fetchSinglePostThumbs(post, this);
-    }
+    public void onPostChanged(final Post post) {
+        databaseInteractor.fetchSingleBasePostThumbs(post)
+                .subscribe(new Action1<BasePost>() {
+                    @Override
+                    public void call(BasePost basePost) {
+                        postDetailView.showPostDetails(post);
 
-    @Override
-    public void onPostThumbsFetched(Post post) {
-        postDetailView.showPostDetails(post);
-
-        switch (post.getThumb()) {
-            case UP:
-                postDetailView.showThumbUpView();
-                break;
-            case DOWN:
-                postDetailView.showThumbDownView();
-                break;
-            case NO_THUMB:
-                postDetailView.showNoThumbView();
-                break;
-        }
+                        switch (post.getThumb()) {
+                            case UP:
+                                postDetailView.showThumbUpView();
+                                break;
+                            case DOWN:
+                                postDetailView.showThumbDownView();
+                                break;
+                            case NO_THUMB:
+                                postDetailView.showNoThumbView();
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 
     @Override
