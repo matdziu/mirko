@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.mirko.interactors.interfaces.DatabaseInteractor;
+import pl.mirko.listeners.BasePostEventListener;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.PostChangedListener;
@@ -399,6 +401,71 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Timber.e(databaseError.getMessage());
+                    }
+                });
+    }
+
+    @Override
+    public void addPostEventListener(final BasePostEventListener basePostEventListener) {
+        databaseReference
+                .child(POSTS)
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        basePostEventListener.onBasePostAdded(dataSnapshot.getValue(Post.class));
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        basePostEventListener.onBasePostChanged(dataSnapshot.getValue(Comment.class));
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        // onChildRemoved()
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        // onChildMoved()
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // onCancelled()
+                    }
+                });
+    }
+
+    @Override
+    public void addCommentEventListener(final BasePostEventListener basePostEventListener, String commentedPostId) {
+        databaseReference
+                .child(COMMENTS)
+                .child(commentedPostId)
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        basePostEventListener.onBasePostAdded(dataSnapshot.getValue(Comment.class));
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        basePostEventListener.onBasePostChanged(dataSnapshot.getValue(Comment.class));
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        // onChildRemoved()
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        // onChildMoved()
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // onCancelled()
                     }
                 });
     }

@@ -2,6 +2,7 @@ package pl.mirko.interactors.interfaces;
 
 import java.util.List;
 
+import pl.mirko.listeners.BasePostEventListener;
 import pl.mirko.listeners.BasePostFetchingListener;
 import pl.mirko.listeners.BasePostSendingListener;
 import pl.mirko.listeners.PostChangedListener;
@@ -42,4 +43,8 @@ public interface DatabaseInteractor {
     void updateTags(List<String> tags, String postId);
 
     void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener);
+
+    void addPostEventListener(BasePostEventListener basePostEventListener);
+
+    void addCommentEventListener(BasePostEventListener basePostEventListener, String commentedPostId);
 }
