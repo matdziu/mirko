@@ -37,7 +37,6 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     private static final String COMMENTS = "comments";
     private static final String THUMBS = "thumbs";
     private static final String SCORE_FIELD_NAME = "score";
-    private static final String IMAGE_NAME_FIELD = "imageName";
     private static final String TAGS = "tags";
 
     public static final String UP = "up";
