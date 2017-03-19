@@ -138,8 +138,10 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     }
 
     public void addNewItem(BasePost basePost) {
-        basePostList.add(0, basePost);
-        notifyItemInserted(0);
+        if (!basePostList.contains(basePost)) {
+            basePostList.add(0, basePost);
+            notifyItemInserted(0);
+        }
     }
 
     public void updateItem(BasePost basePost) {
