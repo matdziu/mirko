@@ -213,6 +213,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
             Glide.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .dontAnimate()
                     .placeholder(R.drawable.image_placeholder)
                     .into(basePostImageView);
         }
