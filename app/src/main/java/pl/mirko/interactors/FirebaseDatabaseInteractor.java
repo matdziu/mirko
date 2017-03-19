@@ -27,6 +27,8 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.models.User;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 import timber.log.Timber;
 
 public class FirebaseDatabaseInteractor implements DatabaseInteractor {
@@ -332,7 +334,6 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         }
                     });
         }
-
     }
 
     @Override
@@ -417,7 +418,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
 
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                        basePostEventListener.onBasePostChanged(dataSnapshot.getValue(Comment.class));
+                        basePostEventListener.onBasePostChanged(dataSnapshot.getValue(Post.class));
                     }
 
                     @Override
@@ -468,5 +469,46 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                         // onCancelled()
                     }
                 });
+    }
+
+    @Override
+    public Observable<BasePost> fetchSingleBasePostThumbs(final BasePost basePost) {
+        final PublishSubject<BasePost> subject = PublishSubject.create();
+        final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            DatabaseReference basePostReference = null;
+            if (basePost instanceof Post) {
+                basePostReference = databaseReference
+                        .child(POSTS);
+            } else if (basePost instanceof Comment) {
+                Comment comment = (Comment) basePost;
+                basePostReference = databaseReference
+                        .child(COMMENTS)
+                        .child(comment.commentedPostId);
+            }
+
+            if (basePostReference != null) {
+                basePostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.child(basePost.id)
+                                .child(THUMBS)
+                                .hasChild(firebaseUser.getUid())) {
+                            basePost.setThumb(dataSnapshot.child(basePost.id)
+                                    .child(THUMBS)
+                                    .child(firebaseUser.getUid())
+                                    .getValue(String.class));
+                            subject.onNext(basePost);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Timber.e(databaseError.getMessage());
+                    }
+                });
+            }
+        }
+        return subject;
     }
 }

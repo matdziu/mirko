@@ -62,18 +62,30 @@ public class BasePresenter {
         }
     }
 
-    public void setProperThumbView(BasePost basePost, BasePostView basePostView) {
-        switch (basePost.getThumb()) {
-            case UP:
-                basePostView.showThumbUpView();
-                break;
-            case DOWN:
-                basePostView.showThumbDownView();
-                break;
-            case NO_THUMB:
-                basePostView.showNoThumbView();
-                break;
-        }
+    public void setProperThumbView(BasePost basePost, final BasePostView basePostView) {
+        databaseInteractor.fetchSingleBasePostThumbs(basePost)
+                .subscribe(new Action1<BasePost>() {
+                    @Override
+                    public void call(BasePost basePost) {
+
+                        switch (basePost.getThumb()) {
+                            case UP:
+                                basePostView.showThumbUpView();
+                                break;
+                            case DOWN:
+                                basePostView.showThumbDownView();
+                                break;
+                            case NO_THUMB:
+                                basePostView.showNoThumbView();
+                                break;
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 
     public void loadImage(final BasePost basePost, final BasePostView basePostView) {

@@ -11,6 +11,7 @@ import pl.mirko.listeners.ThumbFetchingListener;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 import pl.mirko.models.User;
+import rx.Observable;
 
 public interface DatabaseInteractor {
 
@@ -47,4 +48,6 @@ public interface DatabaseInteractor {
     void addPostEventListener(BasePostEventListener basePostEventListener);
 
     void addCommentEventListener(BasePostEventListener basePostEventListener, String commentedPostId);
+
+    Observable<BasePost> fetchSingleBasePostThumbs(BasePost basePost);
 }
