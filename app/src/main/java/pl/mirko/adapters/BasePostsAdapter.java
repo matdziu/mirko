@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.parceler.Parcels;
 
@@ -206,6 +207,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         public void loadImage(String url) {
             Glide.with(context)
                     .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.image_placeholder)
                     .into(basePostImageView);
         }
