@@ -209,6 +209,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
         @Override
         public void loadImage(String url) {
+            basePostImageView.layout(0, 0, 0, 0);
             Glide.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
