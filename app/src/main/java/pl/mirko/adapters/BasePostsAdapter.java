@@ -128,6 +128,9 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         if (basePost.hasImage) {
             holder.basePostImageView.setVisibility(View.VISIBLE);
             basePresenter.loadImage(basePost, holder);
+        } else {
+            Glide.clear(holder.basePostImageView);
+            holder.basePostImageView.setImageDrawable(null);
         }
     }
 
