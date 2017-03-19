@@ -83,7 +83,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final BasePost rawPost = basePostList.get(position);
+        final BasePost rawPost = basePostList.get(holder.getAdapterPosition());
         final BasePost basePost = basePresenter.setScoreColor(rawPost);
 
         holder.authorTextView.setText(basePost.author);
@@ -110,7 +110,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                 }
             }
         });
-        if (basePostList.get(position) instanceof Post) {
+        if (basePostList.get(holder.getAdapterPosition()) instanceof Post) {
             holder.basePostCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
