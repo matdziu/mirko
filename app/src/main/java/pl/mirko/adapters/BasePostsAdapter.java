@@ -85,6 +85,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final BasePost rawPost = basePostList.get(holder.getAdapterPosition());
         final BasePost basePost = basePresenter.setScoreColor(rawPost);
+        holder.showNoThumbView();
 
         holder.authorTextView.setText(basePost.author);
         holder.basePostTextView.setText(basePost.content);
