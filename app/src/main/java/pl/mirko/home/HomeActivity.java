@@ -17,7 +17,7 @@ public class HomeActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        fragmentTransaction.add(R.id.home_fragment_container, new HomeFragment());
+        fragmentTransaction.replace(R.id.home_fragment_container, new HomeFragment());
         fragmentTransaction.commit();
     }
 
