@@ -33,8 +33,8 @@
             <ImageButton
                 android:id="@+id/thumb_up_button"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="10"
+                android:layout_height="50dp"
+                android:layout_weight="20"
                 android:background="@color/colorGrey"
                 android:contentDescription="@string/thumb_up_desc"
                 android:src="@drawable/ic_thumb_up" />
@@ -47,8 +47,8 @@
             <ImageButton
                 android:id="@+id/thumb_down_button"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:layout_weight="10"
+                android:layout_height="50dp"
+                android:layout_weight="20"
                 android:background="@color/colorGrey"
                 android:contentDescription="@string/thumb_down_desc"
                 android:src="@drawable/ic_thumb_down" />
