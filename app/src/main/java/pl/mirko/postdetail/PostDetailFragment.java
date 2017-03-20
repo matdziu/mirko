@@ -14,7 +14,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -33,7 +32,6 @@ import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
-import pl.mirko.utils.NetworkUtils;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
@@ -109,24 +107,12 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @OnClick(R.id.thumb_up_button)
     public void onThumbUpButtonClicked() {
-        if (NetworkUtils.isOnline()) {
-            postDetailPresenter.updateScore(post, UP);
-        } else {
-            showNoInternetError();
-        }
+        postDetailPresenter.updateScore(post, UP);
     }
 
     @OnClick(R.id.thumb_down_button)
     public void onThumbDownButtonClicked() {
-        if (NetworkUtils.isOnline()) {
-            postDetailPresenter.updateScore(post, DOWN);
-        } else {
-            showNoInternetError();
-        }
-    }
-
-    private void showNoInternetError() {
-        Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_SHORT).show();
+        postDetailPresenter.updateScore(post, DOWN);
     }
 
     @OnClick(R.id.add_comment_fab)

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,7 +29,6 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Comment;
 import pl.mirko.models.Post;
 import pl.mirko.postdetail.PostDetailActivity;
-import pl.mirko.utils.NetworkUtils;
 
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
@@ -94,21 +92,13 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         holder.thumbUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkUtils.isOnline()) {
-                    basePresenter.updateScore(basePost, UP);
-                } else {
-                    holder.showNoInternetError();
-                }
+                basePresenter.updateScore(basePost, UP);
             }
         });
         holder.thumbDownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (NetworkUtils.isOnline()) {
-                    basePresenter.updateScore(basePost, DOWN);
-                } else {
-                    holder.showNoInternetError();
-                }
+                basePresenter.updateScore(basePost, DOWN);
             }
         });
         if (basePostList.get(holder.getAdapterPosition()) instanceof Post) {
@@ -226,10 +216,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                     .dontAnimate()
                     .placeholder(R.drawable.image_placeholder)
                     .into(basePostImageView);
-        }
-
-        void showNoInternetError() {
-            Toast.makeText(context, R.string.no_internet_error, Toast.LENGTH_SHORT).show();
         }
     }
 }
