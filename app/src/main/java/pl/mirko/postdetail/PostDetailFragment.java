@@ -191,9 +191,9 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @Override
     public void loadImage(String url) {
+        basePostImageView.layout(0, 0, 0, 0);
         Glide.with(getContext())
                 .load(url)
-                .placeholder(R.drawable.image_placeholder)
                 .into(basePostImageView);
     }
 }
