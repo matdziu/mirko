@@ -125,13 +125,20 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
 
         basePresenter.setProperThumbView(basePost, holder);
+    }
 
-        if (basePost.hasImage) {
-            holder.basePostImageView.setVisibility(View.VISIBLE);
-            basePresenter.loadImage(basePost, holder);
-        } else {
-            Glide.clear(holder.basePostImageView);
-            holder.basePostImageView.setImageDrawable(null);
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        if (payloads.isEmpty()) {
+            BasePost basePost = basePostList.get(holder.getAdapterPosition());
+            if (basePost.hasImage) {
+                holder.basePostImageView.setVisibility(View.VISIBLE);
+                basePresenter.loadImage(basePost, holder);
+            } else {
+                Glide.clear(holder.basePostImageView);
+                holder.basePostImageView.setImageDrawable(null);
+            }
         }
     }
 
@@ -151,7 +158,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     public void updateItem(BasePost basePost) {
         int updateIndex = basePostList.indexOf(basePost);
         basePostList.set(updateIndex, basePost);
-        notifyItemChanged(updateIndex);
+        notifyItemChanged(updateIndex, new Object());
     }
 
     @Override
