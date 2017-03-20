@@ -137,7 +137,6 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
                 basePresenter.loadImage(basePost, holder);
             } else {
                 Glide.clear(holder.basePostImageView);
-                holder.basePostImageView.setImageDrawable(null);
             }
         }
     }
