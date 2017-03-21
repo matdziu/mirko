@@ -34,8 +34,8 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
         this.postDetailView = postDetailView;
     }
 
-    void fetchComments(Post post) {
-        databaseInteractor.fetchComments(post, this);
+    void fetchComments(Post post, String fetchingStartPoint) {
+        databaseInteractor.fetchComments(post, this, fetchingStartPoint);
     }
 
     void addOnPostChangedListener(Post post) {

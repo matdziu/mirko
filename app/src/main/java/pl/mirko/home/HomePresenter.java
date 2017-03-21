@@ -29,8 +29,8 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
         this.homeView = homeView;
     }
 
-    void fetchPosts() {
-        databaseInteractor.fetchPosts(this);
+    void fetchPosts(String fetchingStartPoint) {
+        databaseInteractor.fetchPosts(this, fetchingStartPoint);
     }
 
     @Override

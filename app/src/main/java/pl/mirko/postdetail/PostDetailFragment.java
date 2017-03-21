@@ -103,7 +103,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
         showPostDetails(rawPost);
         postDetailPresenter.addOnPostChangedListener(post);
-        postDetailPresenter.fetchComments(post);
+        postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()));
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         commentsRecyclerView.setAdapter(basePostsAdapter);
@@ -111,7 +111,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postDetailPresenter.fetchComments(post);
+                postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()));
             }
         });
 

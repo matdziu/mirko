@@ -136,10 +136,13 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchPosts(final BasePostFetchingListener basePostFetchingListener) {
+    public void fetchPosts(final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint) {
         basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(POSTS)
+                .orderByKey()
+                .endAt(fetchingStartPoint)
+                .limitToLast(3)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -158,11 +161,14 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchComments(Post post, final BasePostFetchingListener basePostFetchingListener) {
+    public void fetchComments(Post post, final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint) {
         basePostFetchingListener.onBasePostFetchingStarted();
         databaseReference
                 .child(COMMENTS)
                 .child(post.id)
+                .orderByKey()
+                .endAt(fetchingStartPoint)
+                .limitToLast(3)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements HomeView {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
-        homePresenter.fetchPosts();
+        homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
         homePresenter.fetchTags();
 
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements HomeView {
         homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                homePresenter.fetchPosts();
+                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
             }
         });
 
@@ -168,7 +168,7 @@ public class HomeFragment extends Fragment implements HomeView {
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                homePresenter.fetchPosts();
+                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
                 return true;
             }
 
