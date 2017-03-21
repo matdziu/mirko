@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void updateDataSet(List<BasePost> postList) {
-        basePostsAdapter.updateDateSet(postList);
+        basePostsAdapter.updateDataSet(postList);
         homeRecyclerView.setItemViewCacheSize(postList.size());
         homePresenter.addPostEventListener();
     }

@@ -145,9 +145,18 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
     }
 
-    public void updateDateSet(List<BasePost> basePostList) {
+    public void updateDataSet(List<BasePost> basePostList) {
         this.basePostList = basePostList;
         notifyDataSetChanged();
+    }
+
+    public void appendToDataSet(List<BasePost> basePostList) {
+        this.basePostList.addAll(basePostList);
+        notifyItemRangeInserted(this.basePostList.size() - 1, basePostList.size());
+    }
+
+    public String getLastItemKey() {
+        return basePostList.get(basePostList.size() - 1).id;
     }
 
     @Override

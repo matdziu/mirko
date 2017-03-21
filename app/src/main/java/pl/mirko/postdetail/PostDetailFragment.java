@@ -151,7 +151,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
     @Override
     public void initDataSet(List<BasePost> commentList) {
-        basePostsAdapter.updateDateSet(commentList);
+        basePostsAdapter.updateDataSet(commentList);
         commentsRecyclerView.setItemViewCacheSize(commentList.size());
         postDetailPresenter.addCommentEventListener();
     }
