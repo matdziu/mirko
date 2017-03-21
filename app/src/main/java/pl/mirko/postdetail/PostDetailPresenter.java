@@ -91,11 +91,6 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
     }
 
     @Override
-    public void onBasePostAdded(BasePost basePost) {
-        postDetailView.addNewItem(basePost);
-    }
-
-    @Override
     public void onBasePostChanged(BasePost basePost) {
         postDetailView.updateItem(basePost);
     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,6 +64,9 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @BindView(R.id.base_post_image_view)
     ImageView basePostImageView;
 
+    @BindView(R.id.post_detail_swipe_refresh)
+    SwipeRefreshLayout postDetailSwipeRefresh;
+
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
@@ -83,6 +87,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
                 .getParcelable(POST_KEY));
 
         postDetailPresenter.setPostId(rawPost.id);
+        basePostsAdapter = new BasePostsAdapter(getContext(), postDetailPresenter);
     }
 
     @Nullable
@@ -101,6 +106,14 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailPresenter.fetchComments(post);
 
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        commentsRecyclerView.setAdapter(basePostsAdapter);
+
+        postDetailSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                postDetailPresenter.fetchComments(post);
+            }
+        });
 
         return view;
     }
@@ -132,21 +145,15 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         } else {
             progressBar.setVisibility(View.GONE);
             commentsRecyclerView.setVisibility(View.VISIBLE);
+            postDetailSwipeRefresh.setRefreshing(false);
         }
     }
 
     @Override
     public void initDataSet(List<BasePost> commentList) {
-        basePostsAdapter = new BasePostsAdapter(commentList, getContext(), postDetailPresenter);
-        commentsRecyclerView.setAdapter(basePostsAdapter);
+        basePostsAdapter.updateDateSet(commentList);
         commentsRecyclerView.setItemViewCacheSize(commentList.size());
         postDetailPresenter.addCommentEventListener();
-    }
-
-    @Override
-    public void addNewItem(BasePost basePost) {
-        basePostsAdapter.addNewItem(basePost);
-        commentsRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
     }
 
     @Override

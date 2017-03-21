@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -48,13 +49,14 @@ public class HomeFragment extends Fragment implements HomeView {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    @BindView(R.id.home_swipe_refresh)
+    SwipeRefreshLayout homeSwipeRefresh;
+
     private BasePostsAdapter basePostsAdapter;
 
     private HomePresenter homePresenter;
 
     private CursorAdapter suggestionsAdapter;
-
-    private boolean searchMode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,8 @@ public class HomeFragment extends Fragment implements HomeView {
                 new FirebaseStorageInteractor(), this);
         suggestionsAdapter = new SimpleCursorAdapter(getContext(), R.layout.item_tag_suggestion,
                 null, new String[]{SearchManager.SUGGEST_COLUMN_TEXT_1}, new int[]{R.id.tag_suggestion_text_view}, 0);
+
+        basePostsAdapter = new BasePostsAdapter(getContext(), homePresenter);
     }
 
     @Nullable
@@ -77,6 +81,14 @@ public class HomeFragment extends Fragment implements HomeView {
         homePresenter.fetchTags();
 
         homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        homeRecyclerView.setAdapter(basePostsAdapter);
+
+        homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                homePresenter.fetchPosts();
+            }
+        });
 
         return view;
     }
@@ -94,23 +106,15 @@ public class HomeFragment extends Fragment implements HomeView {
         } else {
             progressBar.setVisibility(View.GONE);
             homeContentView.setVisibility(View.VISIBLE);
+            homeSwipeRefresh.setRefreshing(false);
         }
     }
 
     @Override
-    public void initDataSet(List<BasePost> postList) {
-        basePostsAdapter = new BasePostsAdapter(postList, getContext(), homePresenter);
-        homeRecyclerView.setAdapter(basePostsAdapter);
+    public void updateDataSet(List<BasePost> postList) {
+        basePostsAdapter.updateDateSet(postList);
         homeRecyclerView.setItemViewCacheSize(postList.size());
         homePresenter.addPostEventListener();
-    }
-
-    @Override
-    public void addNewItem(BasePost basePost) {
-        if (!searchMode) {
-            basePostsAdapter.addNewItem(basePost);
-        }
-        homeRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
     }
 
     @Override
@@ -144,7 +148,6 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query);
-                searchMode = true;
                 homeContentView.requestFocus();
                 return true;
             }
@@ -166,7 +169,6 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 homePresenter.fetchPosts();
-                searchMode = false;
                 return true;
             }
 
@@ -180,7 +182,6 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onSuggestionClick(int position) {
                 searchView.setQuery(filteredTags.get(position), true);
-                searchMode = true;
                 return true;
             }
 

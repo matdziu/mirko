@@ -3,47 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/post_detail_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include
-                android:id="@+id/item_base_post_layout"
-                layout="@layout/item_base_post" />
-
-            <TextView
-                android:id="@+id/comments_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/item_base_post_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/comments_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/comments_recycler_view"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/comments_text_view" />
+                android:layout_height="wrap_content">
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_below="@id/comments_text_view"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone" />
+                <include
+                    android:id="@+id/item_base_post_layout"
+                    layout="@layout/item_base_post" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/comments_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/item_base_post_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/comments_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-    </ScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/comments_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/comments_text_view" />
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_below="@id/comments_text_view"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_comment_fab"

@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +36,7 @@ import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
 public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.ViewHolder> {
 
-    private List<BasePost> basePostList;
+    private List<BasePost> basePostList = new ArrayList<>();
     private Context context;
     private BasePresenter basePresenter;
 
@@ -44,8 +45,7 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
     private static int POST_TYPE = 1;
     private static int COMMENT_TYPE = 0;
 
-    public BasePostsAdapter(List<BasePost> basePostList, Context context, BasePresenter basePresenter) {
-        this.basePostList = basePostList;
+    public BasePostsAdapter(Context context, BasePresenter basePresenter) {
         this.context = context;
         this.basePresenter = basePresenter;
     }
@@ -137,17 +137,15 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         Glide.clear(holder.basePostImageView);
     }
 
-    public void addNewItem(BasePost basePost) {
-        if (!basePostList.contains(basePost)) {
-            basePostList.add(0, basePost);
-            notifyItemInserted(0);
-        }
-    }
-
     public void updateItem(BasePost basePost) {
         int updateIndex = basePostList.indexOf(basePost);
         basePostList.set(updateIndex, basePost);
         notifyItemChanged(updateIndex, new Object());
+    }
+
+    public void updateDateSet(List<BasePost> basePostList) {
+        this.basePostList = basePostList;
+        notifyDataSetChanged();
     }
 
     @Override

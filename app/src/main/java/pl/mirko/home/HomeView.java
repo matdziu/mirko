@@ -8,9 +8,7 @@ interface HomeView {
 
     void showProgressBar(boolean show);
 
-    void initDataSet(List<BasePost> postList);
-
-    void addNewItem(BasePost basePost);
+    void updateDataSet(List<BasePost> postList);
 
     void updateItem(BasePost basePost);
 

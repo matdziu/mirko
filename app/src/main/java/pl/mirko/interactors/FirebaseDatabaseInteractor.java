@@ -385,7 +385,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        basePostEventListener.onBasePostAdded(dataSnapshot.getValue(Post.class));
+                        // onChildAdded()
                     }
 
                     @Override
@@ -418,7 +418,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        basePostEventListener.onBasePostAdded(dataSnapshot.getValue(Comment.class));
+                        // onChildAdded()
                     }
 
                     @Override

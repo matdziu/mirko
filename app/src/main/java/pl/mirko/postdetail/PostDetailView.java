@@ -12,8 +12,6 @@ interface PostDetailView extends BasePostView {
 
     void initDataSet(List<BasePost> commentList);
 
-    void addNewItem(BasePost basePost);
-
     void updateItem(BasePost basePost);
 
     void showPostDetails(Post rawPost);

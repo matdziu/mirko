@@ -45,7 +45,7 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
 
     @Override
     public void onThumbFetchingFinished(List<BasePost> postList) {
-        homeView.initDataSet(postList);
+        homeView.updateDataSet(postList);
         homeView.showProgressBar(false);
     }
 
@@ -74,11 +74,6 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
             if (tag.startsWith(newText)) filteredTags.add(tag);
         }
         return filteredTags;
-    }
-
-    @Override
-    public void onBasePostAdded(BasePost basePost) {
-        homeView.addNewItem(basePost);
     }
 
     @Override
