@@ -139,8 +139,10 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
 
     public void updateItem(BasePost basePost) {
         int updateIndex = basePostList.indexOf(basePost);
-        basePostList.set(updateIndex, basePost);
-        notifyItemChanged(updateIndex, new Object());
+        if (updateIndex != -1 && basePostList.size() > 0) {
+            basePostList.set(updateIndex, basePost);
+            notifyItemChanged(updateIndex, new Object());
+        }
     }
 
     public void updateDateSet(List<BasePost> basePostList) {
