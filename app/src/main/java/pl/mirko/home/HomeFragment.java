@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment implements HomeView {
     private CursorAdapter suggestionsAdapter;
 
     private boolean searchMode;
+    private String currentSearchQuery;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,15 +92,24 @@ public class HomeFragment extends Fragment implements HomeView {
 
             @Override
             public void onScrolledToEnd(int firstVisibleItemPosition) {
-                homePresenter.fetchPosts(String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
+                if (!searchMode) {
+                    homePresenter.fetchPosts(String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
+                } else {
+                    homePresenter.queryPosts(currentSearchQuery, false,
+                            String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1));
+                }
             }
         });
 
         homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                basePostsAdapter.clearDataSet();
-                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), false);
+                if (!searchMode) {
+                    basePostsAdapter.clearDataSet();
+                    homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), false);
+                } else {
+                    homeSwipeRefresh.setRefreshing(false);
+                }
             }
         });
 
@@ -160,7 +170,9 @@ public class HomeFragment extends Fragment implements HomeView {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                homePresenter.queryPosts(query, true);
+                basePostsAdapter.clearDataSet();
+                currentSearchQuery = query;
+                homePresenter.queryPosts(query, true, String.valueOf(System.currentTimeMillis()));
                 searchMode = true;
                 homeContentView.requestFocus();
                 return true;
@@ -182,6 +194,7 @@ public class HomeFragment extends Fragment implements HomeView {
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                basePostsAdapter.clearDataSet();
                 homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), true);
                 searchMode = false;
                 return true;
@@ -196,6 +209,7 @@ public class HomeFragment extends Fragment implements HomeView {
         searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionClick(int position) {
+                basePostsAdapter.clearDataSet();
                 searchView.setQuery(filteredTags.get(position), true);
                 searchMode = true;
                 return true;

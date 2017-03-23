@@ -41,7 +41,8 @@ public interface DatabaseInteractor {
 
     void updateTags(List<String> tags, String postId);
 
-    void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener, boolean progressBar);
+    void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener,
+                    boolean progressBar, String fetchingStartPoint);
 
     void addPostEventListener(BasePostEventListener basePostEventListener);
 

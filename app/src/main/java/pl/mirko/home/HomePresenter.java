@@ -49,10 +49,10 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
         homeView.showProgressBar(false);
     }
 
-    void queryPosts(String tag, boolean progressBar) {
+    void queryPosts(String tag, boolean progressBar, String fetchingStartPoint) {
         if (tag != null && !tag.contains(".") && !tag.contains("#") &&
                 !tag.contains("$") && !tag.contains("[") && !tag.contains("]")) {
-            databaseInteractor.queryPosts(tag.trim(), this, progressBar);
+            databaseInteractor.queryPosts(tag.trim(), this, progressBar, fetchingStartPoint);
             homeView.showSoftKeyboard(false);
         } else {
             homeView.showWrongQueryFormatError();

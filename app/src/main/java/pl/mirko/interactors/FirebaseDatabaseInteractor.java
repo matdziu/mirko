@@ -349,11 +349,15 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void queryPosts(String tag, final BasePostFetchingListener basePostFetchingListener, boolean progressBar) {
+    public void queryPosts(String tag, final BasePostFetchingListener basePostFetchingListener,
+                           boolean progressBar, String fetchingStartPoint) {
         basePostFetchingListener.onBasePostFetchingStarted(progressBar);
         databaseReference
                 .child(TAGS)
                 .child(tag)
+                .orderByValue()
+                .endAt(fetchingStartPoint)
+                .limitToLast(3)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
