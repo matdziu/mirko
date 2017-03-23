@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements HomeView {
 
             @Override
             public void onScrolledToEnd(int firstVisibleItemPosition) {
-
+                homePresenter.fetchPosts(String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1));
             }
         });
 

@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 
 import org.parceler.Parcels;
 
@@ -105,8 +106,17 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailPresenter.addOnPostChangedListener(post);
         postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()));
 
-        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        commentsRecyclerView.setLayoutManager(layoutManager);
         commentsRecyclerView.setAdapter(basePostsAdapter);
+        commentsRecyclerView.setNestedScrollingEnabled(false);
+        commentsRecyclerView.addOnScrollListener(new InfiniteScrollListener(3, layoutManager) {
+
+            @Override
+            public void onScrolledToEnd(int firstVisibleItemPosition) {
+                postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1));
+            }
+        });
 
         postDetailSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
