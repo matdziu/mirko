@@ -27,7 +27,7 @@ public class FirebaseStorageInteractor implements StorageInteractor {
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        basePostImageSendingListener.onImageUploaded();
+                        basePostImageSendingListener.onImageUploaded(basePostId);
                     }
                 });
     }

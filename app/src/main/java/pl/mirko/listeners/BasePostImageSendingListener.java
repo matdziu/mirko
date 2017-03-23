@@ -2,5 +2,5 @@ package pl.mirko.listeners;
 
 public interface BasePostImageSendingListener {
 
-    void onImageUploaded();
+    void onImageUploaded(String basePostId);
 }

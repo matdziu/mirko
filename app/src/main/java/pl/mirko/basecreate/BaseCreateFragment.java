@@ -44,6 +44,10 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
 
     private final int REQUEST_PICK_IMAGE = 1;
     private final int PERMISSION_REQUEST_CODE = 2;
+
+    public static final String BASE_POST_ID = "basePostId";
+    public static final int CREATE_BASE_POST_REQUEST_CODE = 1;
+
     protected BaseCreatePresenter baseCreatePresenter;
 
     @Override
@@ -96,7 +100,10 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
         }
     }
 
-    public void finish() {
+    public void finishWithResult(String basePostId) {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(BASE_POST_ID, basePostId);
+        getActivity().setResult(RESULT_OK, resultIntent);
         getActivity().finish();
     }
 

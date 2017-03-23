@@ -6,7 +6,7 @@ import pl.mirko.basecreate.BaseCreateView;
 
 interface CreatePostView extends BaseCreateView {
 
-    void finish();
+    void finishWithResult(String basePostId);
 
     void setTagSuggestions(List<String> tags);
 

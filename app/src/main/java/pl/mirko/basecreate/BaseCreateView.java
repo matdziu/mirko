@@ -6,7 +6,7 @@ public interface BaseCreateView {
 
     void showProgressBar(boolean show);
 
-    void finish();
+    void finishWithResult(String basePostId);
 
     void showImageAddedInfo();
 

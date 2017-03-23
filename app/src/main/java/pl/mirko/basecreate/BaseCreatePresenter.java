@@ -30,7 +30,7 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
             storageInteractor.uploadBasePostImage(currentImageUri, basePostId, this);
         } else {
             baseCreateView.showProgressBar(false);
-            baseCreateView.finish();
+            baseCreateView.finishWithResult(basePostId);
         }
     }
 
@@ -49,9 +49,9 @@ public class BaseCreatePresenter implements BasePostImageSendingListener, BasePo
     }
 
     @Override
-    public void onImageUploaded() {
+    public void onImageUploaded(String basePostId) {
         baseCreateView.showProgressBar(false);
-        baseCreateView.finish();
+        baseCreateView.finishWithResult(basePostId);
     }
 
     void onImageAdded() {

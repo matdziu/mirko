@@ -36,6 +36,7 @@ import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
+import static pl.mirko.basecreate.BaseCreateFragment.CREATE_BASE_POST_REQUEST_CODE;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
 
@@ -145,7 +146,12 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         Bundle bundle = new Bundle();
         bundle.putParcelable(POST_KEY, Parcels.wrap(post));
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivityForResult(intent, CREATE_BASE_POST_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

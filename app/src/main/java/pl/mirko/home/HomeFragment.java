@@ -40,6 +40,8 @@ import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 
+import static pl.mirko.basecreate.BaseCreateFragment.CREATE_BASE_POST_REQUEST_CODE;
+
 public class HomeFragment extends Fragment implements HomeView {
 
     @BindView(R.id.home_recycler_view)
@@ -118,7 +120,12 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @OnClick(R.id.add_post_fab)
     public void onAddPostFabClicked() {
-        startActivity(new Intent(getContext(), CreatePostActivity.class));
+        startActivityForResult(new Intent(getContext(), CreatePostActivity.class), CREATE_BASE_POST_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
