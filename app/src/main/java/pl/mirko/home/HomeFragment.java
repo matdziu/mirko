@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,8 +82,16 @@ public class HomeFragment extends Fragment implements HomeView {
         homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
         homePresenter.fetchTags();
 
-        homeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        homeRecyclerView.setLayoutManager(layoutManager);
         homeRecyclerView.setAdapter(basePostsAdapter);
+        homeRecyclerView.addOnScrollListener(new InfiniteScrollListener(3, layoutManager) {
+
+            @Override
+            public void onScrolledToEnd(int firstVisibleItemPosition) {
+
+            }
+        });
 
         homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

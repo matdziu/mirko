@@ -142,7 +142,7 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .child(POSTS)
                 .orderByKey()
                 .endAt(fetchingStartPoint)
-                .limitToLast(3)
+                .limitToLast(5)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
