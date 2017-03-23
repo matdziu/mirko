@@ -34,8 +34,8 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
         this.postDetailView = postDetailView;
     }
 
-    void fetchComments(Post post, String fetchingStartPoint) {
-        databaseInteractor.fetchComments(post, this, fetchingStartPoint);
+    void fetchComments(Post post, String fetchingStartPoint, boolean progressBar) {
+        databaseInteractor.fetchComments(post, this, fetchingStartPoint, progressBar);
     }
 
     void addOnPostChangedListener(Post post) {
@@ -43,7 +43,7 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
     }
 
     @Override
-    public void onBasePostFetchingStarted() {
+    public void onBasePostFetchingStarted(boolean progressBar) {
         postDetailView.showProgressBar(true);
     }
 

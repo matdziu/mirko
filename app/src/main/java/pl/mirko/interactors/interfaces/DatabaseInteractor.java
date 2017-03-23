@@ -23,9 +23,9 @@ public interface DatabaseInteractor {
     void createNewComment(String commentedPostId, String content,
                           BasePostSendingListener basePostSendingListener, boolean hasImage);
 
-    void fetchPosts(BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint);
+    void fetchPosts(BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint, boolean progressBar);
 
-    void fetchComments(Post post, BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint);
+    void fetchComments(Post post, BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint, boolean progressBar);
 
     void updateScore(BasePost basePost, int updatedScore);
 
@@ -41,7 +41,7 @@ public interface DatabaseInteractor {
 
     void updateTags(List<String> tags, String postId);
 
-    void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener);
+    void queryPosts(String tag, BasePostFetchingListener basePostFetchingListener, boolean progressBar);
 
     void addPostEventListener(BasePostEventListener basePostEventListener);
 

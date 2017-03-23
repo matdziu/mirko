@@ -136,8 +136,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchPosts(final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint) {
-        basePostFetchingListener.onBasePostFetchingStarted();
+    public void fetchPosts(final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint, boolean progressBar) {
+        basePostFetchingListener.onBasePostFetchingStarted(progressBar);
         databaseReference
                 .child(POSTS)
                 .orderByKey()
@@ -161,8 +161,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void fetchComments(Post post, final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint) {
-        basePostFetchingListener.onBasePostFetchingStarted();
+    public void fetchComments(Post post, final BasePostFetchingListener basePostFetchingListener, String fetchingStartPoint, boolean progressBar) {
+        basePostFetchingListener.onBasePostFetchingStarted(progressBar);
         databaseReference
                 .child(COMMENTS)
                 .child(post.id)
@@ -349,8 +349,8 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
     }
 
     @Override
-    public void queryPosts(String tag, final BasePostFetchingListener basePostFetchingListener) {
-        basePostFetchingListener.onBasePostFetchingStarted();
+    public void queryPosts(String tag, final BasePostFetchingListener basePostFetchingListener, boolean progressBar) {
+        basePostFetchingListener.onBasePostFetchingStarted(progressBar);
         databaseReference
                 .child(TAGS)
                 .child(tag)

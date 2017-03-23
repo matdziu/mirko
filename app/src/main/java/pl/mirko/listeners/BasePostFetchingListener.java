@@ -6,7 +6,7 @@ import pl.mirko.models.BasePost;
 
 public interface BasePostFetchingListener {
 
-    void onBasePostFetchingStarted();
+    void onBasePostFetchingStarted(boolean progressBar);
 
     void onBasePostFetchingFinished(List<BasePost> basePostList);
 }

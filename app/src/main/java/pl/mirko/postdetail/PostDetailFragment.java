@@ -104,7 +104,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
         showPostDetails(rawPost);
         postDetailPresenter.addOnPostChangedListener(post);
-        postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()));
+        postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()), true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         commentsRecyclerView.setLayoutManager(layoutManager);
@@ -114,14 +114,14 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
             @Override
             public void onScrolledToEnd(int firstVisibleItemPosition) {
-                postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1));
+                postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
             }
         });
 
         postDetailSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()));
+                postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()), false);
             }
         });
 
@@ -162,7 +162,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @Override
     public void initDataSet(List<BasePost> commentList) {
         basePostsAdapter.updateDataSet(commentList);
-        commentsRecyclerView.setItemViewCacheSize(commentList.size());
+        commentsRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
         postDetailPresenter.addCommentEventListener();
     }
 

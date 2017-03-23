@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment implements HomeView {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
-        homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
+        homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), true);
         homePresenter.fetchTags();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -89,14 +89,14 @@ public class HomeFragment extends Fragment implements HomeView {
 
             @Override
             public void onScrolledToEnd(int firstVisibleItemPosition) {
-                homePresenter.fetchPosts(String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1));
+                homePresenter.fetchPosts(String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
             }
         });
 
         homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
+                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), false);
             }
         });
 
@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void updateDataSet(List<BasePost> postList) {
         basePostsAdapter.updateDataSet(postList);
-        homeRecyclerView.setItemViewCacheSize(postList.size());
+        homeRecyclerView.setItemViewCacheSize(basePostsAdapter.getItemCount());
         homePresenter.addPostEventListener();
     }
 
@@ -157,7 +157,7 @@ public class HomeFragment extends Fragment implements HomeView {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                homePresenter.queryPosts(query);
+                homePresenter.queryPosts(query, true);
                 homeContentView.requestFocus();
                 return true;
             }
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment implements HomeView {
         MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()));
+                homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), true);
                 return true;
             }
 

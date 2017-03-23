@@ -29,13 +29,13 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
         this.homeView = homeView;
     }
 
-    void fetchPosts(String fetchingStartPoint) {
-        databaseInteractor.fetchPosts(this, fetchingStartPoint);
+    void fetchPosts(String fetchingStartPoint, boolean progressBar) {
+        databaseInteractor.fetchPosts(this, fetchingStartPoint, progressBar);
     }
 
     @Override
-    public void onBasePostFetchingStarted() {
-        homeView.showProgressBar(true);
+    public void onBasePostFetchingStarted(boolean progressBar) {
+        homeView.showProgressBar(progressBar);
     }
 
     @Override
@@ -49,10 +49,10 @@ class HomePresenter extends BasePresenter implements BasePostFetchingListener,
         homeView.showProgressBar(false);
     }
 
-    void queryPosts(String tag) {
+    void queryPosts(String tag, boolean progressBar) {
         if (tag != null && !tag.contains(".") && !tag.contains("#") &&
                 !tag.contains("$") && !tag.contains("[") && !tag.contains("]")) {
-            databaseInteractor.queryPosts(tag.trim(), this);
+            databaseInteractor.queryPosts(tag.trim(), this, progressBar);
             homeView.showSoftKeyboard(false);
         } else {
             homeView.showWrongQueryFormatError();
