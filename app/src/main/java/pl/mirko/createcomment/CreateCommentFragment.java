@@ -45,6 +45,8 @@ public class CreateCommentFragment extends BaseCreateFragment implements CreateC
         switch (item.getItemId()) {
             case R.id.send:
                 createCommentPresenter.createNewComment(post, createEditText.getText().toString());
+                CreateCommentActivity createCommentActivity = (CreateCommentActivity) getActivity();
+                createCommentActivity.hideSendMenuItem();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

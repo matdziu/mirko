@@ -38,6 +38,8 @@ public class CreatePostFragment extends BaseCreateFragment implements CreatePost
         switch (item.getItemId()) {
             case R.id.send:
                 createPostPresenter.createNewPost(createEditText.getText().toString());
+                CreatePostActivity createPostActivity = (CreatePostActivity) getActivity();
+                createPostActivity.hideSendMenuItem();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
