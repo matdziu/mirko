@@ -174,6 +174,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 currentSearchQuery = query;
                 homePresenter.queryPosts(query, true, String.valueOf(System.currentTimeMillis()));
                 searchMode = true;
+                homeSwipeRefresh.setEnabled(false);
                 homeContentView.requestFocus();
                 return true;
             }
@@ -197,6 +198,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 basePostsAdapter.clearDataSet();
                 homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), true);
                 searchMode = false;
+                homeSwipeRefresh.setEnabled(true);
                 return true;
             }
 
@@ -212,6 +214,7 @@ public class HomeFragment extends Fragment implements HomeView {
                 basePostsAdapter.clearDataSet();
                 searchView.setQuery(filteredTags.get(position), true);
                 searchMode = true;
+                homeSwipeRefresh.setEnabled(false);
                 return true;
             }
 
