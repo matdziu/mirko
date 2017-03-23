@@ -40,6 +40,8 @@ import pl.mirko.interactors.FirebaseDatabaseInteractor;
 import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 
+import static android.app.Activity.RESULT_OK;
+import static pl.mirko.basecreate.BaseCreateFragment.BASE_POST_ID;
 import static pl.mirko.basecreate.BaseCreateFragment.CREATE_BASE_POST_REQUEST_CODE;
 
 public class HomeFragment extends Fragment implements HomeView {
@@ -126,6 +128,10 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_BASE_POST_REQUEST_CODE && resultCode == RESULT_OK && !searchMode) {
+            basePostsAdapter.clearDataSet();
+            homePresenter.fetchPosts(data.getStringExtra(BASE_POST_ID), false);
+        }
     }
 
     @Override

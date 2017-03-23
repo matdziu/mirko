@@ -35,7 +35,9 @@ import pl.mirko.interactors.FirebaseStorageInteractor;
 import pl.mirko.models.BasePost;
 import pl.mirko.models.Post;
 
+import static android.app.Activity.RESULT_OK;
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
+import static pl.mirko.basecreate.BaseCreateFragment.BASE_POST_ID;
 import static pl.mirko.basecreate.BaseCreateFragment.CREATE_BASE_POST_REQUEST_CODE;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
@@ -152,6 +154,10 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CREATE_BASE_POST_REQUEST_CODE && resultCode == RESULT_OK) {
+            basePostsAdapter.clearDataSet();
+            postDetailPresenter.fetchComments(post, data.getStringExtra(BASE_POST_ID), false);
+        }
     }
 
     @Override
