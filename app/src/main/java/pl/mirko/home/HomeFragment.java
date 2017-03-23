@@ -60,6 +60,8 @@ public class HomeFragment extends Fragment implements HomeView {
 
     private CursorAdapter suggestionsAdapter;
 
+    private boolean searchMode;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +161,7 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 homePresenter.queryPosts(query, true);
+                searchMode = true;
                 homeContentView.requestFocus();
                 return true;
             }
@@ -180,6 +183,7 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), true);
+                searchMode = false;
                 return true;
             }
 
@@ -193,6 +197,7 @@ public class HomeFragment extends Fragment implements HomeView {
             @Override
             public boolean onSuggestionClick(int position) {
                 searchView.setQuery(filteredTags.get(position), true);
+                searchMode = true;
                 return true;
             }
 
