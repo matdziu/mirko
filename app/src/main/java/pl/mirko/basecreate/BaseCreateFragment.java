@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length == 0 || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 getActivity().finish();
             }
         }
@@ -76,6 +77,16 @@ public class BaseCreateFragment extends Fragment implements BaseCreateView {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+        if (appCompatActivity.getSupportActionBar() != null) {
+            appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            appCompatActivity.getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     @Override

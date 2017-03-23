@@ -29,9 +29,13 @@
 
         <activity android:name=".postdetail.PostDetailActivity" />
 
-        <activity android:name=".createpost.CreatePostActivity" />
+        <activity
+            android:name=".createpost.CreatePostActivity"
+            android:label="@string/create_post_label" />
 
-        <activity android:name=".createcomment.CreateCommentActivity" />
+        <activity
+            android:name=".createcomment.CreateCommentActivity"
+            android:label="@string/create_comment_label" />
 
     </application>
 
