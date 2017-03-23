@@ -154,6 +154,11 @@ public class BasePostsAdapter extends RecyclerView.Adapter<BasePostsAdapter.View
         }
     }
 
+    public void clearDataSet() {
+        this.basePostList.clear();
+        notifyDataSetChanged();
+    }
+
     public String getLastItemKey() {
         return basePostList.get(basePostList.size() - 1).id;
     }

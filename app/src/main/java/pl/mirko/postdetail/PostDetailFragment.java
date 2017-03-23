@@ -121,6 +121,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         postDetailSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                basePostsAdapter.clearDataSet();
                 postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()), false);
             }
         });

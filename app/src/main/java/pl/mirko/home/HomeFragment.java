@@ -96,6 +96,7 @@ public class HomeFragment extends Fragment implements HomeView {
         homeSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                basePostsAdapter.clearDataSet();
                 homePresenter.fetchPosts(String.valueOf(System.currentTimeMillis()), false);
             }
         });
