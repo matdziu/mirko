@@ -123,7 +123,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
                 int diff = (view.getBottom() - (postDetailNestedScrollView.getHeight() + postDetailNestedScrollView.getScrollY()));
 
                 // if diff is zero, then the bottom has been reached
-                if (diff == 0) {
+                if (diff == 0 && basePostsAdapter.getItemCount() != 0) {
                     postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
                 }
             }
