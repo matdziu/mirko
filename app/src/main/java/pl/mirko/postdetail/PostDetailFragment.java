@@ -38,7 +38,6 @@ import pl.mirko.models.Post;
 
 import static android.app.Activity.RESULT_OK;
 import static pl.mirko.adapters.BasePostsAdapter.POST_KEY;
-import static pl.mirko.basecreate.BaseCreateFragment.BASE_POST_ID;
 import static pl.mirko.basecreate.BaseCreateFragment.CREATE_BASE_POST_REQUEST_CODE;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.DOWN;
 import static pl.mirko.interactors.FirebaseDatabaseInteractor.UP;
@@ -108,12 +107,11 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
 
         showPostDetails(rawPost);
         postDetailPresenter.addOnPostChangedListener(post);
-        postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()), true);
+        postDetailPresenter.fetchComments(post, "0", true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         commentsRecyclerView.setLayoutManager(layoutManager);
         commentsRecyclerView.setAdapter(basePostsAdapter);
-        commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addOnScrollListener(new InfiniteScrollListener(3, layoutManager) {
 
             @Override
@@ -126,7 +124,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
             @Override
             public void onRefresh() {
                 basePostsAdapter.clearDataSet();
-                postDetailPresenter.fetchComments(post, String.valueOf(System.currentTimeMillis()), false);
+                postDetailPresenter.fetchComments(post, "0", false);
             }
         });
 
@@ -167,7 +165,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CREATE_BASE_POST_REQUEST_CODE && resultCode == RESULT_OK) {
             basePostsAdapter.clearDataSet();
-            postDetailPresenter.fetchComments(post, data.getStringExtra(BASE_POST_ID), false);
+            postDetailPresenter.fetchComments(post, "0", false);
         }
     }
 

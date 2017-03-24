@@ -167,14 +167,14 @@ public class FirebaseDatabaseInteractor implements DatabaseInteractor {
                 .child(COMMENTS)
                 .child(post.id)
                 .orderByKey()
-                .endAt(fetchingStartPoint)
-                .limitToLast(3)
+                .startAt(fetchingStartPoint)
+                .limitToFirst(3)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         List<BasePost> commentList = new ArrayList<>();
                         for (DataSnapshot dataItem : dataSnapshot.getChildren()) {
-                            commentList.add(0, dataItem.getValue(Comment.class));
+                            commentList.add(dataItem.getValue(Comment.class));
                         }
                         basePostFetchingListener.onBasePostFetchingFinished(commentList);
                     }

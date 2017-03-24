@@ -44,7 +44,7 @@ class PostDetailPresenter extends BasePresenter implements BasePostFetchingListe
 
     @Override
     public void onBasePostFetchingStarted(boolean progressBar) {
-        postDetailView.showProgressBar(true);
+        postDetailView.showProgressBar(progressBar);
     }
 
     @Override
