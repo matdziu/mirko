@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.github.pwittchen.infinitescroll.library.InfiniteScrollListener;
 
 import org.parceler.Parcels;
 
@@ -71,6 +71,9 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
     @BindView(R.id.post_detail_swipe_refresh)
     SwipeRefreshLayout postDetailSwipeRefresh;
 
+    @BindView(R.id.post_detail_nested_scroll_view)
+    NestedScrollView postDetailNestedScrollView;
+
     private BasePostsAdapter basePostsAdapter;
 
     private PostDetailPresenter postDetailPresenter;
@@ -113,11 +116,16 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         commentsRecyclerView.setLayoutManager(layoutManager);
         commentsRecyclerView.setAdapter(basePostsAdapter);
         commentsRecyclerView.setNestedScrollingEnabled(false);
-        commentsRecyclerView.addOnScrollListener(new InfiniteScrollListener(3, layoutManager) {
-
+        postDetailNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrolledToEnd(int firstVisibleItemPosition) {
-                postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                View view = postDetailNestedScrollView.getChildAt(postDetailNestedScrollView.getChildCount() - 1);
+                int diff = (view.getBottom() - (postDetailNestedScrollView.getHeight() + postDetailNestedScrollView.getScrollY()));
+
+                // if diff is zero, then the bottom has been reached
+                if (diff == 0) {
+                    postDetailPresenter.fetchComments(post, String.valueOf(Long.valueOf(basePostsAdapter.getLastItemKey()) - 1), false);
+                }
             }
         });
 
