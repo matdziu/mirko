@@ -112,6 +112,7 @@ public class PostDetailFragment extends Fragment implements PostDetailView {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         commentsRecyclerView.setLayoutManager(layoutManager);
         commentsRecyclerView.setAdapter(basePostsAdapter);
+        commentsRecyclerView.setNestedScrollingEnabled(false);
         commentsRecyclerView.addOnScrollListener(new InfiniteScrollListener(3, layoutManager) {
 
             @Override
